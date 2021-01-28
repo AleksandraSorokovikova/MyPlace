@@ -1,0 +1,8 @@
+g++ main.cpp -std=c++17 -I/Users/alexandrasorokovikova/boost_1_72_0 -pthread -o main
+
+
+в Clion:
+-DBOOST_ROOT="/Users/alexandrasorokovikova/boost_1_72_0"
+
+чтобы запустить client с threads:
+g++ client.cpp -stdlib=libc++ -lboost_thread -I/Users/alexandrasorokovikova/boost_1_72_0 -pthread -o client
