@@ -32,22 +32,24 @@ bool find_stop_signal(const char *msg) {
 
 void handle_connections() {
     //создали приемник
-    ip::tcp::acceptor acceptor(service, ip::tcp::endpoint(ip::tcp::v4(),8002));
+    ip::tcp::acceptor acceptor(service, ip::tcp::endpoint(ip::tcp::v4(),8012));
+    ip::tcp::socket sock(service);
+    acceptor.accept(sock);
     std::cout << "Listening to client" << '\n';
     //буффер, будем туда читать
     while (true) {
         char buff_client[BUFFER_SIZE];
         char buff_server[BUFFER_SIZE];
-        ip::tcp::socket sock(service);
-        acceptor.accept(sock);
-        read(sock, buffer(buff_client),
-                         boost::bind(read_complete,buff_client,_1,_2));
+    
+        //read(sock, buffer(buff_client),
+                         //boost::bind(read_complete,buff_client,_1,_2));
+        boost::system::error_code error;
+        sock.read_some(boost::asio::buffer(buff_client), error);
         std::cout << "Client: " << buff_client << '\n';
         std::cout << "Server: ";
 
         if (find_stop_signal(buff_client)) {
             std::cout << "Goodbye" << '\n';
-            sock.close();
             break;
         }
 
@@ -56,8 +58,8 @@ void handle_connections() {
         std::string msg_to_client(buff_server);
         sock.write_some(buffer(buff_server));
 
-        sock.close();
     }
+    sock.close();
     exit(1);
 
 }

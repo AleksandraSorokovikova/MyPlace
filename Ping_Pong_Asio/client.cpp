@@ -24,14 +24,15 @@ bool find_stop_signal(std::string &msg) {
     }
     return false;
 }
-ip::tcp::endpoint ep( ip::address::from_string("127.0.0.1"), 8002);
+ip::tcp::endpoint ep( ip::address::from_string("127.0.0.1"), 8012);
 
 void sync_echo() {
 
+    ip::tcp::socket sock(service);
+    sock.connect(ep);
     std::cout << "Connected to server" << '\n';
     while (true) {
-        ip::tcp::socket sock(service);
-        sock.connect(ep);
+    
         char buff_client[BUFFER_SIZE];
 
         std::cout << "Client: ";
@@ -48,9 +49,8 @@ void sync_echo() {
         read(sock, buffer(buff_server), boost::bind(read_complete,buff_server,_1,_2));
         std::cout << buff_server;
         std::cout << '\n';
-
-        sock.close();
     }
+    sock.close();
 }
 
 int main(int argc, char* argv[]) {
