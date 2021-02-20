@@ -4,6 +4,7 @@
 #include <QDialog>
 #include<QMenuBar>
 #include<QListWidget>
+#include<QPixmap>
 
 namespace Ui {
 class SecondWindow;
@@ -19,6 +20,8 @@ public:
 
 private slots:
     void on_pushButton_clicked();
+
+    void on_pushButton_2_clicked();
 
 private:
     Ui::SecondWindow *ui;

@@ -12,11 +12,15 @@ class OpenLabel : public QDialog
     Q_OBJECT
 
 public:
-    explicit OpenLabel(QWidget *parent = nullptr);
+    explicit OpenLabel(QString name_, QWidget *parent = nullptr);
     ~OpenLabel();
+
+private slots:
+    void on_pushButton_clicked();
 
 private:
     Ui::OpenLabel *ui;
+    void SetName(QString name_);
 };
 
 #endif // OPENLABEL_H

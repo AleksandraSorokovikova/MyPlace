@@ -2,6 +2,7 @@
 #define CREATERLABEL_H
 
 #include <QDialog>
+#include<QString>
 
 namespace Ui {
 class CreaterLabel;
@@ -14,9 +15,10 @@ class CreaterLabel : public QDialog
 public:
     explicit CreaterLabel(QWidget *parent = nullptr);
     ~CreaterLabel();
+    QString name;
 
-public slots:
-    QString on_pushButton_clicked();
+private slots:
+    void on_pushButton_clicked();
 
 private:
     Ui::CreaterLabel *ui;
