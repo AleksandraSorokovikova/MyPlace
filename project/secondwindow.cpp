@@ -5,6 +5,7 @@
 #include"openlabel.h"
 #include"client.h"
 #include<QMessageBox>
+#include<unistd.h>
 
 Label_List labelList;
 
@@ -17,8 +18,8 @@ SecondWindow::SecondWindow(QWidget *parent) :
     int w = ui->image->width();
     int h = ui->image->height();
     ui-> image->setPixmap(pix.scaled(w, h, Qt::KeepAspectRatio));
-    //list = new QListWidget(this);
-    //ui->listWidget->addItem("Meтка");
+    update();
+
 }
 
 SecondWindow::~SecondWindow()
@@ -26,27 +27,39 @@ SecondWindow::~SecondWindow()
     delete ui;
 }
 
+void SecondWindow::update(){
+    ui->listWidget->clear();
+    if (!update_label_list(labelList)) {
+        QMessageBox::warning(this, "Failed to connect", "No connection to server");
+    } else {
+        for(auto x : labelList.id_list) {
+            QListWidgetItem *item = new QListWidgetItem(QString::fromStdString(labelList.get_by_id(x).name));
+            QVariant item_(QString::fromStdString(x));
+            item->setData(12, item_);
+            ui->listWidget->addItem(item);
+        }
+    }
+}
+
 void SecondWindow::on_pushButton_clicked()
 {
+
     CreaterLabel creater;
     creater.setModal(true);
     creater.exec();
-    //QString name = creater.name;
-    //ui->listWidget->addItem(name);
-}
-
-void SecondWindow::on_pushButton_2_clicked()
-{
-     OpenLabel open(labelList.get_by_id(ui->listWidget->currentItem()->text().toStdString().c_str()));
-     open.setModal(true);
-     open.exec();
+    usleep(300'000);
+    update();
 }
 
 void SecondWindow::on_toolButton_clicked()
 {
-    ui->listWidget->clear();
-    update_label_list(labelList);
-    for(auto x : labelList.id_list) {
-        ui->listWidget->addItem(QString::fromStdString(x));
-    }
+    update();
+}
+
+
+void SecondWindow::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
+{
+     OpenLabel open(labelList.get_by_id(item->data(12).toString().toStdString().c_str()));
+     open.setModal(true);
+     open.exec();
 }

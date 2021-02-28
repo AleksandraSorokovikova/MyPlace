@@ -17,7 +17,7 @@ void convert(std::vector<char> &c, const QString &qs) {
     }
 }
 
-void add_label(const QString &name, const QString &nickname, const QString &type, const QString &description, const QString &address) {
+bool add_label(const QString &name, const QString &nickname, const QString &type, const QString &description, const QString &address) {
 
     io_service io_service_;
     ip::tcp::endpoint ep( ip::address::from_string("127.0.0.1"), 8007);
@@ -27,7 +27,13 @@ void add_label(const QString &name, const QString &nickname, const QString &type
     std::string command("add-label");
     std::vector<char> command_v(max_length);
     convert(command_v, command);
-    sock.connect(ep);
+
+    try {
+        sock.connect(ep);
+    } catch (...) {
+        return false;
+    }
+
     sock.write_some(buffer(command_v));
 
 
@@ -52,10 +58,11 @@ void add_label(const QString &name, const QString &nickname, const QString &type
 
 
     sock.close();
+    return true;
 
 }
 
-void update_label_list(Label_List &labelList) {
+bool update_label_list(Label_List &labelList) {
 
     io_service io_service_;
     ip::tcp::endpoint ep( ip::address::from_string("127.0.0.1"), 8007);
@@ -65,7 +72,12 @@ void update_label_list(Label_List &labelList) {
     std::string command("update");
     std::vector<char> command_v(max_length);
     convert(command_v, command);
-    sock.connect(ep);
+    try {
+        sock.connect(ep);
+    } catch(...) {
+        return false;
+    }
+
     sock.write_some(buffer(command_v));
 
 
@@ -95,6 +107,6 @@ void update_label_list(Label_List &labelList) {
 
     sock.close();
 
-
+    return true;
 
 }

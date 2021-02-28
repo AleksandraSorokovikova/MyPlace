@@ -14,8 +14,8 @@
 
 void convert(std::vector<char> &c, const std::string &s);
 void convert(std::vector<char> &c, const QString &qs);
-void add_label(const QString &name, const QString &nickname, const QString &type, const QString &description, const QString &address);
-void update_label_list(Label_List &labelList);
+[[nodiscard]] bool add_label(const QString &name, const QString &nickname, const QString &type, const QString &description, const QString &address);
+[[nodiscard]] bool update_label_list(Label_List &labelList);
 
 #endif // CLIENT_H
 

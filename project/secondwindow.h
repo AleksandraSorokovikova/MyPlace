@@ -5,6 +5,8 @@
 #include<QMenuBar>
 #include<QListWidget>
 #include<QPixmap>
+#include<QMessageBox>
+
 
 namespace Ui {
 class SecondWindow;
@@ -21,13 +23,14 @@ public:
 private slots:
     void on_pushButton_clicked();
 
-    void on_pushButton_2_clicked();
-
     void on_toolButton_clicked();
+
+    void on_listWidget_itemDoubleClicked(QListWidgetItem *item);
 
 private:
     Ui::SecondWindow *ui;
-    //QListWidget *list;
+    void update();
+    //QListWidget list;
 };
 
 #endif // SECONDWINDOW_H
