@@ -23,7 +23,7 @@ public:
 private slots:
     void on_pushButton_clicked();
 
-    void on_toolButton_clicked();
+    void on_update_clicked();
 
     void on_listWidget_itemDoubleClicked(QListWidgetItem *item);
 

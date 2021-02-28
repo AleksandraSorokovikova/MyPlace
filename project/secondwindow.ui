@@ -52,20 +52,26 @@
     <string>...</string>
    </property>
   </widget>
-  <widget class="QToolButton" name="toolButton">
+  <widget class="QToolButton" name="update">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>575</y>
-     <width>31</width>
-     <height>21</height>
+     <width>41</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
     <string>...</string>
    </property>
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/img/img/update.png</normaloff>:/img/img/update.png</iconset>
+   </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

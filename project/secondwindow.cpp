@@ -18,8 +18,9 @@ SecondWindow::SecondWindow(QWidget *parent) :
     int w = ui->image->width();
     int h = ui->image->height();
     ui-> image->setPixmap(pix.scaled(w, h, Qt::KeepAspectRatio));
-    update();
+    ui->update->setIconSize(QSize(35, 35));
 
+    update();
 }
 
 SecondWindow::~SecondWindow()
@@ -51,7 +52,7 @@ void SecondWindow::on_pushButton_clicked()
     update();
 }
 
-void SecondWindow::on_toolButton_clicked()
+void SecondWindow::on_update_clicked()
 {
     update();
 }

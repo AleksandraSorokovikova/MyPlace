@@ -7,6 +7,9 @@ OpenLabel::OpenLabel(const Label &label, QWidget *parent) :
 {
     ui->setupUi(this);
     Set_field(label);
+    setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
+    QPixmap pix(":/img/img/cafee.png");
+    ui->image->setPixmap(pix.scaled(80, 80, Qt::KeepAspectRatio));
 }
 
 OpenLabel::~OpenLabel()
@@ -19,6 +22,7 @@ void OpenLabel::Set_field(const Label &label) {
     ui->address->setText(QString::fromStdString(label.address));
     ui->nickname->setText(QString::fromStdString(label.nickname));
     ui->type->setText(QString::fromStdString(label.type));
+    ui->description->setReadOnly(true);
     ui->description->setText(QString::fromStdString(label.description));
 }
 

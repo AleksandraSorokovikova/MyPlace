@@ -114,16 +114,6 @@
     <string>Создание метки</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="description">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>290</y>
-     <width>401</width>
-     <height>131</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QPushButton" name="pushButton_2">
    <property name="geometry">
     <rect>
@@ -135,6 +125,16 @@
    </property>
    <property name="text">
     <string>Отменить</string>
+   </property>
+  </widget>
+  <widget class="QTextEdit" name="description">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>290</y>
+     <width>401</width>
+     <height>131</height>
+    </rect>
    </property>
   </widget>
  </widget>

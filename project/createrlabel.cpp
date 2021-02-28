@@ -22,11 +22,11 @@ CreaterLabel::~CreaterLabel()
 
 void CreaterLabel::on_pushButton_clicked()
 {
-    if(ui->name->text() != "" &&  ui->description->text() != "" && ui->address->text() != "") {
+    if(ui->name->text() != "" &&  ui->description->toPlainText() != "" && ui->address->text() != "") {
         name = ui->name->text();
         nickname = "@nickname";
         type = "default";
-        description = ui->description->text();
+        description = ui->description->toPlainText();
         address = ui->address->text();
 
 
