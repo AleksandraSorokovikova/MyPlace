@@ -29,10 +29,10 @@ SecondWindow::~SecondWindow()
 }
 
 void SecondWindow::update(){
-    ui->listWidget->clear();
-    if (!update_label_list(labelList)) {
+    if (!Client::update_label_list(labelList)) {
         QMessageBox::warning(this, "Failed to connect", "No connection to server");
     } else {
+        ui->listWidget->clear();
         for(auto x : labelList.id_list) {
             QListWidgetItem *item = new QListWidgetItem(QString::fromStdString(labelList.get_by_id(x).name));
             QVariant item_(QString::fromStdString(x));

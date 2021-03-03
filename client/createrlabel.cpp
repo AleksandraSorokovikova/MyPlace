@@ -30,7 +30,7 @@ void CreaterLabel::on_pushButton_clicked()
         address = ui->address->text();
 
 
-        if (!add_label(name, nickname, type, description, address)){
+        if (!Client::add_label(name, nickname, type, description, address)){
             QMessageBox::warning(this, "Failed to connect", "No connection to server");
         }
 
