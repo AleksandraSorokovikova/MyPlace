@@ -26,7 +26,9 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 75 11pt &quot;Gayathri&quot;;</string>
+    <string notr="true">font: 13pt &quot;Avenir next&quot;;
+color:rgb(85, 87, 83);
+background:transparent;</string>
    </property>
    <property name="text">
     <string>address:</string>
@@ -42,7 +44,9 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 75 14pt &quot;Gayathri&quot;;</string>
+    <string notr="true">color:rgb(85, 87, 83);
+font: 14pt &quot;Avenir next&quot;;
+background:transparent;</string>
    </property>
    <property name="text">
     <string>description:</string>
@@ -58,9 +62,13 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-radius: 15px;
-background: rgb(128,221,190);
-font: 75 14pt &quot;Gayathri&quot;;</string>
+    <string notr="true">color:rgb(42, 44, 42);
+border: 1px solid rgb(85, 87, 83);
+border-radius: 15px;
+background:rgba(153, 173, 167,140);
+border: 1px solid gray;
+font: 85 19pt &quot;Avenir next&quot;;
+</string>
    </property>
    <property name="text">
     <string>exit</string>
@@ -76,7 +84,8 @@ font: 75 14pt &quot;Gayathri&quot;;</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 75 14pt &quot;Gayathri&quot;;</string>
+    <string notr="true">font: 75 14pt &quot;Avenir next&quot;;
+background:transparent;</string>
    </property>
    <property name="text">
     <string>TextLabel</string>
@@ -85,16 +94,15 @@ font: 75 14pt &quot;Gayathri&quot;;</string>
   <widget class="QTextEdit" name="description">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>150</y>
-     <width>371</width>
-     <height>181</height>
+     <x>20</x>
+     <y>170</y>
+     <width>351</width>
+     <height>151</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background: rgba(243, 239, 230);
-color: rgb(110, 109, 111);
-border-radius: 30px;</string>
+    <string notr="true">background:transparent;
+color: rgb(110, 109, 111);</string>
    </property>
    <property name="readOnly">
     <bool>true</bool>
@@ -105,15 +113,15 @@ border-radius: 30px;</string>
     <rect>
      <x>110</x>
      <y>80</y>
-     <width>281</width>
+     <width>261</width>
      <height>31</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <family>Gayathri</family>
-     <pointsize>9</pointsize>
-     <weight>9</weight>
+     <family>Avenir next</family>
+     <pointsize>13</pointsize>
+     <weight>50</weight>
      <italic>false</italic>
      <bold>false</bold>
     </font>
@@ -121,11 +129,11 @@ border-radius: 30px;</string>
    <property name="styleSheet">
     <string notr="true">background: transparent;
 color: gray;
-font: 75 9pt &quot;Gayathri&quot;;
+font: 13pt &quot;Avenir next&quot;;
 </string>
    </property>
    <property name="text">
-    <string>адресс</string>
+    <string>address</string>
    </property>
    <property name="readOnly">
     <bool>true</bool>
@@ -136,18 +144,18 @@ font: 75 9pt &quot;Gayathri&quot;;
     <rect>
      <x>110</x>
      <y>10</y>
-     <width>281</width>
+     <width>271</width>
      <height>41</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">background: transparent;
 color: rgb(85, 87, 83);
-font: 75 16pt &quot;Gayathri&quot;;
+font: 18pt &quot;Avenir next&quot;;
 </string>
    </property>
    <property name="text">
-    <string>Название метки</string>
+    <string>Lable's name</string>
    </property>
    <property name="frame">
     <bool>false</bool>
@@ -166,7 +174,7 @@ font: 75 16pt &quot;Gayathri&quot;;
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background:rgba(243, 239, 230, 200);
+    <string notr="true">background: rgba(243, 239, 230);
 border-radius:40px;</string>
    </property>
    <property name="frameShape">
@@ -178,17 +186,48 @@ border-radius:40px;</string>
    <widget class="QLabel" name="type">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>0</x>
       <y>30</y>
       <width>81</width>
       <height>21</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background: transparent;
+color:transparent;</string>
     </property>
     <property name="text">
      <string>TextLabel</string>
     </property>
    </widget>
   </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>160</y>
+     <width>371</width>
+     <height>171</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background: rgba(243, 239, 230);
+color: rgb(110, 109, 111);
+border-radius: 30px;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <zorder>label_2</zorder>
+  <zorder>label_3</zorder>
+  <zorder>pushButton</zorder>
+  <zorder>nickname</zorder>
+  <zorder>address</zorder>
+  <zorder>name</zorder>
+  <zorder>frame</zorder>
+  <zorder>label</zorder>
+  <zorder>description</zorder>
  </widget>
  <resources/>
  <connections/>

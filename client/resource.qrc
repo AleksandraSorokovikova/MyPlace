@@ -6,5 +6,6 @@
         <file>img/res.jpg</file>
         <file>img/map.png</file>
         <file>img/mapss.png</file>
+        <file>img/fork.png</file>
     </qresource>
 </RCC>

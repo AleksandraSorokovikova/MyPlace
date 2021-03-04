@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>478</width>
+    <width>470</width>
     <height>601</height>
    </rect>
   </property>
@@ -21,17 +21,17 @@ background-image: url(:/img/img/res.jpg)</string>
    <widget class="QPushButton" name="pushButton_2">
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>480</y>
-      <width>251</width>
+      <x>160</x>
+      <y>460</y>
+      <width>171</width>
       <height>31</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true"> font-weight:bold; 
- color:#3c3a3a; 
- background:transparent; 
-font: 20pt &quot;Gayathri&quot;;
+     <string notr="true">font-weight:bold; 
+color:#3c3a3a; 
+background:transparent; 
+font: 19pt &quot;Avenir next&quot;;
 border-radius:30px;
 border-bottom:1px solid #3c3a3a</string>
     </property>
@@ -42,7 +42,7 @@ border-bottom:1px solid #3c3a3a</string>
    <widget class="QFrame" name="frame">
     <property name="geometry">
      <rect>
-      <x>50</x>
+      <x>40</x>
       <y>140</y>
       <width>391</width>
       <height>311</height>
@@ -68,13 +68,11 @@ border-radius:20px;</string>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">border: 2px solid rgb(136, 138, 133);
+      <string notr="true">border: 2px solid rgb(136, 138, 133, 150);
 color: rgb(85, 87, 83);
-font: 16pt &quot;Gayathri&quot;;;
+font: 16pt &quot;Avenir next&quot;;
 border-radius: 20px;
-padding: 0 8px;
-background: rgba(0,0,0,20);
-selection-background-color: darkgray;</string>
+background: rgba(0,0,0,20);</string>
      </property>
      <property name="inputMask">
       <string/>
@@ -111,13 +109,11 @@ selection-background-color: darkgray;</string>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">border: 2px solid rgb(136, 138, 133);
+      <string notr="true">border: 2px solid rgb(136, 138, 133, 150);
 color: rgb(85, 87, 83);
-font: 16pt &quot;Gayathri&quot;;;
+font: 16pt &quot;Avenir next&quot;;
 border-radius: 20px;
-padding: 0 8px;
-background: rgba(0,0,0,20);
-selection-background-color: darkgray;</string>
+background: rgba(0,0,0,20);</string>
      </property>
      <property name="inputMask">
       <string/>
@@ -152,10 +148,9 @@ selection-background-color: darkgray;</string>
      </property>
      <property name="styleSheet">
       <string notr="true">border: 1px solid rgb(85, 87, 83);
-font: 22pt &quot;Gayathri&quot;;
- font-weight:bold; 
+font: 24pt &quot;Avenir next&quot;;
  color:#3c3a3a; 
- background:rgba(153, 173, 167,227);
+ background:rgba(153, 173, 167,120);
 border-radius:20px;
 text-align: center;</string>
      </property>
@@ -174,7 +169,7 @@ text-align: center;</string>
      </property>
      <property name="styleSheet">
       <string notr="true"> color:#3c3a3a; 
-font: 30pt &quot;Gayathri&quot;;
+font: 30pt &quot;Avenir next&quot;;
  background:transparent; </string>
      </property>
      <property name="text">

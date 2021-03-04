@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>891</width>
-    <height>652</height>
+    <height>629</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,7 +25,7 @@ QMenuBar::item {
      background: transparent;
      border-radius: 4px;
 	color: white;
-text-align: right;
+    text-align: right;
 	font: 0 9pt &quot;Gayathri&quot;;
  }
 
@@ -37,9 +37,6 @@ text-align: right;
      background: #888888;
  }
 
-*{
-background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(142, 208, 186, 255), stop:1 rgba(255, 173, 173, 255))
-}
 </string>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -47,9 +44,9 @@ background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(142,
     <property name="geometry">
      <rect>
       <x>60</x>
-      <y>0</y>
-      <width>911</width>
-      <height>641</height>
+      <y>-50</y>
+      <width>921</width>
+      <height>731</height>
      </rect>
     </property>
     <property name="text">
@@ -69,13 +66,18 @@ background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(142,
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true"> QListWidget::item:selected {
-     border: 1px solid rgb(243,239,230);
+     <string notr="true">*{
+	background:rgba(243,239,230);
+}
+
+QListWidget::item:selected {
+     border: 1px solid rgb(243,239,230,100);
+	background:rgb(227, 223, 216);
  }
 
 QListWidget::item {
-color:rgb(243,239,230);
-	font: 14pt &quot;Gayathri&quot;;
+    color:rgb(85, 87, 83);
+	font: 14pt &quot;Avenir next&quot;;
 }
 
 </string>
@@ -91,11 +93,12 @@ color:rgb(243,239,230);
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">border-radius: 25px;
-border: 1px solid gray;
-color: rgb(46, 52, 54);
-background: rgba(128,221,190, 200);
-font: 40pt &quot;Ubuntu&quot;;</string>
+     <string notr="true">border: 1px solid rgb(85, 87, 83);
+font: 40pt &quot;Avenir next&quot;;
+color: rgba(60, 58, 59, 181);
+background:rgba(153, 173, 167,120);
+border-radius:25px;
+text-align: center;</string>
     </property>
     <property name="text">
      <string>+</string>
@@ -108,7 +111,7 @@ font: 40pt &quot;Ubuntu&quot;;</string>
      <x>0</x>
      <y>0</y>
      <width>891</width>
-     <height>19</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuggjj">
