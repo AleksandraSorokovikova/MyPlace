@@ -23,6 +23,7 @@ SOURCES += \
     label.cpp \
     main.cpp \
     mainwindow.cpp \
+    menuwindow.cpp \
     openlabel.cpp \
     secondwindow.cpp
 
@@ -31,12 +32,14 @@ HEADERS += \
     createrlabel.h \
     label.h \
     mainwindow.h \
+    menuwindow.h \
     openlabel.h \
     secondwindow.h
 
 FORMS += \
     createrlabel.ui \
     mainwindow.ui \
+    menuwindow.ui \
     openlabel.ui \
     secondwindow.ui
 

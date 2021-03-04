@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "secondwindow.h"
+#include "menuwindow.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -22,6 +23,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    SecondWindow *window;
+    //SecondWindow *window;
+    MenuWindow *win;
 };
 #endif // MAINWINDOW_H

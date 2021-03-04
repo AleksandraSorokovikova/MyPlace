@@ -7,9 +7,9 @@
 #include<QMessageBox>
 #include<unistd.h>
 
-Label_List labelList;
+//Label_List labelList;
 
-SecondWindow::SecondWindow(QWidget *parent) :
+/*SecondWindow::SecondWindow(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::SecondWindow)
 {
@@ -64,3 +64,4 @@ void SecondWindow::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
      open.setModal(true);
      open.exec();
 }
+*/

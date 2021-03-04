@@ -1,4 +1,4 @@
-#ifndef SECONDWINDOW_H
+/*#ifndef SECONDWINDOW_H
 #define SECONDWINDOW_H
 
 #include <QDialog>
@@ -34,3 +34,4 @@ private:
 };
 
 #endif // SECONDWINDOW_H
+*/

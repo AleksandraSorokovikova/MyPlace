@@ -8,8 +8,6 @@ OpenLabel::OpenLabel(const Label &label, QWidget *parent) :
     ui->setupUi(this);
     Set_field(label);
     setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
-    QPixmap pix(":/img/img/cafee.png");
-    ui->image->setPixmap(pix.scaled(80, 80, Qt::KeepAspectRatio));
 }
 
 OpenLabel::~OpenLabel()

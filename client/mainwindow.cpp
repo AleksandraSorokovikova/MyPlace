@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "secondwindow.h"
+#include "menuwindow.h"
 #include<QMessageBox>
 #include<QPixmap>
 
@@ -25,6 +26,8 @@ void MainWindow::on_pushButton_2_clicked()
 void MainWindow::on_pushButton_clicked()
 {
     hide();
-    window = new SecondWindow(this);
-    window->show();
+    win = new MenuWindow(this);
+    win->show();
+    //window = new SecondWindow(this);
+    //window->show();
 }
