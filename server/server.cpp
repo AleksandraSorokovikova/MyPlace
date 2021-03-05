@@ -82,8 +82,6 @@ void session(socket_ptr sock) {
             sock->read_some(buffer(type), error_);
             sock->read_some(buffer(description), error_);
             sock->read_some(buffer(address), error_);
-
-            boost::this_thread::sleep(boost::posix_time::millisec(200));
             
             std::cout << "some data received\n";
             std::cout << name << '\n';
@@ -98,6 +96,12 @@ void session(socket_ptr sock) {
             door.lock();
             labelList.add(label);
             door.unlock();
+            
+            std::vector<char> msg_to_client(max_length);
+            convert(msg_to_client, "ok");
+            sock->write_some(buffer(msg_to_client));
+            
+            boost::this_thread::sleep(boost::posix_time::millisec(200));
 
     }
 

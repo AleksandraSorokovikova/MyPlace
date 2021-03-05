@@ -20,7 +20,7 @@
    <property name="geometry">
     <rect>
      <x>110</x>
-     <y>50</y>
+     <y>60</y>
      <width>67</width>
      <height>17</height>
     </rect>
@@ -84,7 +84,8 @@ font: 85 19pt &quot;Avenir next&quot;;
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 75 14pt &quot;Avenir next&quot;;
+    <string notr="true">color: rgb(85, 87, 83);
+font: 75 14pt &quot;Avenir next&quot;;
 background:transparent;</string>
    </property>
    <property name="text">
@@ -143,7 +144,7 @@ font: 13pt &quot;Avenir next&quot;;
    <property name="geometry">
     <rect>
      <x>110</x>
-     <y>10</y>
+     <y>20</y>
      <width>271</width>
      <height>41</height>
     </rect>
@@ -168,13 +169,13 @@ font: 18pt &quot;Avenir next&quot;;
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>10</y>
+     <y>20</y>
      <width>91</width>
      <height>91</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background: rgba(243, 239, 230);
+    <string notr="true">background: rgba(243, 239, 230,230);
 border-radius:40px;</string>
    </property>
    <property name="frameShape">
@@ -187,7 +188,7 @@ border-radius:40px;</string>
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>30</y>
+      <y>40</y>
       <width>81</width>
       <height>21</height>
      </rect>
@@ -211,9 +212,11 @@ color:transparent;</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background: rgba(243, 239, 230);
+    <string notr="true">background: rgba(243, 239, 230,230);
+border-color:transparent;
 color: rgb(110, 109, 111);
-border-radius: 30px;</string>
+border-radius: 30px;
+</string>
    </property>
    <property name="text">
     <string/>

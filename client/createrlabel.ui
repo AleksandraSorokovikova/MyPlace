@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>484</width>
-    <height>570</height>
+    <height>594</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -67,11 +67,14 @@ font: 17pt &quot;Avenir next&quot;;</string>
     <string notr="true">border: 2px solid  #3c3a3a; 
 color: #3c3a3a;
 font: 16pt &quot;Avenir next&quot;;
-border-color:rgb(183, 180, 174, 150);
 border-radius: 15px;
 padding: 0 8px;
-background:rgba(243,239,230, 125);
+background: rgba(243, 239, 230,230);
+border-color:transparent;
 </string>
+   </property>
+   <property name="maxLength">
+    <number>24</number>
    </property>
   </widget>
   <widget class="QLabel" name="label_3">
@@ -106,10 +109,14 @@ font: 16pt &quot;Avenir next&quot;;</string>
     <string notr="true">border: 2px solid  #3c3a3a; 
 color: #3c3a3a;
 font: 16pt &quot;Avenir next&quot;;
-border-color:rgb(183, 180, 174, 150);
 border-radius: 15px;
 padding: 0 8px;
-background:rgba(243,239,230, 125);</string>
+background: rgba(243, 239, 230,230);
+border-color:transparent;
+</string>
+   </property>
+   <property name="maxLength">
+    <number>32</number>
    </property>
   </widget>
   <widget class="QLabel" name="label_4">
@@ -144,10 +151,10 @@ font: 17pt &quot;Avenir next&quot;;</string>
     <string notr="true">color:rgb(42, 44, 42);
 border: 1px solid rgb(85, 87, 83);
 border-radius: 15px;
-background:rgba(243,239,230, 150);
+background:rgba(243,239,230, 200);
 border: 1px solid gray;
-font: 85 19pt &quot;Avenir next&quot;;
-border-color:rgb(183, 180, 174);
+font: 100 19pt &quot;Avenir next&quot;;
+border-color:rgb(183, 180, 200);
 </string>
    </property>
    <property name="text">
@@ -186,10 +193,10 @@ font: 120 30pt &quot;Avenir next&quot;;</string>
     <string notr="true">color:rgb(42, 44, 42);
 border: 1px solid rgb(85, 87, 83);
 border-radius: 15px;
-background:rgba(243,239,230, 150);
+background:rgba(243,239,230, 200);
 border: 1px solid gray;
-font: 85 19pt &quot;Avenir next&quot;;
-border-color:rgb(183, 180, 174);
+font: 100 19pt &quot;Avenir next&quot;;
+border-color:rgb(183, 180, 200);
 </string>
    </property>
    <property name="text">
@@ -209,10 +216,10 @@ border-color:rgb(183, 180, 174);
     <string notr="true">border: 2px solid  #3c3a3a; 
 color: #3c3a3a;
 font: 16pt &quot;Avenir next&quot;;
-border-color:rgb(183, 180, 174, 150);
 border-radius: 30px;
 padding: 0 8px;
-background:rgba(243,239,230, 125);</string>
+background: rgba(243, 239, 230);
+border-color:rgba(243, 239, 230);</string>
    </property>
   </widget>
  </widget>

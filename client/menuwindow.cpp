@@ -45,7 +45,7 @@ void MenuWindow::on_add_label_clicked()
     CreaterLabel creater;
     creater.setModal(true);
     creater.exec();
-    usleep(300'000);
+    //usleep(300'000);
     update();
 }
 

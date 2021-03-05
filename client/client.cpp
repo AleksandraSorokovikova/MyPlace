@@ -47,9 +47,16 @@ bool Client::add_label(const QString &name, const QString &nickname, const QStri
     client.sock.write_some(buffer(description_v));
     client.sock.write_some(buffer(address_v));
 
+    char msg_from_server[bufferSize];
+    boost::system::error_code error;
+    client.sock.read_some(buffer(msg_from_server), error);
 
-    client.sock.close();
-    return true;
+    if (!strcmp(msg_from_server, "ok")) {
+        client.sock.close();
+        return true;
+    }
+
+    return false;
 
 }
 
