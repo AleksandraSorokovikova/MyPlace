@@ -14,7 +14,7 @@ class MenuWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MenuWindow(QWidget *parent = nullptr);
+    explicit MenuWindow(QWidget *parent = nullptr, QString nickname = "");
     ~MenuWindow();
 
 private slots:
@@ -22,9 +22,12 @@ private slots:
 
     void on_listWidget_itemDoubleClicked(QListWidgetItem *item);
 
+    void on_search_account_clicked();
+
 private:
     Ui::MenuWindow *ui;
     void update();
+    QString user_nickname;
 };
 
 #endif // MENUWINDOW_H

@@ -1,5 +1,6 @@
 #include <iostream>
 #include "label.h"
+#include "users.h"
 #include <boost/thread.hpp>
 #include <boost/thread/thread.hpp>
 #include <boost/bind.hpp>
@@ -11,6 +12,7 @@ using namespace boost::asio;
 typedef boost::shared_ptr<ip::tcp::socket> socket_ptr;
 Label_List labelList;
 std::mutex door;
+User_List userList;
 const int max_length = 1024;
 using boost::system::error_code;
 
@@ -38,6 +40,11 @@ void session(socket_ptr sock) {
 
         } else if (!strcmp(command, "update")) {
 
+            std::cout << "available users: " << '\n';
+            for (auto x : userList.nickname_list) {
+                std::cout << x << '\n';
+            }
+
             char size[max_length];
             auto size_of_list = std::to_string(labelList.size());
             for (int i = 0; i < size_of_list.length(); i++) {
@@ -46,6 +53,7 @@ void session(socket_ptr sock) {
             sock->write_some(buffer(size));
 
             for (auto x : labelList.data) {
+                std::cout << x.second.id << '\n';
                 std::vector<char> id(max_length);
                 convert(id, x.second.id);
                 std::vector<char> name(max_length);
@@ -92,10 +100,15 @@ void session(socket_ptr sock) {
 
             Label label(name, nickname, type, description, address, labelList);
 
-
             door.lock();
             labelList.add(label);
+            userList.data.find(nickname)->second.add_label(label.id);
             door.unlock();
+
+            std::cout << "labels of " << nickname << ": " << '\n';
+            for (auto id : userList.data.find(nickname)->second.labels) {
+                std::cout << labelList.data.find(id)->second.name << '\n';
+            }
             
             std::vector<char> msg_to_client(max_length);
             convert(msg_to_client, "ok");
@@ -103,7 +116,95 @@ void session(socket_ptr sock) {
             
             boost::this_thread::sleep(boost::posix_time::millisec(200));
 
-    }
+    } else if (!strcmp(command, "sign-up")) {
+        char nickname[max_length], password[max_length];
+        boost::system::error_code error_;
+
+        sock->read_some(buffer(nickname), error_);
+        sock->read_some(buffer(password), error_);
+        std::cout << "creating new_account\n";
+        std::cout << "nickname: " << nickname << '\n';
+        std::cout << "password: " << password << '\n';
+
+        if (userList.nickname_in_list(nickname)) {
+            std::vector<char> msg_to_client(max_length);
+            convert(msg_to_client, "not-ok");
+            sock->write_some(buffer(msg_to_client));
+            boost::this_thread::sleep(boost::posix_time::millisec(200));
+        } else {
+
+            User user(nickname, password, userList);
+
+            door.lock();
+            userList.add(user);
+            door.unlock();
+
+            std::vector<char> msg_to_client(max_length);
+            convert(msg_to_client, "ok");
+            sock->write_some(buffer(msg_to_client));
+
+            boost::this_thread::sleep(boost::posix_time::millisec(200));
+        }
+
+    } else if (!strcmp(command, "sign-in")) {
+        char nickname[max_length], password[max_length];
+        boost::system::error_code error_;
+
+        sock->read_some(buffer(nickname), error_);
+        sock->read_some(buffer(password), error_);
+        std::cout << "trying to sign in\n";
+        std::cout << "nickname: " << nickname << '\n';
+        std::cout << "password: " << password << '\n';
+
+        std::vector<char> msg_to_client(max_length);
+        if (!userList.nickname_in_list(nickname)) {
+            convert(msg_to_client, "unavailable-nickname");
+            sock->write_some(buffer(msg_to_client));
+            boost::this_thread::sleep(boost::posix_time::millisec(200));
+        } else {
+
+            if (!userList.right_password(nickname, password)) {
+                convert(msg_to_client, "unavailable-password");
+                sock->write_some(buffer(msg_to_client));
+                boost::this_thread::sleep(boost::posix_time::millisec(200));
+            }
+
+            convert(msg_to_client, "ok");
+            sock->write_some(buffer(msg_to_client));
+
+            boost::this_thread::sleep(boost::posix_time::millisec(200));
+        }
+
+    } else if (!strcmp(command, "subscribe")) {
+            char nickname[max_length], user[max_length];
+            boost::system::error_code error_;
+            sock->read_some(buffer(user), error_);
+            sock->read_some(buffer(nickname), error_);
+            std::cout << "subscribing\n";
+            std::cout << "user: " << user << '\n';
+            std::cout << "nickname: " << nickname << '\n';
+            std::vector<char> msg_to_client(max_length);
+
+            if (!userList.nickname_in_list(nickname)) {
+                convert(msg_to_client, "unavailable-nickname");
+                sock->write_some(buffer(msg_to_client));
+                boost::this_thread::sleep(boost::posix_time::millisec(200));
+            } else {
+                userList.data.find(user)->second.subscribe(nickname);
+                //userList.data.find(nickname)->second.subscribe(nickname);
+
+                convert(msg_to_client, "ok");
+                sock->write_some(buffer(msg_to_client));
+
+                boost::this_thread::sleep(boost::posix_time::millisec(200));
+
+                std::cout << "number of subscribes of " << user << ": " << userList.data.find(user)->second.subscribes.size()<< '\n';
+                /*
+                for (auto x : userList.data.find(nickname)->second.subscribes) {
+                    std::cout << x << '\n';
+                } */
+            }
+        }
 
     std::cout << "Connection stopped" << '\n';
 

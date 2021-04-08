@@ -14,7 +14,7 @@ class CreaterLabel : public QDialog
     Q_OBJECT
 
 public:
-    explicit CreaterLabel(QWidget *parent = nullptr);
+    explicit CreaterLabel(QString user_nickname, QWidget *parent = nullptr);
     ~CreaterLabel();
     QString name;
     QString nickname;

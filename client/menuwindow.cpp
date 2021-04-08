@@ -3,15 +3,16 @@
 #include"openlabel.h"
 #include"createrlabel.h"
 #include"client.h"
+#include"searchaccounts.h"
 #include<QMessageBox>
 #include<unistd.h>
 #include<QPixmap>
 
 Label_List labelList;
 
-MenuWindow::MenuWindow(QWidget *parent) :
+MenuWindow::MenuWindow(QWidget *parent, QString nickname) :
     QMainWindow(parent),
-    ui(new Ui::MenuWindow)
+    ui(new Ui::MenuWindow), user_nickname(nickname)
 {
     ui->setupUi(this);
     QPixmap pix(":/img/img/mapss.png");
@@ -42,7 +43,7 @@ void MenuWindow::update(){
 
 void MenuWindow::on_add_label_clicked()
 {
-    CreaterLabel creater;
+    CreaterLabel creater(user_nickname);
     creater.setModal(true);
     creater.exec();
     //usleep(300'000);
@@ -54,4 +55,11 @@ void MenuWindow::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
     OpenLabel open(labelList.get_by_id(item->data(12).toString().toStdString().c_str()));
     open.setModal(true);
     open.exec();
+}
+
+void MenuWindow::on_search_account_clicked()
+{
+    SearchAccounts search(nullptr, user_nickname);
+    search.setModal(true);
+    search.exec();
 }

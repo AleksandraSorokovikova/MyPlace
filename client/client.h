@@ -25,6 +25,9 @@ struct Client {
     static void convert(std::vector<char> &c, const QString &qs);
     [[nodiscard]] static bool add_label(const QString &name, const QString &nickname, const QString &type, const QString &description, const QString &address);
     [[nodiscard]] static bool update_label_list(Label_List &labelList);
+    [[nodiscard]] static int sing_in(const QString &nickname, const QString &password);
+    [[nodiscard]] static int sing_up(const QString &nickname, const QString &password);
+    [[nodiscard]] static int subscribe(const QString &nickname, const QString &user);
 
     io_service io_service_;
     ip::tcp::endpoint ep{ip::address::from_string(ipAddress), port};

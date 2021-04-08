@@ -6,8 +6,9 @@
 #include<QCloseEvent>
 
 
-CreaterLabel::CreaterLabel(QWidget *parent) :
+CreaterLabel::CreaterLabel(QString user_nickname, QWidget *parent) :
     QDialog(parent),
+    nickname(user_nickname),
     ui(new Ui::CreaterLabel)
 {
     ui->setupUi(this);
@@ -22,9 +23,8 @@ CreaterLabel::~CreaterLabel()
 
 void CreaterLabel::on_pushButton_clicked()
 {
-    if(ui->name->text() != "" &&  ui->description->toPlainText() != "" && ui->address->text() != "") {
+    if (ui->name->text() != "" &&  ui->description->toPlainText() != "" && ui->address->text() != "") {
         name = ui->name->text();
-        nickname = "@nickname";
         type = "default";
         description = ui->description->toPlainText();
         address = ui->address->text();
@@ -36,7 +36,7 @@ void CreaterLabel::on_pushButton_clicked()
 
          hide();
     } else {
-        QMessageBox::about(this, "Пустые поля", "Введите все данные");
+        QMessageBox::about(this, "Empty fields", "Insert all data");
     }
 }
 

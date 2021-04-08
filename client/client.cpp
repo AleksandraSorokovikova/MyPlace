@@ -109,3 +109,121 @@ bool Client::update_label_list(Label_List &labelList) {
 
 }
 
+int Client::sing_in(const QString &nickname, const QString &password) {
+
+    Client client;
+
+    std::string command("sign-in");
+    std::vector<char> command_v(bufferSize);
+    convert(command_v, command);
+
+
+    try {
+        client.sock.connect(client.ep);
+    } catch(...) {
+        return 0;
+    }
+
+    client.sock.write_some(buffer(command_v));
+
+    std::vector<char> nickname_v(bufferSize);
+    std::vector<char> password_v(bufferSize);
+
+    convert(nickname_v, nickname);
+    convert(password_v, password);
+
+    client.sock.write_some(buffer(nickname_v));
+    client.sock.write_some(buffer(password_v));
+
+    char msg_from_server[bufferSize];
+    boost::system::error_code error;
+    client.sock.read_some(buffer(msg_from_server), error);
+
+    //никнейм и пароль совпали
+    if (!strcmp(msg_from_server, "ok")) {
+        client.sock.close();
+        return 3;
+    //такого никнейма нет
+    } else if (!strcmp(msg_from_server, "unavailable-nickname")) {
+        return 1;
+    }
+
+    //не совпал пароль
+    return 2;
+}
+
+int Client::sing_up(const QString &nickname, const QString &password) {
+
+    Client client;
+
+    std::string command("sign-up");
+    std::vector<char> command_v(bufferSize);
+    convert(command_v, command);
+
+    try {
+        client.sock.connect(client.ep);
+    } catch(...) {
+        return 0;
+    }
+
+    client.sock.write_some(buffer(command_v));
+
+    std::vector<char> nickname_v(bufferSize);
+    std::vector<char> password_v(bufferSize);
+
+    convert(nickname_v, nickname);
+    convert(password_v, password);
+
+    client.sock.write_some(buffer(nickname_v));
+    client.sock.write_some(buffer(password_v));
+
+    char msg_from_server[bufferSize];
+    boost::system::error_code error;
+    client.sock.read_some(buffer(msg_from_server), error);
+
+    if (!strcmp(msg_from_server, "ok")) {
+        client.sock.close();
+        return 2;
+    }
+
+    //nickname is in use
+    return 1;
+}
+
+int Client::subscribe(const QString &nickname, const QString &user) {
+
+    Client client;
+
+    std::string command("subscribe");
+    std::vector<char> command_v(bufferSize);
+    convert(command_v, command);
+
+    try {
+        client.sock.connect(client.ep);
+    } catch(...) {
+        return 0;
+    }
+
+    client.sock.write_some(buffer(command_v));
+
+    std::vector<char> user_v(bufferSize);
+    std::vector<char> nickname_v(bufferSize);
+    convert(user_v, user);
+    convert(nickname_v, nickname);
+    client.sock.write_some(buffer(user_v));
+    client.sock.write_some(buffer(nickname_v));
+
+    char msg_from_server[bufferSize];
+    boost::system::error_code error;
+    client.sock.read_some(buffer(msg_from_server), error);
+
+    if (!strcmp(msg_from_server, "ok")) {
+        client.sock.close();
+        return 2;
+    }
+
+    //нет такого никнейма
+    return 1;
+}
+
+

@@ -6,13 +6,13 @@
     srand(time(NULL));
 
     for (int i = 0 ; i < 16; i++) {
-        char symbol = symbols[rand() % 38];
+        char symbol = symbols[rand() % 37];
         id_[i] = symbol;
     }
 
     while(label_list.id_in_list(id)) {
         int index = rand()%16;
-        char symbol = symbols[rand() % 38];
+        char symbol = symbols[rand() % 37];
         id_[index] = symbol;
     }
     return id_;

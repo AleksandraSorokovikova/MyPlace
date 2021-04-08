@@ -104,6 +104,19 @@ text-align: center;</string>
      <string>+</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="search_account">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>530</y>
+      <width>171</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Найти пользователя</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
