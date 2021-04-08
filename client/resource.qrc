@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/img">
+        <file>img/Карта-2.png</file>
+        <file>img/update.png</file>
+        <file>img/cafee.png</file>
+        <file>img/res.jpg</file>
+        <file>img/map.png</file>
+        <file>img/mapss.png</file>
+        <file>img/fork.png</file>
+    </qresource>
+</RCC>
