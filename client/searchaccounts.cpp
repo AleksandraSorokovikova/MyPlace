@@ -3,10 +3,10 @@
 #include"client.h"
 #include <QMessageBox>
 
-SearchAccounts::SearchAccounts(QWidget *parent, QString nickname) :
+SearchAccounts::SearchAccounts(QWidget *parent, QString id) :
     QDialog(parent),
     ui(new Ui::SearchAccounts),
-     user_nickname(nickname)
+     user_id(id)
 {
     ui->setupUi(this);
 }
@@ -20,7 +20,7 @@ void SearchAccounts::on_subscribe_clicked()
 {
     QString nickname = ui->nickname->text();
     if (nickname != "") {
-    int return_code = Client::subscribe(nickname, user_nickname);
+    int return_code = Client::subscribe(nickname, user_id);
     switch (return_code) {
         case 0:
             QMessageBox::warning(this, "Failed to connect", "No connection to server");

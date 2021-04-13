@@ -21,7 +21,7 @@ private slots:
 
 private:
     Ui::SearchAccounts *ui;
-    QString user_nickname;
+    QString user_id;
 };
 
 #endif // SEARCHACCOUNTS_H

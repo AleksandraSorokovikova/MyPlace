@@ -1,4 +1,5 @@
 #include"client.h"
+#include <iostream>
 
 void Client::convert(std::vector<char> &c, const std::string &s) {
     for (size_t i = 0; i < s.length(); i++) {
@@ -109,7 +110,7 @@ bool Client::update_label_list(Label_List &labelList) {
 
 }
 
-int Client::sing_in(const QString &nickname, const QString &password) {
+int Client::sing_in(const QString &nickname, const QString &password, QString &user_id) {
 
     Client client;
 
@@ -141,6 +142,11 @@ int Client::sing_in(const QString &nickname, const QString &password) {
 
     //никнейм и пароль совпали
     if (!strcmp(msg_from_server, "ok")) {
+        char user_id_[bufferSize];
+        read(client.sock, buffer(user_id_));
+        //client.sock.read_some(buffer(user_id_, 16), error);
+        std::string tmp(user_id_);
+        user_id = QString::fromStdString(tmp);
         client.sock.close();
         return 3;
     //такого никнейма нет
@@ -152,7 +158,7 @@ int Client::sing_in(const QString &nickname, const QString &password) {
     return 2;
 }
 
-int Client::sing_up(const QString &nickname, const QString &password) {
+int Client::sing_up(const QString &nickname, const QString &password, QString &user_id, int &size) {
 
     Client client;
 
@@ -182,6 +188,14 @@ int Client::sing_up(const QString &nickname, const QString &password) {
     client.sock.read_some(buffer(msg_from_server), error);
 
     if (!strcmp(msg_from_server, "ok")) {
+
+        char user_id_[bufferSize];
+        read(client.sock, buffer(user_id_), 16);
+        //client.sock.read_some(buffer(user_id_, 16), error);
+        size = strlen(user_id_);
+        std::string tmp(user_id_);
+        user_id = QString::fromStdString(tmp);
+
         client.sock.close();
         return 2;
     }
@@ -190,7 +204,7 @@ int Client::sing_up(const QString &nickname, const QString &password) {
     return 1;
 }
 
-int Client::subscribe(const QString &nickname, const QString &user) {
+int Client::subscribe(const QString &nickname, const QString &user_id) {
 
     Client client;
 
@@ -206,12 +220,12 @@ int Client::subscribe(const QString &nickname, const QString &user) {
 
     client.sock.write_some(buffer(command_v));
 
-    std::vector<char> user_v(bufferSize);
-    std::vector<char> nickname_v(bufferSize);
-    convert(user_v, user);
+     std::vector<char> nickname_v(bufferSize);
+    std::vector<char> user_id_v(bufferSize);
     convert(nickname_v, nickname);
-    client.sock.write_some(buffer(user_v));
+    convert(user_id_v, user_id);
     client.sock.write_some(buffer(nickname_v));
+     client.sock.write_some(buffer(user_id_v));
 
     char msg_from_server[bufferSize];
     boost::system::error_code error;

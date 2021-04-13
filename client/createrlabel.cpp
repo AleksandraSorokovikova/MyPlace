@@ -6,9 +6,9 @@
 #include<QCloseEvent>
 
 
-CreaterLabel::CreaterLabel(QString user_nickname, QWidget *parent) :
+CreaterLabel::CreaterLabel(QString id, QWidget *parent) :
     QDialog(parent),
-    nickname(user_nickname),
+    user_id(id),
     ui(new Ui::CreaterLabel)
 {
     ui->setupUi(this);
@@ -30,7 +30,7 @@ void CreaterLabel::on_pushButton_clicked()
         address = ui->address->text();
 
 
-        if (!Client::add_label(name, nickname, type, description, address)){
+        if (!Client::add_label(name, user_id, type, description, address)){
             QMessageBox::warning(this, "Failed to connect", "No connection to server");
         }
 

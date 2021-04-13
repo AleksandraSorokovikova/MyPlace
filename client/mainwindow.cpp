@@ -30,8 +30,9 @@ void MainWindow::on_pushButton_clicked()
 {
     QString nickname = ui->nickname->text();
     QString password = ui->password->text();
+    QString user_id{};
     if (nickname != "" &&  password != "") {
-    int return_code = Client::sing_in(nickname, password);
+    int return_code = Client::sing_in(nickname, password, user_id);
     switch (return_code) {
         case 0:
             QMessageBox::warning(this, "Failed to connect", "No connection to server");
@@ -44,7 +45,7 @@ void MainWindow::on_pushButton_clicked()
             break;
         case 3:
             hide();
-            win = new MenuWindow(this, nickname);
+            win = new MenuWindow(this, user_id);
             win->show();
         break;
         }

@@ -12,6 +12,7 @@
 struct User;
 struct User_List;
 
+//структура с конкретным пользователем
 struct User {
 
     // конструктор создания нового аккаунта
@@ -33,7 +34,7 @@ struct User {
     friend User_List;
 };
 
-
+//структура со всееееми пользователями, создавшими аккаунт
 struct User_List {
 
     [[nodiscard]] bool id_in_list(const std::string &id) const;
@@ -46,4 +47,38 @@ struct User_List {
     std::set<std::string> nickname_list;
     void add(const User &user);
 };
+
+//структура активных пользователей (пользователь входит - добавляется, выходит - удаляется)
+struct Active_Users {
+
+    //ключ - id, который генерирует сервер при каждом входе пользователя
+    //значение - его никнейм
+    std::map<std::string, std::string> active_users{};
+    std::set<std::string> id_list{};
+
+    //возвращает количество подключенных пользователей
+    int number_of_active_users() const;
+
+    //возвращает true, если такой id уже существует
+    bool id_in_list(const std::string &id) const;
+
+    //добавляет в список нового пользователя, возвращает сгенерированный id
+    std::string activate(const std::string &nickname);
+
+    //удаляет из списка пользователя
+    void deactivate(const std::string &id);
+
+    //генерирует id для подключившегося пользователя
+    std::string create_id();
+
+    std::string get_nickname(const std::string &id) const;
+
+    void print_active_users() {
+        int cnt = 1;
+        for (auto x : active_users) {
+            std::cout << cnt << ": {" << x.first << ", " << x.second << "}" << '\n';
+        }
+    }
+};
+
 #endif // USERS_H

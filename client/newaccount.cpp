@@ -19,8 +19,10 @@ void newaccount::on_pushButton_clicked()
 {
     QString nickname = ui->nickname->text();
     QString password = ui->password->text();
+    QString user_id{};
+    int size;
     if (nickname != "" &&  password != "") {
-    int return_code = Client::sing_up(nickname, password);
+    int return_code = Client::sing_up(nickname, password, user_id, size);
     switch (return_code) {
         case 0:
             QMessageBox::warning(this, "Failed to connect", "No connection to server");
@@ -30,7 +32,8 @@ void newaccount::on_pushButton_clicked()
             break;
         case 2:
             hide();
-            win = new MenuWindow(this, nickname);
+            //QMessageBox::about(this, "Select new nickname", QString::number(size));
+            win = new MenuWindow(this, user_id);
             win->show();
         break;
 

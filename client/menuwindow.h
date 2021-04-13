@@ -24,10 +24,12 @@ private slots:
 
     void on_search_account_clicked();
 
+    void on_pushButton_clicked();
+
 private:
     Ui::MenuWindow *ui;
     void update();
-    QString user_nickname;
+    QString user_id;
 };
 
 #endif // MENUWINDOW_H

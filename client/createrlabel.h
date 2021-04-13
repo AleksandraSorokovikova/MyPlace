@@ -17,10 +17,11 @@ public:
     explicit CreaterLabel(QString user_nickname, QWidget *parent = nullptr);
     ~CreaterLabel();
     QString name;
-    QString nickname;
+    //QString nickname;
     QString type;
     QString description;
     QString address;
+    QString user_id;
 
 private slots:
     void on_pushButton_clicked();

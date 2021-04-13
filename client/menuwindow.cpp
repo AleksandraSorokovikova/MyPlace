@@ -10,9 +10,9 @@
 
 Label_List labelList;
 
-MenuWindow::MenuWindow(QWidget *parent, QString nickname) :
+MenuWindow::MenuWindow(QWidget *parent, QString id) :
     QMainWindow(parent),
-    ui(new Ui::MenuWindow), user_nickname(nickname)
+    ui(new Ui::MenuWindow), user_id(id)
 {
     ui->setupUi(this);
     QPixmap pix(":/img/img/mapss.png");
@@ -43,7 +43,7 @@ void MenuWindow::update(){
 
 void MenuWindow::on_add_label_clicked()
 {
-    CreaterLabel creater(user_nickname);
+    CreaterLabel creater(user_id);
     creater.setModal(true);
     creater.exec();
     //usleep(300'000);
@@ -59,7 +59,12 @@ void MenuWindow::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
 
 void MenuWindow::on_search_account_clicked()
 {
-    SearchAccounts search(nullptr, user_nickname);
+    SearchAccounts search(nullptr, user_id);
     search.setModal(true);
     search.exec();
+}
+
+void MenuWindow::on_pushButton_clicked()
+{
+    QMessageBox::about(this, "My id", user_id);
 }

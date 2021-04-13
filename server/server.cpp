@@ -11,8 +11,9 @@
 using namespace boost::asio;
 typedef boost::shared_ptr<ip::tcp::socket> socket_ptr;
 Label_List labelList;
-std::mutex door;
 User_List userList;
+Active_Users activeUsers;
+std::mutex door;
 const int max_length = 1024;
 using boost::system::error_code;
 
@@ -74,7 +75,6 @@ void session(socket_ptr sock) {
                 sock->write_some(buffer(description));
                 sock->write_some(buffer(address));
 
-
             }
 
             boost::this_thread::sleep(boost::posix_time::millisec(200));
@@ -82,14 +82,17 @@ void session(socket_ptr sock) {
 
 
         } else if (!strcmp(command, "add-label")) {
-            char name[max_length], nickname[max_length], type[max_length], description[max_length], address[max_length];
+            char name[max_length], user_id[max_length], type[max_length], description[max_length], address[max_length];
             boost::system::error_code error_;
             
             sock->read_some(buffer(name), error_);
-            sock->read_some(buffer(nickname), error_);
+            sock->read_some(buffer(user_id), error_);
             sock->read_some(buffer(type), error_);
             sock->read_some(buffer(description), error_);
             sock->read_some(buffer(address), error_);
+            std::string nickname(activeUsers.get_nickname(user_id));
+
+            std::cout << "USER " << user_id << ", " << nickname << "}" << "ADDED LABEL" << '\n';
             
             std::cout << "some data received\n";
             std::cout << name << '\n';
@@ -122,6 +125,8 @@ void session(socket_ptr sock) {
 
         sock->read_some(buffer(nickname), error_);
         sock->read_some(buffer(password), error_);
+
+
         std::cout << "creating new_account\n";
         std::cout << "nickname: " << nickname << '\n';
         std::cout << "password: " << password << '\n';
@@ -134,14 +139,25 @@ void session(socket_ptr sock) {
         } else {
 
             User user(nickname, password, userList);
+            std::string id;
 
             door.lock();
             userList.add(user);
+            id = activeUsers.activate(nickname);
             door.unlock();
 
+            std::cout << "ACTIVATING USER: {" << id << ", " << nickname << "}" << '\n';
+
+            //отправляем статус, что аккаунт добавлен успешно
             std::vector<char> msg_to_client(max_length);
             convert(msg_to_client, "ok");
             sock->write_some(buffer(msg_to_client));
+
+            //отправляем временный id текущего пользователя
+            std::vector<char> id_v(max_length);
+            convert(id_v, id);
+            //sock->write_some(buffer(id_v));
+            write(*sock, buffer(id_v));
 
             boost::this_thread::sleep(boost::posix_time::millisec(200));
         }
@@ -169,20 +185,36 @@ void session(socket_ptr sock) {
                 boost::this_thread::sleep(boost::posix_time::millisec(200));
             }
 
+            std::string id;
+
+            door.lock();
+            id = activeUsers.activate(nickname);
+            door.unlock();
+
+            std::cout << "ACTIVATING USER: {" << id << ", " << nickname << "}" << '\n';
+
+            //отправляем статус, что вход состоялся
             convert(msg_to_client, "ok");
             sock->write_some(buffer(msg_to_client));
+
+            //отправляем временный id текущего пользователя
+            std::vector<char> id_v(max_length);
+            convert(id_v, id);
+            sock->write_some(buffer(id_v));
 
             boost::this_thread::sleep(boost::posix_time::millisec(200));
         }
 
     } else if (!strcmp(command, "subscribe")) {
-            char nickname[max_length], user[max_length];
+            char user_id[max_length], other_nickname[max_length];
             boost::system::error_code error_;
-            sock->read_some(buffer(user), error_);
-            sock->read_some(buffer(nickname), error_);
-            std::cout << "subscribing\n";
-            std::cout << "user: " << user << '\n';
-            std::cout << "nickname: " << nickname << '\n';
+            sock->read_some(buffer(other_nickname), error_);
+            sock->read_some(buffer(user_id), error_);
+            std::string nickname(activeUsers.get_nickname(user_id));
+
+            std::cout << "SUBSCRIBING\n";
+            std::cout << "user: {" << user_id << ", " << nickname << "}" << '\n';
+            std::cout << "other nickname: " << other_nickname << '\n';
             std::vector<char> msg_to_client(max_length);
 
             if (!userList.nickname_in_list(nickname)) {
@@ -190,7 +222,7 @@ void session(socket_ptr sock) {
                 sock->write_some(buffer(msg_to_client));
                 boost::this_thread::sleep(boost::posix_time::millisec(200));
             } else {
-                userList.data.find(user)->second.subscribe(nickname);
+                userList.data.find(nickname)->second.subscribe(other_nickname);
                 //userList.data.find(nickname)->second.subscribe(nickname);
 
                 convert(msg_to_client, "ok");
@@ -198,7 +230,7 @@ void session(socket_ptr sock) {
 
                 boost::this_thread::sleep(boost::posix_time::millisec(200));
 
-                std::cout << "number of subscribes of " << user << ": " << userList.data.find(user)->second.subscribes.size()<< '\n';
+                std::cout << "number of subscribes of " << nickname << ": " << userList.data.find(nickname)->second.subscribes.size()<< '\n';
                 /*
                 for (auto x : userList.data.find(nickname)->second.subscribes) {
                     std::cout << x << '\n';

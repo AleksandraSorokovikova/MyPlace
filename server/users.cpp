@@ -10,7 +10,7 @@
         id_[i] = symbol;
     }
 
-    while(label_list.id_in_list(id)) {
+    while(label_list.id_in_list(id_)) {
         int index = rand()%16;
         char symbol = symbols[rand() % 37];
         id_[index] = symbol;
@@ -41,4 +41,45 @@ void User::subscribe(const std::string &nickname_) {
 
 void User::add_label(const std::string &id_) {
     labels.push_back(id_);
+}
+
+int Active_Users::number_of_active_users() const {
+    return active_users.size();
+}
+
+bool Active_Users::id_in_list(const std::string &id) const {
+    return id_list.find(id) != id_list.end();
+}
+
+std::string Active_Users::create_id() {
+    std::string id_(16, '0');
+    const char symbols[37] = { "0123456789ABCDEFGHIGKLMNOPQRSTUVWXYZ"};
+    srand(time(NULL));
+
+    for (int i = 0 ; i < 16; i++) {
+        char symbol = symbols[rand() % 37];
+        id_[i] = symbol;
+    }
+
+    while(id_in_list(id_)) {
+        int index = rand()%16;
+        char symbol = symbols[rand() % 37];
+        id_[index] = symbol;
+    }
+    return id_;
+}
+
+std::string Active_Users::activate(const std::string &nickname) {
+    std::string id = create_id();
+    active_users.insert({id, nickname});
+    return id;
+}
+
+void Active_Users::deactivate(const std::string &id) {
+    auto user = active_users.find(id);
+    active_users.erase(user);
+}
+
+std::string Active_Users::get_nickname(const std::string &id) const {
+    return active_users.find(id)->second;
 }
