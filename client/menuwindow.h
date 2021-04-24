@@ -24,8 +24,6 @@ private slots:
 
     void on_search_account_clicked();
 
-    void on_pushButton_clicked();
-
 private:
     Ui::MenuWindow *ui;
     void update();

@@ -28,7 +28,7 @@ MenuWindow::~MenuWindow()
 }
 
 void MenuWindow::update(){
-    if (!Client::update_label_list(labelList)) {
+    if (Client::update_label_list(labelList) == 0) {
         QMessageBox::warning(this, "Failed to connect", "No connection to server");
     } else {
         ui->listWidget->clear();
@@ -62,9 +62,4 @@ void MenuWindow::on_search_account_clicked()
     SearchAccounts search(nullptr, user_id);
     search.setModal(true);
     search.exec();
-}
-
-void MenuWindow::on_pushButton_clicked()
-{
-    QMessageBox::about(this, "My id", user_id);
 }

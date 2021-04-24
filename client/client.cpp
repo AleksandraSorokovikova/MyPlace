@@ -14,46 +14,31 @@ void Client::convert(std::vector<char> &c, const QString &qs) {
     }
 }
 
-bool Client::add_label(const QString &name, const QString &nickname, const QString &type, const QString &description, const QString &address) {
+bool Client::add_label(const QString &name, const QString &user_id, const QString &type, const QString &description, const QString &address) {
 
     Client client;
-
     std::string command("add-label");
-    std::vector<char> command_v(bufferSize);
-    convert(command_v, command);
+
 
     try {
-        client.sock.connect(client.ep);
+        client.stream.socket().connect(client.ep);
     } catch (...) {
         return false;
     }
 
-    client.sock.write_some(buffer(command_v));
+    client.stream << command << std::endl;
 
-    std::vector<char> name_v(bufferSize);
-    std::vector<char> nickname_v(bufferSize);
-    std::vector<char> type_v(bufferSize);
-    std::vector<char> description_v(bufferSize);
-    std::vector<char> address_v(bufferSize);
+    client.stream << name.toStdString() << std::endl;
+    client.stream << user_id.toStdString() << std::endl;
+    client.stream << type.toStdString() << std::endl;
+    client.stream << description.toStdString() << std::endl;
+    client.stream << address.toStdString() << std::endl;
 
-    convert(name_v, name);
-    convert(nickname_v, nickname);
-    convert(type_v, type);
-    convert(description_v, description);
-    convert(address_v, address);
+    std::string msg_from_server;
+    std::getline(client.stream, msg_from_server);
 
-    client.sock.write_some(buffer(name_v));
-    client.sock.write_some(buffer(nickname_v));
-    client.sock.write_some(buffer(type_v));
-    client.sock.write_some(buffer(description_v));
-    client.sock.write_some(buffer(address_v));
-
-    char msg_from_server[bufferSize];
-    boost::system::error_code error;
-    client.sock.read_some(buffer(msg_from_server), error);
-
-    if (!strcmp(msg_from_server, "ok")) {
-        client.sock.close();
+    if (msg_from_server =="ok") {
+        client.stream.socket().shutdown(ip::tcp::socket::shutdown_send);
         return true;
     }
 
@@ -67,44 +52,37 @@ bool Client::update_label_list(Label_List &labelList) {
     Client client;
 
     std::string command("update");
-    std::vector<char> command_v(bufferSize);
-    convert(command_v, command);
-
 
     try {
-        client.sock.connect(client.ep);
-    } catch(...) {
+        client.stream.socket().connect(client.ep);
+    } catch (...) {
         return false;
     }
+    client.stream << command << std::endl;
 
-    client.sock.write_some(buffer(command_v));
+    std::string size_;
+    std::getline(client.stream, size_);
+    int size = stoi(size_);
 
-
-    char size[1024];
-    boost::system::error_code error;
-
-    client.sock.read_some(boost::asio::buffer(size), error);
-    int size_int = *(int*)size - 48;
     labelList.reset();
 
+    for (int i = 0; i < size; i++) {
 
-    for (int i = 0; i < size_int; i++) {
+        std::string id, name, nickname, type, description, address;
 
-        char id[bufferSize], name[bufferSize], nickname[bufferSize], type[bufferSize], description[bufferSize], address[bufferSize];
-
-        client.sock.read_some(buffer(id), error);
-        client.sock.read_some(buffer(name), error);
-        client.sock.read_some(buffer(nickname), error);
-        client.sock.read_some(buffer(type), error);
-        client.sock.read_some(buffer(description), error);
-        client.sock.read_some(buffer(address), error);
+        std::getline(client.stream, id);
+        std::getline(client.stream, name);
+        std::getline(client.stream, nickname);
+        std::getline(client.stream, type);
+        std::getline(client.stream, description);
+        std::getline(client.stream, address);
 
         Label label(id, name, nickname, type, description, address);
         labelList.add(label);
 
     }
 
-    client.sock.close();
+    client.stream.socket().shutdown(ip::tcp::socket::shutdown_send);
 
     return true;
 
@@ -115,42 +93,31 @@ int Client::sing_in(const QString &nickname, const QString &password, QString &u
     Client client;
 
     std::string command("sign-in");
-    std::vector<char> command_v(bufferSize);
-    convert(command_v, command);
-
 
     try {
-        client.sock.connect(client.ep);
-    } catch(...) {
-        return 0;
+        client.stream.socket().connect(client.ep);
+    } catch (...) {
+        return false;
     }
 
-    client.sock.write_some(buffer(command_v));
+    client.stream << command << std::endl;
 
-    std::vector<char> nickname_v(bufferSize);
-    std::vector<char> password_v(bufferSize);
+    client.stream << nickname.toStdString() << std::endl;
+    client.stream << password.toStdString() << std::endl;
 
-    convert(nickname_v, nickname);
-    convert(password_v, password);
-
-    client.sock.write_some(buffer(nickname_v));
-    client.sock.write_some(buffer(password_v));
-
-    char msg_from_server[bufferSize];
-    boost::system::error_code error;
-    client.sock.read_some(buffer(msg_from_server), error);
+    std::string msg_from_server;
+    std::getline(client.stream, msg_from_server);
 
     //никнейм и пароль совпали
-    if (!strcmp(msg_from_server, "ok")) {
-        char user_id_[bufferSize];
-        read(client.sock, buffer(user_id_));
-        //client.sock.read_some(buffer(user_id_, 16), error);
-        std::string tmp(user_id_);
-        user_id = QString::fromStdString(tmp);
-        client.sock.close();
+    if (msg_from_server == "ok") {
+
+        std::string user_id_;
+        std::getline(client.stream, user_id_);
+        user_id = QString::fromStdString(user_id_);
+        client.stream.socket().shutdown(ip::tcp::socket::shutdown_send);
         return 3;
     //такого никнейма нет
-    } else if (!strcmp(msg_from_server, "unavailable-nickname")) {
+    } else if (msg_from_server == "unavailable-nickname") {
         return 1;
     }
 
@@ -163,40 +130,29 @@ int Client::sing_up(const QString &nickname, const QString &password, QString &u
     Client client;
 
     std::string command("sign-up");
-    std::vector<char> command_v(bufferSize);
-    convert(command_v, command);
 
     try {
-        client.sock.connect(client.ep);
-    } catch(...) {
-        return 0;
+        client.stream.socket().connect(client.ep);
+    } catch (...) {
+        return false;
     }
 
-    client.sock.write_some(buffer(command_v));
+    client.stream << command << std::endl;
 
-    std::vector<char> nickname_v(bufferSize);
-    std::vector<char> password_v(bufferSize);
 
-    convert(nickname_v, nickname);
-    convert(password_v, password);
+    client.stream << nickname.toStdString() << std::endl;
+    client.stream << password.toStdString() << std::endl;
 
-    client.sock.write_some(buffer(nickname_v));
-    client.sock.write_some(buffer(password_v));
 
-    char msg_from_server[bufferSize];
-    boost::system::error_code error;
-    client.sock.read_some(buffer(msg_from_server), error);
+    std::string msg_from_server;
+    std::getline(client.stream, msg_from_server);
+    if (msg_from_server =="ok") {
 
-    if (!strcmp(msg_from_server, "ok")) {
+        std::string user_id_;
+        std::getline(client.stream, user_id_);
+        user_id = QString::fromStdString(user_id_);
+        client.stream.socket().shutdown(ip::tcp::socket::shutdown_send);
 
-        char user_id_[bufferSize];
-        read(client.sock, buffer(user_id_), 16);
-        //client.sock.read_some(buffer(user_id_, 16), error);
-        size = strlen(user_id_);
-        std::string tmp(user_id_);
-        user_id = QString::fromStdString(tmp);
-
-        client.sock.close();
         return 2;
     }
 
@@ -209,30 +165,21 @@ int Client::subscribe(const QString &nickname, const QString &user_id) {
     Client client;
 
     std::string command("subscribe");
-    std::vector<char> command_v(bufferSize);
-    convert(command_v, command);
 
     try {
-        client.sock.connect(client.ep);
-    } catch(...) {
-        return 0;
+        client.stream.socket().connect(client.ep);
+    } catch (...) {
+        return false;
     }
 
-    client.sock.write_some(buffer(command_v));
+    client.stream << command << std::endl;
+    client.stream << nickname.toStdString() << std::endl;
+    client.stream << user_id.toStdString() << std::endl;
 
-     std::vector<char> nickname_v(bufferSize);
-    std::vector<char> user_id_v(bufferSize);
-    convert(nickname_v, nickname);
-    convert(user_id_v, user_id);
-    client.sock.write_some(buffer(nickname_v));
-     client.sock.write_some(buffer(user_id_v));
-
-    char msg_from_server[bufferSize];
-    boost::system::error_code error;
-    client.sock.read_some(buffer(msg_from_server), error);
-
-    if (!strcmp(msg_from_server, "ok")) {
-        client.sock.close();
+    std::string msg_from_server;
+    std::getline(client.stream, msg_from_server);
+    if (msg_from_server == "ok") {
+        client.stream.socket().shutdown(ip::tcp::socket::shutdown_send);
         return 2;
     }
 
