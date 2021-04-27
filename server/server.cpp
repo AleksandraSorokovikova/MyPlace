@@ -9,7 +9,6 @@
 #include <mutex>
 
 using namespace boost::asio;
-typedef boost::shared_ptr<ip::tcp::socket> socket_ptr;
 typedef boost::shared_ptr<ip::tcp::iostream> stream_ptr;
 Label_List labelList;
 User_List userList;
@@ -38,14 +37,73 @@ void session(stream_ptr stream) {
 
         } else if (command == "update") {
 
+            std::string user_id;
+            std::getline(*stream, user_id);
+
             std::cout << "available users: " << '\n';
             for (auto x : userList.nickname_list) {
                 std::cout << x << '\n';
             }
 
-            *stream << std::to_string(labelList.size()) << std::endl;
+            User user = userList.get_user_by_nickname(activeUsers.get_nickname(user_id));
+            size_t number_of_labels = user.labels.size();
+
+            for (auto subscribe : user.subscribes) {
+                User user_subscribe = userList.get_user_by_nickname(subscribe);
+                number_of_labels += user_subscribe.labels.size();
+            }
+
+            std::cout << "NUMBER OF LABELS IS " << user.number_of_labels << '\n';
+            *stream << std::to_string(number_of_labels) << std::endl;
 
 
+            std::cout << "Subscribes of: " << user.nickname << '\n';
+            for (auto x : user.subscribes) {
+                std::cout << x << '\n';
+            }
+
+            for (auto label_id : user.labels) {
+                Label subscribe_label = labelList.get_by_id(label_id);
+                std::cout << "Sending label..." << '\n';
+                std::cout << subscribe_label.id << '\n';
+                std::cout << subscribe_label.name << '\n';
+                std::cout << subscribe_label.nickname << '\n';
+                std::cout << subscribe_label.type << '\n';
+                std::cout << subscribe_label.description << '\n';
+                std::cout << subscribe_label.address << '\n';
+
+                *stream << subscribe_label.id << std::endl;
+                *stream << subscribe_label.name << std::endl;
+                *stream << subscribe_label.nickname << std::endl;
+                *stream << subscribe_label.type << std::endl;
+                *stream << subscribe_label.description << std::endl;
+                *stream << subscribe_label.address << std::endl;
+            }
+
+            for (auto subscribe : user.subscribes) {
+                User user_subscribe = userList.get_user_by_nickname(subscribe);
+                for (auto label_id : user_subscribe.labels) {
+                    Label subscribe_label = labelList.get_by_id(label_id);
+                    std::cout << "Sending label..." << '\n';
+                    std::cout << subscribe_label.id << '\n';
+                    std::cout << subscribe_label.name << '\n';
+                    std::cout << subscribe_label.nickname << '\n';
+                    std::cout << subscribe_label.type << '\n';
+                    std::cout << subscribe_label.description << '\n';
+                    std::cout << subscribe_label.address << '\n';
+
+                    *stream << subscribe_label.id << std::endl;
+                    *stream << subscribe_label.name << std::endl;
+                    *stream << subscribe_label.nickname << std::endl;
+                    *stream << subscribe_label.type << std::endl;
+                    *stream << subscribe_label.description << std::endl;
+                    *stream << subscribe_label.address << std::endl;
+
+                }
+            }
+
+
+            /*
             for (auto x : labelList.data) {
                 std::cout << "Sending label..." << '\n';
                 std::cout << x.second.id << '\n';
@@ -56,7 +114,9 @@ void session(stream_ptr stream) {
                 *stream << x.second.type << std::endl;
                 *stream << x.second.description << std::endl;
                 *stream << x.second.address << std::endl;
+
             }
+        */
 
             boost::this_thread::sleep(boost::posix_time::millisec(200));
 
@@ -85,7 +145,8 @@ void session(stream_ptr stream) {
 
             door.lock();
             labelList.add(label);
-            userList.data.find(nickname)->second.add_label(label.id);
+            userList.add_label_for_current_user(nickname, label.id);
+            //userList.data.find(nickname)->second.add_label(label.id);
             door.unlock();
 
             std::cout << "labels of " << nickname << ": " << '\n';
@@ -185,11 +246,12 @@ void session(stream_ptr stream) {
             std::cout << "other nickname: " << other_nickname << '\n';
             std::vector<char> msg_to_client(max_length);
 
-            if (!userList.nickname_in_list(nickname)) {
+            if (!userList.nickname_in_list(nickname) || nickname == other_nickname) {
                 *stream << "unavailable-nickname" << std::endl;
                 boost::this_thread::sleep(boost::posix_time::millisec(200));
             } else {
-                userList.data.find(nickname)->second.subscribe(other_nickname);
+                User other_user = userList.data.find(nickname)->second;
+                userList.data.find(nickname)->second.subscribe(other_nickname, other_user.labels.size());
                 *stream << "ok" << std::endl;
 
                 boost::this_thread::sleep(boost::posix_time::millisec(200));

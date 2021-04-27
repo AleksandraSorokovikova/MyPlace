@@ -19,7 +19,6 @@ bool Client::add_label(const QString &name, const QString &user_id, const QStrin
     Client client;
     std::string command("add-label");
 
-
     try {
         client.stream.socket().connect(client.ep);
     } catch (...) {
@@ -47,7 +46,7 @@ bool Client::add_label(const QString &name, const QString &user_id, const QStrin
 }
 
 
-bool Client::update_label_list(Label_List &labelList) {
+bool Client::update_label_list(Label_List &labelList, const QString &user_id) {
 
     Client client;
 
@@ -59,6 +58,7 @@ bool Client::update_label_list(Label_List &labelList) {
         return false;
     }
     client.stream << command << std::endl;
+    client.stream << user_id.toStdString() << std::endl;
 
     std::string size_;
     std::getline(client.stream, size_);
@@ -79,7 +79,6 @@ bool Client::update_label_list(Label_List &labelList) {
 
         Label label(id, name, nickname, type, description, address);
         labelList.add(label);
-
     }
 
     client.stream.socket().shutdown(ip::tcp::socket::shutdown_send);

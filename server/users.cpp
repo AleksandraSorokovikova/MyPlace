@@ -35,8 +35,17 @@ void User_List::add(const User &user) {
     return data.find(nickname)->second.password == password;
 }
 
-void User::subscribe(const std::string &nickname_) {
+void User_List::add_label_for_current_user(const std::string &nickname, const std::string &label_id) {
+    data.find(nickname)->second.add_label(label_id);
+}
+
+User User_List::get_user_by_nickname(const std::string &nickname) const {
+    return data.find(nickname)->second;
+}
+
+void User::subscribe(const std::string &nickname_, size_t size) {
     subscribes.push_back(nickname_);
+    number_of_labels += size;
 }
 
 void User::add_label(const std::string &id_) {

@@ -53,3 +53,7 @@ size_t Label_List::size() {
     return data.size();
 }
 
+Label Label_List::get_by_id(const std::string &id){
+    return data.find(id)->second;
+}
+

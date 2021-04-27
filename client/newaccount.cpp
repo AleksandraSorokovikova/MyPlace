@@ -33,7 +33,7 @@ void newaccount::on_pushButton_clicked()
         case 2:
             hide();
             //QMessageBox::about(this, "Select new nickname", QString::number(size));
-            win = new MenuWindow(this, user_id);
+            win = new MenuWindow(this, user_id, nickname);
             win->show();
         break;
 

@@ -22,14 +22,14 @@ struct User {
     }
 
     [[nodiscard]] std::string create_id(const User_List &userList) const;
-    void subscribe(const std::string &nickname);
+    void subscribe(const std::string &nickname, size_t size);
     void add_label(const std::string &id);
     std::string nickname;
     std::string password;
     std::string id;
     std::vector<std::string> subscribes{};
     std::vector<std::string> labels{};
-
+    size_t number_of_labels;
 
     friend User_List;
 };
@@ -40,6 +40,8 @@ struct User_List {
     [[nodiscard]] bool id_in_list(const std::string &id) const;
     [[nodiscard]] bool nickname_in_list(const std::string &nickname) const;
     [[nodiscard]] bool right_password(const std::string &nickname, const std::string &password) const;
+    void add_label_for_current_user(const std::string &nickname, const std::string &label_id);
+    [[nodiscard]] User get_user_by_nickname(const std::string &nickname) const;
 
     //ключ - никнейм
     std::map<std::string, User> data;

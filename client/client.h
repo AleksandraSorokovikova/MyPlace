@@ -24,7 +24,7 @@ struct Client {
     static void convert(std::vector<char> &c, const std::string &s);
     static void convert(std::vector<char> &c, const QString &qs);
     [[nodiscard]] static bool add_label(const QString &name, const QString &user_id, const QString &type, const QString &description, const QString &address);
-    [[nodiscard]] static bool update_label_list(Label_List &labelList);
+    [[nodiscard]] static bool update_label_list(Label_List &labelList, const QString &user_id);
     [[nodiscard]] static int sing_in(const QString &nickname, const QString &password, QString &user_id);
     [[nodiscard]] static int sing_up(const QString &nickname, const QString &password, QString &user_id, int &size);
     [[nodiscard]] static int subscribe(const QString &nickname, const QString &user);

@@ -10,9 +10,9 @@
 
 Label_List labelList;
 
-MenuWindow::MenuWindow(QWidget *parent, QString id) :
+MenuWindow::MenuWindow(QWidget *parent, QString id, QString nickname_) :
     QMainWindow(parent),
-    ui(new Ui::MenuWindow), user_id(id)
+    ui(new Ui::MenuWindow), user_id(id), nickname(nickname_)
 {
     ui->setupUi(this);
     QPixmap pix(":/img/img/mapss.png");
@@ -28,7 +28,7 @@ MenuWindow::~MenuWindow()
 }
 
 void MenuWindow::update(){
-    if (Client::update_label_list(labelList) == 0) {
+    if (Client::update_label_list(labelList, user_id) == 0) {
         QMessageBox::warning(this, "Failed to connect", "No connection to server");
     } else {
         ui->listWidget->clear();
@@ -36,6 +36,7 @@ void MenuWindow::update(){
             QListWidgetItem *item = new QListWidgetItem(QString::fromStdString(labelList.get_by_id(x).name));
             QVariant item_(QString::fromStdString(x));
             item->setData(12, item_);
+
             ui->listWidget->addItem(item);
         }
     }
@@ -46,13 +47,12 @@ void MenuWindow::on_add_label_clicked()
     CreaterLabel creater(user_id);
     creater.setModal(true);
     creater.exec();
-    //usleep(300'000);
     update();
 }
 
-void MenuWindow::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
-{
-    OpenLabel open(labelList.get_by_id(item->data(12).toString().toStdString().c_str()));
+void MenuWindow::on_listWidget_itemDoubleClicked(QListWidgetItem *item) {
+
+    OpenLabel open(labelList.get_by_id(item->data(12).toString().toStdString()));
     open.setModal(true);
     open.exec();
 }
@@ -62,4 +62,15 @@ void MenuWindow::on_search_account_clicked()
     SearchAccounts search(nullptr, user_id);
     search.setModal(true);
     search.exec();
+    update();
+}
+
+void MenuWindow::on_update_clicked()
+{
+    update();
+}
+
+void MenuWindow::on_current_user_clicked()
+{
+    QMessageBox::about(this, "nickname", nickname);
 }

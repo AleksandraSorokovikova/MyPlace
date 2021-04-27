@@ -46,11 +46,12 @@ struct Label_List {
    void add(const Label &label);
    void reset();
    void print_labels();
+   Label get_by_id(const std::string &id);
 
-    size_t size();
+   size_t size();
 
-    std::map<std::string, Label> data;
-    std::set<std::string> id_list;
+   std::map<std::string, Label> data;
+   std::set<std::string> id_list;
 };
 
 

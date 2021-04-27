@@ -45,7 +45,7 @@ void MainWindow::on_pushButton_clicked()
             break;
         case 3:
             hide();
-            win = new MenuWindow(this, user_id);
+            win = new MenuWindow(this, user_id, nickname);
             win->show();
         break;
         }
