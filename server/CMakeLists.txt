@@ -1,24 +1,12 @@
-cmake_minimum_required(VERSION 3.17)
-project(BoostTest)
+cmake_minimum_required(VERSION 3.19)
+project(server)
 
 set(CMAKE_CXX_STANDARD 17)
 
-find_package(Boost 1.72.0 COMPONENTS system filesystem REQUIRED)
+set(BOOST_ROOT /Users/evgeniavu/Desktop/StudyHSE/boost_1_75_0)
+set(Boost_USE_STATIC_LIBS ON)
+find_package(Boost COMPONENTS system thread)
 
-if(Boost_FOUND)
-
-    message(STATUS "Boost_INCLUDE_DIRS: ${Boost_INCLUDE_DIRS}")
-    message(STATUS "Boost_LIBRARIES: ${Boost_LIBRARIES}")
-    message(STATUS "Boost_VERSION: ${Boost_VERSION}")
-
-    include_directories(${Boost_INCLUDE_DIRS})
-
-endif()
-
-add_executable(BoostTest main.cpp)
-
-if(Boost_FOUND)
-
-    target_link_libraries(BoostTest ${Boost_LIBRARIES})
-
-endif()
+include_directories(${Boost_INCLUDE_DIR})
+add_executable(server server.cpp label.cpp users.cpp)
+target_link_libraries(server ${Boost_LIBRARIES})
