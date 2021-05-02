@@ -28,6 +28,8 @@ private slots:
 
     void on_my_account_clicked();
 
+    void on_search_returnPressed();
+
 private:
     Ui::MenuWindow *ui;
     void update();

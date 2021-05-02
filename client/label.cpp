@@ -11,7 +11,7 @@
     }
 
     while(label_list.id_in_list(id)) {
-        int index = rand()%16;
+        int index = rand() % 16;
         char symbol = symbols[rand() % 37];
         id_[index] = symbol;
     }

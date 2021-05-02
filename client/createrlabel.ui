@@ -39,7 +39,7 @@ font: 16pt &quot;Avenir next&quot;;</string>
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>290</y>
+     <y>300</y>
      <width>111</width>
      <height>31</height>
     </rect>
@@ -207,9 +207,9 @@ border-color:rgb(183, 180, 200);
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>320</y>
+     <y>340</y>
      <width>461</width>
-     <height>191</height>
+     <height>171</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -220,6 +220,151 @@ border-radius: 30px;
 padding: 0 8px;
 background: rgba(243, 239, 230);
 border-color:rgba(243, 239, 230);</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="cafee">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>240</y>
+     <width>60</width>
+     <height>60</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border: 1px solid rgb(136, 138, 133, 200);
+background: rgba(243, 239, 230,230);
+border-radius:30px;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>35</width>
+     <height>35</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="hotels">
+   <property name="geometry">
+    <rect>
+     <x>88</x>
+     <y>240</y>
+     <width>60</width>
+     <height>60</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border: 1px solid rgb(136, 138, 133, 200);
+background: rgba(243, 239, 230,230);
+border-radius:30px;
+</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>35</width>
+     <height>35</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="night_club">
+   <property name="geometry">
+    <rect>
+     <x>166</x>
+     <y>240</y>
+     <width>60</width>
+     <height>60</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border: 1px solid rgb(136, 138, 133, 200);
+background: rgba(243, 239, 230,230);
+border-radius:30px;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>35</width>
+     <height>35</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="cinema">
+   <property name="geometry">
+    <rect>
+     <x>244</x>
+     <y>240</y>
+     <width>60</width>
+     <height>60</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border: 1px solid rgb(136, 138, 133, 200);
+background: rgba(243, 239, 230,230);
+border-radius:30px;</string>
+   </property>
+   <property name="text">
+    <string notr="true"/>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>35</width>
+     <height>35</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="entertainment">
+   <property name="geometry">
+    <rect>
+     <x>322</x>
+     <y>240</y>
+     <width>60</width>
+     <height>60</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border: 1px solid rgb(136, 138, 133, 200);
+background: rgba(243, 239, 230,230);
+border-radius:30px;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>35</width>
+     <height>35</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="different">
+   <property name="geometry">
+    <rect>
+     <x>400</x>
+     <y>240</y>
+     <width>60</width>
+     <height>60</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border: 1px solid rgb(136, 138, 133, 200);
+background: rgba(243, 239, 230,230);
+border-radius:30px;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>35</width>
+     <height>35</height>
+    </size>
    </property>
   </widget>
  </widget>

@@ -78,3 +78,8 @@ void MenuWindow::on_my_account_clicked()
 {
     QMessageBox::about(this, "nickname", nickname);
 }
+
+void MenuWindow::on_search_returnPressed()
+{
+    on_search_button_pressed();
+}

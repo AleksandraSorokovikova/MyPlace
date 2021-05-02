@@ -13,6 +13,18 @@ CreaterLabel::CreaterLabel(QString id, QWidget *parent) :
 {
     ui->setupUi(this);
     setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
+    QPixmap cafee_icon(":/img/img/fork 2.png");
+    QPixmap cinema_icon(":/img/img/popcorn.png");
+    QPixmap club_icon(":/img/img/dj-booth.png");
+    QPixmap hotels_icon(":/img/img/bed.png");
+    QPixmap entr_icon(":/img/img/confetti.png");
+    QPixmap different_icon(":/img/img/more.png");
+    ui->cafee->setIcon(cafee_icon);
+    ui->hotels->setIcon(hotels_icon);
+    ui->night_club->setIcon(club_icon);
+    ui->cinema->setIcon(cinema_icon);
+    ui->different->setIcon(different_icon);
+    ui->entertainment->setIcon(entr_icon);
 }
 
 CreaterLabel::~CreaterLabel()

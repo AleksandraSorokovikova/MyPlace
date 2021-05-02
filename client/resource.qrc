@@ -1,13 +1,18 @@
 <RCC>
     <qresource prefix="/img">
-        <file>img/Карта-2.png</file>
-        <file>img/update.png</file>
-        <file>img/cafee.png</file>
         <file>img/res.jpg</file>
         <file>img/map.png</file>
         <file>img/mapss.png</file>
-        <file>img/fork.png</file>
         <file>img/search.png</file>
         <file>img/refresh.png</file>
+        <file>img/bed.png</file>
+        <file>img/dj-booth.png</file>
+        <file>img/fork 2.png</file>
+        <file>img/popcorn.png</file>
+        <file>img/more.svg</file>
+        <file>img/popcorn.svg</file>
+        <file>img/popcorn-8.png</file>
+        <file>img/confetti.png</file>
+        <file>img/more.png</file>
     </qresource>
 </RCC>
