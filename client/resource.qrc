@@ -7,5 +7,7 @@
         <file>img/map.png</file>
         <file>img/mapss.png</file>
         <file>img/fork.png</file>
+        <file>img/search.png</file>
+        <file>img/refresh.png</file>
     </qresource>
 </RCC>

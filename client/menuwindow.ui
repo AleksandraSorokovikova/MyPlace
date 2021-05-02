@@ -60,9 +60,9 @@ QMenuBar::item {
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>0</y>
+      <y>80</y>
       <width>261</width>
-      <height>641</height>
+      <height>561</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -104,44 +104,150 @@ text-align: center;</string>
      <string>+</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="search_account">
+   <widget class="QFrame" name="frame">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>530</y>
-      <width>171</width>
-      <height>32</height>
+      <x>0</x>
+      <y>0</y>
+      <width>261</width>
+      <height>81</height>
      </rect>
     </property>
-    <property name="text">
-     <string>Найти пользователя</string>
+    <property name="styleSheet">
+     <string notr="true">background:rgba(243,239,230);</string>
     </property>
-   </widget>
-   <widget class="QPushButton" name="update">
-    <property name="geometry">
-     <rect>
-      <x>70</x>
-      <y>490</y>
-      <width>113</width>
-      <height>32</height>
-     </rect>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
     </property>
-    <property name="text">
-     <string>update</string>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
     </property>
-   </widget>
-   <widget class="QPushButton" name="current_user">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>570</y>
-      <width>113</width>
-      <height>32</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Current user</string>
-    </property>
+    <widget class="QLineEdit" name="search">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>211</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border: 1px solid rgb(136, 138, 133, 150);
+color: rgb(85, 87, 83);
+font: 16pt &quot;Avenir next&quot;;
+border-radius: 10px;
+background: rgba(0,0,0,20);</string>
+     </property>
+     <property name="placeholderText">
+      <string>Search</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="search_button">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>5</y>
+       <width>41</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-weight:bold; 
+color:#3c3a3a; 
+background:transparent; 
+font: 19pt &quot;Avenir next&quot;;
+border-radius:30px;
+border-bottom:0px solid #3c3a3a
+</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="subscribes">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>50</y>
+       <width>71</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-weight:bold; 
+color:#3c3a3a; 
+background:transparent; 
+font: 15pt &quot;Avenir next&quot;;
+border-radius:30px;
+border-bottom:1px solid #3c3a3a</string>
+     </property>
+     <property name="text">
+      <string>subscribes</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="labels">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>50</y>
+       <width>51</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-weight:bold; 
+color:#3c3a3a; 
+background:transparent; 
+font: 15pt &quot;Avenir next&quot;;
+border-radius:30px;
+border-bottom:1px solid #3c3a3a</string>
+     </property>
+     <property name="text">
+      <string>labels</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="update">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>50</y>
+       <width>31</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-weight:bold; 
+color:#3c3a3a; 
+background:transparent; 
+font: 19pt &quot;Avenir next&quot;;
+border-radius:30px;
+border-bottom:0px solid #3c3a3a</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="my_account">
+     <property name="geometry">
+      <rect>
+       <x>170</x>
+       <y>50</y>
+       <width>91</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-weight:bold; 
+color:#3c3a3a; 
+background:transparent; 
+font: 15pt &quot;Avenir next&quot;;
+border-radius:30px;
+border-bottom:1px solid #3c3a3a</string>
+     </property>
+     <property name="text">
+      <string>my account</string>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

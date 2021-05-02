@@ -19,7 +19,7 @@ void OpenLabel::Set_field(const Label &label) {
     std::string field = (label.name.empty()) ? "empty" : label.name;
     ui->name->setText(QString::fromStdString(field));
     ui->address->setText(QString::fromStdString(label.address));
-    ui->nickname->setText(QString::fromStdString(label.nickname));
+    ui->nickname->setText("@" + QString::fromStdString(label.nickname));
     ui->type->setText(QString::fromStdString(label.type));
     ui->description->setReadOnly(true);
     ui->description->setText(QString::fromStdString(label.description));

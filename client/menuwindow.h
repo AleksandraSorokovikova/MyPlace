@@ -22,11 +22,11 @@ private slots:
 
     void on_listWidget_itemDoubleClicked(QListWidgetItem *item);
 
-    void on_search_account_clicked();
-
     void on_update_clicked();
 
-    void on_current_user_clicked();
+    void on_search_button_pressed();
+
+    void on_my_account_clicked();
 
 private:
     Ui::MenuWindow *ui;

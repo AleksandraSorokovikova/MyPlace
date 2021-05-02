@@ -7,33 +7,84 @@
     <x>0</x>
     <y>0</y>
     <width>347</width>
-    <height>148</height>
+    <height>357</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QLineEdit" name="nickname">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>40</y>
-     <width>321</width>
-     <height>31</height>
-    </rect>
-   </property>
-  </widget>
+  <property name="styleSheet">
+   <string notr="true">background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(142, 208, 186, 255), stop:1 rgba(255, 173, 173, 255))</string>
+  </property>
   <widget class="QPushButton" name="subscribe">
    <property name="geometry">
     <rect>
-     <x>110</x>
-     <y>100</y>
-     <width>113</width>
-     <height>32</height>
+     <x>220</x>
+     <y>300</y>
+     <width>91</width>
+     <height>31</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:rgb(42, 44, 42);
+border: 1px solid rgb(85, 87, 83);
+border-radius: 15px;
+background:rgba(243,239,230, 200);
+border: 1px solid gray;
+font: 100 17pt &quot;Avenir next&quot;;
+border-color:rgb(183, 180, 200);</string>
    </property>
    <property name="text">
     <string>Subscribe</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>291</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Тут будет информация о пользователе</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="nickname">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>100</y>
+     <width>141</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>name</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="cancel">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>300</y>
+     <width>71</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:rgb(42, 44, 42);
+border: 1px solid rgb(85, 87, 83);
+border-radius: 15px;
+background:rgba(243,239,230, 200);
+border: 1px solid gray;
+font: 100 17pt &quot;Avenir next&quot;;
+border-color:rgb(183, 180, 200);
+</string>
+   </property>
+   <property name="text">
+    <string>cancel</string>
    </property>
   </widget>
  </widget>

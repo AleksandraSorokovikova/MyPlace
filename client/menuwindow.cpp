@@ -19,6 +19,10 @@ MenuWindow::MenuWindow(QWidget *parent, QString id, QString nickname_) :
     int w = ui->image->width();
     int h = ui->image->height();
     ui->image->setPixmap(pix.scaled(w, h, Qt::KeepAspectRatio));
+    QPixmap folderbutt(":/img/img/search.png");
+    ui->search_button->setIcon(folderbutt);
+    QPixmap folderbut(":/img/img/refresh.png");
+    ui->update->setIcon(folderbut);
     update();
 }
 
@@ -32,7 +36,7 @@ void MenuWindow::update(){
         QMessageBox::warning(this, "Failed to connect", "No connection to server");
     } else {
         ui->listWidget->clear();
-        for(auto x : labelList.id_list) {
+        for(const auto &x : labelList.id_list) {
             QListWidgetItem *item = new QListWidgetItem(QString::fromStdString(labelList.get_by_id(x).name));
             QVariant item_(QString::fromStdString(x));
             item->setData(12, item_);
@@ -57,20 +61,20 @@ void MenuWindow::on_listWidget_itemDoubleClicked(QListWidgetItem *item) {
     open.exec();
 }
 
-void MenuWindow::on_search_account_clicked()
-{
-    SearchAccounts search(nullptr, user_id);
-    search.setModal(true);
-    search.exec();
-    update();
-}
-
 void MenuWindow::on_update_clicked()
 {
     update();
 }
 
-void MenuWindow::on_current_user_clicked()
+void MenuWindow::on_search_button_pressed()
+{
+    SearchAccounts search(nullptr, user_id, ui->search->text());
+    search.setModal(true);
+    search.exec();
+    update();
+}
+
+void MenuWindow::on_my_account_clicked()
 {
     QMessageBox::about(this, "nickname", nickname);
 }

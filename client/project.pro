@@ -24,10 +24,8 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     menuwindow.cpp \
-    newaccount.cpp \
     openlabel.cpp \
     searchaccounts.cpp \
-    secondwindow.cpp \
     users.cpp
 
 HEADERS += \
@@ -36,20 +34,16 @@ HEADERS += \
     label.h \
     mainwindow.h \
     menuwindow.h \
-    newaccount.h \
     openlabel.h \
     searchaccounts.h \
-    secondwindow.h \
     users.h
 
 FORMS += \
     createrlabel.ui \
     mainwindow.ui \
     menuwindow.ui \
-    newaccount.ui \
     openlabel.ui \
-    searchaccounts.ui \
-    secondwindow.ui
+    searchaccounts.ui
 
 TRANSLATIONS += \
     Project_ru_RU.ts

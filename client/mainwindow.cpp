@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "secondwindow.h"
 #include "menuwindow.h"
 #include "client.h"
 #include<QMessageBox>
@@ -21,9 +20,17 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_2_clicked()
 {
-    hide();
-    new_accoount = new newaccount(this);
-    new_accoount->show();
+    if(ui->sign_in->text() == "Sign in") {
+        ui->sign_in->setText("Sign up");
+        ui->pushButton_2->setText("Already have account");
+        ui->pushButton->setText("Sign up");
+    } else {
+        ui->sign_in->setText("Sign in");
+        ui->pushButton_2->setText("Create new account");
+        ui->pushButton->setText("Sign in");
+    }
+    ui->nickname->clear();
+    ui->password->clear();
 }
 
 void MainWindow::on_pushButton_clicked()
@@ -32,25 +39,48 @@ void MainWindow::on_pushButton_clicked()
     QString password = ui->password->text();
     QString user_id{};
     if (nickname != "" &&  password != "") {
-    int return_code = Client::sing_in(nickname, password, user_id);
-    switch (return_code) {
-        case 0:
-            QMessageBox::warning(this, "Failed to connect", "No connection to server");
+        if (ui->sign_in->text() == "Sign in") {
+            int return_code = Client::sing_in(nickname, password, user_id);
+            switch (return_code) {
+            case 0:
+                QMessageBox::warning(this, "Failed to connect", "No connection to server");
+                break;
+            case 1:
+                ui->statusBar->showMessage("Enter another nickname");
+                ui->nickname->clear();
+                ui->password->clear();
+                break;
+            case 2:
+                ui->statusBar->showMessage("Enter another password");
+                ui->password->clear();
+                break;
+            case 3:
+                hide();
+                win = new MenuWindow(this, user_id, nickname);
+                win->show();
             break;
-        case 1:
-            QMessageBox::about(this, "Unavailable nickname", "Enter another nickname");
-            break;
-        case 2:
-            QMessageBox::about(this, "Unavailable password", "Enter another password");
-            break;
-        case 3:
-            hide();
-            win = new MenuWindow(this, user_id, nickname);
-            win->show();
-        break;
+            }
         }
+            else {
+                QString user_id{};
+                int size;
+                int return_code = Client::sing_up(nickname, password, user_id, size);
+                switch (return_code) {
+                    case 0:
+                        QMessageBox::warning(this, "Failed to connect", "No connection to server");
+                        break;
+                    case 1:
+                        ui->statusBar->showMessage("Nickname is already in use");
+                        break;
+                    case 2:
+                        hide();
+                        win = new MenuWindow(this, user_id, nickname);
+                        win->show();
+                    break;
+                }
+            }
     }
     else {
-        QMessageBox::about(this, "Empty fields", "Insert all data");
+        ui->statusBar->showMessage("Insert all data");
     }
 }
