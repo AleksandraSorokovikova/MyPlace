@@ -25,13 +25,13 @@ void SearchAccounts::on_subscribe_clicked()
     if (nickname != "") {
     int return_code = Client::subscribe(nickname, user_id);
     switch (return_code) {
-        case 0:
+        case NO_CONNECTION:
             QMessageBox::warning(this, "Failed to connect", "No connection to server");
             break;
-        case 1:
+        case SERVER_WRONG_NICKNAME:
             QMessageBox::about(this, "Unavailable nickname", "Enter new nickname");
             break;
-        case 2:
+        case SERVER_OK:
             hide();
             break;
         }

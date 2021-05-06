@@ -1,31 +1,18 @@
 #include"client.h"
 #include <iostream>
 
-void Client::convert(std::vector<char> &c, const std::string &s) {
-    for (size_t i = 0; i < s.length(); i++) {
-        c[i] = s[i];
-    }
-}
 
-void Client::convert(std::vector<char> &c, const QString &qs) {
-    std::string s = qs.toStdString().c_str();
-    for (size_t i = 0; i < s.length(); i++) {
-        c[i] = s[i];
-    }
-}
-
-bool Client::add_label(const QString &name, const QString &user_id, const QString &type, const QString &description, const QString &address) {
+server_response Client::add_label(const QString &name, const QString &user_id, const QString &type, const QString &description, const QString &address) {
 
     Client client;
-    std::string command("add-label");
 
     try {
         client.stream.socket().connect(client.ep);
     } catch (...) {
-        return false;
+        return NO_CONNECTION;
     }
 
-    client.stream << command << std::endl;
+    client.stream << ADD_LABEL << std::endl;
 
     client.stream << name.toStdString() << std::endl;
     client.stream << user_id.toStdString() << std::endl;
@@ -36,28 +23,26 @@ bool Client::add_label(const QString &name, const QString &user_id, const QStrin
     std::string msg_from_server;
     std::getline(client.stream, msg_from_server);
 
-    if (msg_from_server =="ok") {
+    if (std::stoi(msg_from_server) == SERVER_OK) {
         client.stream.socket().shutdown(ip::tcp::socket::shutdown_send);
-        return true;
+        return SERVER_OK;
     }
 
-    return false;
+    return NO_CONNECTION;
 
 }
 
 
-bool Client::update_label_list(Label_List &labelList, const QString &user_id) {
+server_response Client::update_label_list(Label_List &labelList, const QString &user_id) {
 
     Client client;
-
-    std::string command("update");
 
     try {
         client.stream.socket().connect(client.ep);
     } catch (...) {
-        return false;
+        return NO_CONNECTION;
     }
-    client.stream << command << std::endl;
+    client.stream << UPDATE << std::endl;
     client.stream << user_id.toStdString() << std::endl;
 
     std::string size_;
@@ -83,23 +68,21 @@ bool Client::update_label_list(Label_List &labelList, const QString &user_id) {
 
     client.stream.socket().shutdown(ip::tcp::socket::shutdown_send);
 
-    return true;
+    return SERVER_OK;
 
 }
 
-int Client::sing_in(const QString &nickname, const QString &password, QString &user_id) {
+server_response Client::sing_in(const QString &nickname, const QString &password, QString &user_id) {
 
     Client client;
-
-    std::string command("sign-in");
 
     try {
         client.stream.socket().connect(client.ep);
     } catch (...) {
-        return false;
+        return NO_CONNECTION;
     }
 
-    client.stream << command << std::endl;
+    client.stream << SIGN_IN << std::endl;
 
     client.stream << nickname.toStdString() << std::endl;
     client.stream << password.toStdString() << std::endl;
@@ -108,36 +91,33 @@ int Client::sing_in(const QString &nickname, const QString &password, QString &u
     std::getline(client.stream, msg_from_server);
 
     //никнейм и пароль совпали
-    if (msg_from_server == "ok") {
+    if (std::stoi(msg_from_server) == SERVER_OK) {
 
         std::string user_id_;
         std::getline(client.stream, user_id_);
         user_id = QString::fromStdString(user_id_);
         client.stream.socket().shutdown(ip::tcp::socket::shutdown_send);
-        return 3;
+        return SERVER_OK;
     //такого никнейма нет
-    } else if (msg_from_server == "unavailable-nickname") {
-        return 1;
+    } else if (std::stoi(msg_from_server) == SERVER_UNAVAILABLE_NICKNAME) {
+        return SERVER_UNAVAILABLE_NICKNAME;
     }
 
     //не совпал пароль
-    return 2;
+    return SERVER_UNAVAILABLE_PASSWORD;
 }
 
-int Client::sing_up(const QString &nickname, const QString &password, QString &user_id, int &size) {
+server_response Client::sing_up(const QString &nickname, const QString &password, QString &user_id, int &size) {
 
     Client client;
-
-    std::string command("sign-up");
 
     try {
         client.stream.socket().connect(client.ep);
     } catch (...) {
-        return false;
+        return NO_CONNECTION;
     }
 
-    client.stream << command << std::endl;
-
+    client.stream << SIGN_UP << std::endl;
 
     client.stream << nickname.toStdString() << std::endl;
     client.stream << password.toStdString() << std::endl;
@@ -145,45 +125,66 @@ int Client::sing_up(const QString &nickname, const QString &password, QString &u
 
     std::string msg_from_server;
     std::getline(client.stream, msg_from_server);
-    if (msg_from_server =="ok") {
+    if (std::stoi(msg_from_server) == SERVER_OK) {
 
         std::string user_id_;
         std::getline(client.stream, user_id_);
         user_id = QString::fromStdString(user_id_);
         client.stream.socket().shutdown(ip::tcp::socket::shutdown_send);
 
-        return 2;
+        return SERVER_OK;
     }
 
     //nickname is in use
-    return 1;
+    return SERVER_NICKNAME_EXISTS;
 }
 
-int Client::subscribe(const QString &nickname, const QString &user_id) {
+server_response Client::subscribe(const QString &nickname, const QString &user_id) {
 
     Client client;
-
-    std::string command("subscribe");
 
     try {
         client.stream.socket().connect(client.ep);
     } catch (...) {
-        return false;
+        return NO_CONNECTION;
     }
 
-    client.stream << command << std::endl;
+    client.stream << SUBSCRIBE << std::endl;
     client.stream << nickname.toStdString() << std::endl;
     client.stream << user_id.toStdString() << std::endl;
 
     std::string msg_from_server;
     std::getline(client.stream, msg_from_server);
-    if (msg_from_server == "ok") {
+    if (std::stoi(msg_from_server) == SERVER_OK) {
         client.stream.socket().shutdown(ip::tcp::socket::shutdown_send);
-        return 2;
+        return SERVER_OK;
     }
 
     //нет такого никнейма
-    return 1;
+    return SERVER_WRONG_NICKNAME;
+}
+
+server_response Client::search_account(const QString &nickname) {
+    Client client;
+
+    try {
+        client.stream.socket().connect(client.ep);
+    } catch (...) {
+        return NO_CONNECTION;
+    }
+
+    client.stream << SEARCH_ACCOUNT << std::endl;
+    client.stream << nickname.toStdString() << std::endl;
+
+    std::string msg_from_server;
+    std::getline(client.stream, msg_from_server);
+    if (std::stoi(msg_from_server) == SERVER_OK) {
+        client.stream.socket().shutdown(ip::tcp::socket::shutdown_send);
+        return SERVER_OK;
+    }
+
+    //нет такого никнейма
+    return SERVER_WRONG_NICKNAME;
 }
 
 

@@ -42,19 +42,19 @@ void MainWindow::on_pushButton_clicked()
         if (ui->sign_in->text() == "Sign in") {
             int return_code = Client::sing_in(nickname, password, user_id);
             switch (return_code) {
-            case 0:
+            case NO_CONNECTION:
                 QMessageBox::warning(this, "Failed to connect", "No connection to server");
                 break;
-            case 1:
+            case SERVER_UNAVAILABLE_NICKNAME:
                 ui->statusBar->showMessage("Enter another nickname");
                 ui->nickname->clear();
                 ui->password->clear();
                 break;
-            case 2:
+            case SERVER_UNAVAILABLE_PASSWORD:
                 ui->statusBar->showMessage("Enter another password");
                 ui->password->clear();
                 break;
-            case 3:
+            case SERVER_OK:
                 hide();
                 win = new MenuWindow(this, user_id, nickname);
                 win->show();
@@ -66,13 +66,13 @@ void MainWindow::on_pushButton_clicked()
                 int size;
                 int return_code = Client::sing_up(nickname, password, user_id, size);
                 switch (return_code) {
-                    case 0:
+                    case NO_CONNECTION:
                         QMessageBox::warning(this, "Failed to connect", "No connection to server");
                         break;
-                    case 1:
+                    case SERVER_NICKNAME_EXISTS:
                         ui->statusBar->showMessage("Nickname is already in use");
                         break;
-                    case 2:
+                    case SERVER_OK:
                         hide();
                         win = new MenuWindow(this, user_id, nickname);
                         win->show();
