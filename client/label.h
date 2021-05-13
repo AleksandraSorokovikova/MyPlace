@@ -30,7 +30,7 @@ struct Label {
             type(std::move(type_)), description(std::move(description_)), address(std::move(address_)) {}
 
     [[nodiscard]] std::string create_id(const Label_List &label_list) const;
-    void print_label();
+    void print_label() const;
 
     friend Label_List;
 

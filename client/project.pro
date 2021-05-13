@@ -35,6 +35,7 @@ HEADERS += \
     mainwindow.h \
     menuwindow.h \
     openlabel.h \
+    pix.h \
     searchaccounts.h \
     users.h
 

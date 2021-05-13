@@ -18,17 +18,19 @@ public:
     ~MenuWindow();
 
 private slots:
-    void on_add_label_clicked();
+        void on_add_label_clicked();
 
-    void on_listWidget_itemDoubleClicked(QListWidgetItem *item);
+        void on_listWidget_itemDoubleClicked(QListWidgetItem *item);
 
-    void on_update_clicked();
+        void on_update_clicked();
 
-    void on_search_button_pressed();
+        void on_search_button_pressed();
 
-    void on_my_account_clicked();
+        void on_search_returnPressed();
 
-    void on_search_returnPressed();
+        void on_my_account_2_clicked();
+
+        void on_logout_clicked();
 
 private:
     Ui::MenuWindow *ui;

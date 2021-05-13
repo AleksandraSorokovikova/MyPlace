@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>347</width>
-    <height>357</height>
+    <width>250</width>
+    <height>163</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,56 +19,8 @@
   <widget class="QPushButton" name="subscribe">
    <property name="geometry">
     <rect>
-     <x>220</x>
-     <y>300</y>
-     <width>91</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color:rgb(42, 44, 42);
-border: 1px solid rgb(85, 87, 83);
-border-radius: 15px;
-background:rgba(243,239,230, 200);
-border: 1px solid gray;
-font: 100 17pt &quot;Avenir next&quot;;
-border-color:rgb(183, 180, 200);</string>
-   </property>
-   <property name="text">
-    <string>Subscribe</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>291</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Тут будет информация о пользователе</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="nickname">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>100</y>
-     <width>141</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>name</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="cancel">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>300</y>
+     <x>160</x>
+     <y>120</y>
      <width>71</width>
      <height>31</height>
     </rect>
@@ -79,12 +31,115 @@ border: 1px solid rgb(85, 87, 83);
 border-radius: 15px;
 background:rgba(243,239,230, 200);
 border: 1px solid gray;
-font: 100 17pt &quot;Avenir next&quot;;
+font: 100 12pt &quot;Avenir next&quot;;
+border-color:rgb(183, 180, 200);</string>
+   </property>
+   <property name="text">
+    <string>subscribe</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="nickname">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>10</y>
+     <width>151</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background: transparent;
+color: rgb(85, 87, 83);
+font: 25pt &quot;Avenir next&quot;;
+</string>
+   </property>
+   <property name="text">
+    <string>name</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="cancel">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>120</y>
+     <width>71</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:rgb(42, 44, 42);
+border: 1px solid rgb(85, 87, 83);
+border-radius: 15px;
+background:rgba(243,239,230, 200);
+border: 1px solid gray;
+font: 100 12pt &quot;Avenir next&quot;;
 border-color:rgb(183, 180, 200);
 </string>
    </property>
    <property name="text">
     <string>cancel</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="photo">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>91</width>
+     <height>91</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background: rgba(243, 239, 230,230);
+border-radius:45px;
+border: 1px solid rgb(136, 138, 133, 200);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>91</width>
+     <height>91</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>50</y>
+     <width>91</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background: transparent;
+color: rgb(85, 87, 83);
+font: 13pt &quot;Avenir next&quot;;
+border-bottom:1px solid rgb(85, 87, 83, 150);</string>
+   </property>
+   <property name="text">
+    <string>count labels: </string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>70</y>
+     <width>91</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background: transparent;
+color: rgb(85, 87, 83);
+font: 13pt &quot;Avenir next&quot;;
+border-bottom:1px solid rgb(85, 87, 83, 150);</string>
+   </property>
+   <property name="text">
+    <string>subscribes:</string>
    </property>
   </widget>
  </widget>

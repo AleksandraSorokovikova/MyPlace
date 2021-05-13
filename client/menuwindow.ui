@@ -128,10 +128,10 @@ QListWidget::item {
    <widget class="QPushButton" name="add_label">
     <property name="geometry">
      <rect>
-      <x>838</x>
-      <y>576</y>
-      <width>51</width>
-      <height>51</height>
+      <x>847</x>
+      <y>494</y>
+      <width>40</width>
+      <height>40</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -139,11 +139,17 @@ QListWidget::item {
 font: 40pt &quot;Avenir next&quot;;
 color: rgba(60, 58, 59, 181);
 background:rgba(153, 173, 167,120);
-border-radius:25px;
+border-radius:20px;
 text-align: center;</string>
     </property>
     <property name="text">
-     <string>+</string>
+     <string/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>27</width>
+      <height>27</height>
+     </size>
     </property>
    </widget>
    <widget class="QFrame" name="frame">
@@ -225,9 +231,9 @@ border-bottom:0px solid #3c3a3a
     <widget class="QPushButton" name="subscribes">
      <property name="geometry">
       <rect>
-       <x>90</x>
+       <x>120</x>
        <y>50</y>
-       <width>71</width>
+       <width>101</width>
        <height>32</height>
       </rect>
      </property>
@@ -235,7 +241,7 @@ border-bottom:0px solid #3c3a3a
       <string notr="true">font-weight:bold; 
 color:#3c3a3a; 
 background:transparent; 
-font: 15pt &quot;Avenir next&quot;;
+font: 18pt &quot;Avenir next&quot;;
 border-radius:30px;
 border-bottom:1px solid #3c3a3a</string>
      </property>
@@ -246,9 +252,9 @@ border-bottom:1px solid #3c3a3a</string>
     <widget class="QPushButton" name="labels">
      <property name="geometry">
       <rect>
-       <x>30</x>
+       <x>50</x>
        <y>50</y>
-       <width>51</width>
+       <width>61</width>
        <height>32</height>
       </rect>
      </property>
@@ -256,7 +262,7 @@ border-bottom:1px solid #3c3a3a</string>
       <string notr="true">font-weight:bold; 
 color:#3c3a3a; 
 background:transparent; 
-font: 15pt &quot;Avenir next&quot;;
+font: 18pt &quot;Avenir next&quot;;
 border-radius:30px;
 border-bottom:1px solid #3c3a3a</string>
      </property>
@@ -267,7 +273,7 @@ border-bottom:1px solid #3c3a3a</string>
     <widget class="QPushButton" name="update">
      <property name="geometry">
       <rect>
-       <x>0</x>
+       <x>10</x>
        <y>50</y>
        <width>31</width>
        <height>31</height>
@@ -286,32 +292,65 @@ border-bottom:0px solid #3c3a3a</string>
      </property>
      <property name="iconSize">
       <size>
-       <width>17</width>
-       <height>17</height>
+       <width>20</width>
+       <height>20</height>
       </size>
      </property>
     </widget>
-    <widget class="QPushButton" name="my_account">
-     <property name="geometry">
-      <rect>
-       <x>170</x>
-       <y>50</y>
-       <width>91</width>
-       <height>32</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">font-weight:bold; 
-color:#3c3a3a; 
-background:transparent; 
+   </widget>
+   <widget class="QPushButton" name="my_account_2">
+    <property name="geometry">
+     <rect>
+      <x>847</x>
+      <y>540</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border: 1px solid rgb(85, 87, 83);
 font: 15pt &quot;Avenir next&quot;;
-border-radius:30px;
-border-bottom:1px solid #3c3a3a</string>
-     </property>
-     <property name="text">
-      <string>my account</string>
-     </property>
-    </widget>
+color: rgba(60, 58, 59, 181);
+background:rgba(153, 173, 167,120);
+border-radius:20px;
+text-align: center;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>27</width>
+      <height>27</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="logout">
+    <property name="geometry">
+     <rect>
+      <x>847</x>
+      <y>586</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border: 1px solid rgb(85, 87, 83);
+font: 40pt &quot;Avenir next&quot;;
+color: rgba(60, 58, 59, 181);
+background:rgba(153, 173, 167,120);
+border-radius:20px;
+text-align: center;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>27</width>
+      <height>27</height>
+     </size>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

@@ -10,8 +10,10 @@ SearchAccounts::SearchAccounts(QWidget *parent, QString id, QString subscribe_) 
     subscribe_name(subscribe_)
 {
     ui->setupUi(this);
-    ui->nickname->setText(subscribe_name);
-    setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
+       ui->nickname->setText(subscribe_name);
+       QPixmap icon(":/img/img/user-3.png");
+       ui->photo->setIcon(icon);
+       setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
 }
 
 SearchAccounts::~SearchAccounts()

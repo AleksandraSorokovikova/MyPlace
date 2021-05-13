@@ -5,7 +5,6 @@
 #include<QMessageBox>
 #include<QCloseEvent>
 
-
 CreaterLabel::CreaterLabel(QString id, QWidget *parent) :
     QDialog(parent),
     user_id(id),
@@ -37,7 +36,7 @@ void CreaterLabel::on_pushButton_clicked()
 {
     if (ui->name->text() != "" &&  ui->description->toPlainText() != "" && ui->address->text() != "") {
         name = ui->name->text();
-        type = "default";
+        //type = "default";
         description = ui->description->toPlainText();
         address = ui->address->text();
 
@@ -53,4 +52,34 @@ void CreaterLabel::on_pushButton_clicked()
 void CreaterLabel::on_pushButton_2_clicked()
 {
     hide();
+}
+
+void CreaterLabel::on_cafee_pressed()
+{
+    type = "cafee";
+}
+
+void CreaterLabel::on_hotels_pressed()
+{
+    type = "hotels";
+}
+
+void CreaterLabel::on_night_club_pressed()
+{
+    type = "club";
+}
+
+void CreaterLabel::on_cinema_pressed()
+{
+    type = "cinema";
+}
+
+void CreaterLabel::on_entertainment_pressed()
+{
+    type = "entr";
+}
+
+void CreaterLabel::on_different_pressed()
+{
+    type = "different";
 }

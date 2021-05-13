@@ -165,43 +165,6 @@ font: 18pt &quot;Avenir next&quot;;
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QFrame" name="frame">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>20</y>
-     <width>91</width>
-     <height>91</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background: rgba(243, 239, 230,230);
-border-radius:40px;</string>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Raised</enum>
-   </property>
-   <widget class="QLabel" name="type">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>40</y>
-      <width>81</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background: transparent;
-color:transparent;</string>
-    </property>
-    <property name="text">
-     <string>TextLabel</string>
-    </property>
-   </widget>
-  </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
@@ -222,15 +185,42 @@ border-radius: 30px;
     <string/>
    </property>
   </widget>
+  <widget class="QPushButton" name="type">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>20</y>
+     <width>91</width>
+     <height>91</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background: rgba(243, 239, 230,230);
+border-radius:45px;
+border: 1px solid rgb(136, 138, 133, 200);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>65</width>
+     <height>65</height>
+    </size>
+   </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
+  </widget>
   <zorder>label_2</zorder>
   <zorder>label_3</zorder>
   <zorder>pushButton</zorder>
   <zorder>nickname</zorder>
   <zorder>address</zorder>
   <zorder>name</zorder>
-  <zorder>frame</zorder>
   <zorder>label</zorder>
   <zorder>description</zorder>
+  <zorder>type</zorder>
  </widget>
  <resources/>
  <connections/>

@@ -18,7 +18,7 @@
     return id_;
 }
 
-void Label::print_label() {
+void Label::print_label() const {
     std::cout << '\n';
     std::cout << "    id: " << id << '\n';
     std::cout << "    name: " << name << '\n';
@@ -50,7 +50,7 @@ void Label_List::reset() {
 }
 
 void Label_List::print_labels() {
-    for (auto x : data) {
+    for (const auto &x : data) {
         x.second.print_label();
     }
 }
