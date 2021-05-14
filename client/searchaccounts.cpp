@@ -21,6 +21,7 @@ SearchAccounts::~SearchAccounts()
     delete ui;
 }
 
+
 void SearchAccounts::on_subscribe_clicked()
 {
     QString nickname = ui->nickname->text();

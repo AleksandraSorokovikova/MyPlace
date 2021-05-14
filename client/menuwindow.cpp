@@ -76,11 +76,28 @@ void MenuWindow::on_update_clicked()
 
 void MenuWindow::on_search_button_pressed()
 {
-    SearchAccounts search(nullptr, user_id, ui->search->text());
-    search.setModal(true);
-    search.exec();
-    update();
+    QString nickname(ui->search->text());
+        if (nickname != "") {
+        int return_code = Client::search_account(nickname);
+        switch (return_code) {
+            case NO_CONNECTION:
+                QMessageBox::warning(this, "Failed to connect", "No connection to server");
+                break;
+            case SERVER_WRONG_NICKNAME:
+                QMessageBox::about(this, "Unavailable nickname", "Enter new nickname");
+                break;
+            case SERVER_OK:
+                SearchAccounts search(nullptr, user_id, nickname);
+                search.setModal(true);
+                search.exec();
+                update();
+            }
+        }
+        else {
+            QMessageBox::about(this, "Empty fields", "Enter all data");
+        }
 }
+
 
 void MenuWindow::on_search_returnPressed()
 {
