@@ -13,7 +13,7 @@ class SearchAccounts : public QDialog
     Q_OBJECT
 
 public:
-    explicit SearchAccounts(QWidget *parent = nullptr, QString nickname = "", QString subscribe_ = "");
+    explicit SearchAccounts(QWidget *parent = nullptr, QString nickname = "", QString subscribe_ = "", bool is_search_ = true);
     ~SearchAccounts();
 
 private slots:
@@ -25,6 +25,7 @@ private:
     Ui::SearchAccounts *ui;
     QString user_id;
     QString subscribe_name;
+    bool is_search;
 };
 
 #endif // SEARCHACCOUNTS_H

@@ -15,7 +15,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-INCLUDEPATH += /Users/evgeniavu/Desktop/StudyHSE/boost_1_75_0
+INCLUDEPATH += /Users/alexandrasorokovikova/boost_1_72_0
 
 SOURCES += \
     client.cpp \
@@ -26,6 +26,7 @@ SOURCES += \
     menuwindow.cpp \
     openlabel.cpp \
     searchaccounts.cpp \
+    user_in_use.cpp \
     users.cpp
 
 HEADERS += \
@@ -37,6 +38,8 @@ HEADERS += \
     openlabel.h \
     pix.h \
     searchaccounts.h \
+    user_in_list.h \
+    user_in_use.h \
     users.h
 
 FORMS += \

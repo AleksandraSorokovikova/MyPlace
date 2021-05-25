@@ -1,7 +1,6 @@
 #include"client.h"
 #include <iostream>
 
-
 server_response Client::add_label(const QString &name, const QString &user_id, const QString &type, const QString &description, const QString &address) {
 
     Client client;
@@ -186,5 +185,83 @@ server_response Client::search_account(const QString &nickname) {
     //нет такого никнейма
     return SERVER_WRONG_NICKNAME;
 }
+
+server_response Client::user_information(const QString &subscribe_name, QString &lables_size, QString &subscribes_size) {
+    Client client;
+
+    try {
+        client.stream.socket().connect(client.ep);
+    } catch (...) {
+        return NO_CONNECTION;
+    }
+
+    client.stream << USER_INFORMATION << std::endl;
+    client.stream << subscribe_name.toStdString() << std::endl;
+
+    std::string lables_size_str, subscribes_size_str;
+    std::getline(client.stream, lables_size_str);
+    std::getline(client.stream, subscribes_size_str);
+
+    lables_size = QString::fromStdString(lables_size_str);
+    subscribes_size = QString::fromStdString(subscribes_size_str);
+
+    std::string msg_from_server;
+    std::getline(client.stream, msg_from_server);
+
+    return SERVER_OK;
+
+}
+
+server_response Client::log_out(const QString &user_id) {
+    Client client;
+
+    try {
+        client.stream.socket().connect(client.ep);
+    } catch (...) {
+        return NO_CONNECTION;
+    }
+
+    client.stream << LOG_OUT << std::endl;
+
+    client.stream << user_id.toStdString() << std::endl;
+
+    return SERVER_OK;
+}
+
+server_response Client::update_subscribes(const QString &user_id, std::vector<User_in_use> &users) {
+
+    Client client;
+
+    try {
+        client.stream.socket().connect(client.ep);
+    } catch (...) {
+        return NO_CONNECTION;
+    }
+    client.stream << UPDATE_SUBSCRIBES << std::endl;
+    client.stream << user_id.toStdString() << std::endl;
+
+    std::string size_;
+    std::getline(client.stream, size_);
+    int size = stoi(size_);
+
+    users.clear();
+
+    for (int i = 0; i < size; i++) {
+
+        std::string nickname, labels, subscribes;
+
+        std::getline(client.stream, nickname);
+        std::getline(client.stream, labels);
+        std::getline(client.stream, subscribes);
+
+        users.emplace_back(nickname, labels, subscribes);
+    }
+
+    client.stream.socket().shutdown(ip::tcp::socket::shutdown_send);
+
+    return SERVER_OK;
+
+}
+
 
 

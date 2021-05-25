@@ -1,7 +1,6 @@
 #ifndef USERS_H
 #define USERS_H
 
-
 #include <string>
 #include <map>
 #include <iostream>
@@ -24,15 +23,18 @@ struct User {
     [[nodiscard]] std::string create_id(const User_List &userList) const;
     void subscribe(const std::string &nickname, size_t size);
     void add_label(const std::string &id);
+    [[nodiscard]] size_t own_labels() const;
+    [[nodiscard]] bool is_subscribed(const std::string &other_nickname) const;
     std::string nickname;
     std::string password;
     std::string id;
-    std::vector<std::string> subscribes{};
+    std::set<std::string> subscribes{};
     std::vector<std::string> labels{};
     size_t number_of_labels;
 
     friend User_List;
 };
+
 
 //структура со всееееми пользователями, создавшими аккаунт
 struct User_List {

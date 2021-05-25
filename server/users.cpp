@@ -44,12 +44,20 @@ User User_List::get_user_by_nickname(const std::string &nickname) const {
 }
 
 void User::subscribe(const std::string &nickname_, size_t size) {
-    subscribes.push_back(nickname_);
+    subscribes.insert(nickname_);
     number_of_labels += size;
 }
 
 void User::add_label(const std::string &id_) {
     labels.push_back(id_);
+}
+
+size_t User::own_labels() const {
+    return labels.size();
+}
+
+bool User::is_subscribed(const std::string &other_nickname) const {
+    return subscribes.find(other_nickname) != subscribes.end();
 }
 
 int Active_Users::number_of_active_users() const {

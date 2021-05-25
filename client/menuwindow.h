@@ -5,6 +5,11 @@
 #include<QListWidget>
 #include<QMessageBox>
 
+enum class typeListWidget {
+    LABELS,
+    SUBSCRIBES
+};
+
 namespace Ui {
 class MenuWindow;
 }
@@ -32,11 +37,16 @@ private slots:
 
         void on_logout_clicked();
 
+        void on_subscribes_clicked();
+
+        void on_labels_clicked();
+
 private:
     Ui::MenuWindow *ui;
     void update();
     QString user_id;
     QString nickname;
+    typeListWidget type = typeListWidget::LABELS;
 };
 
 #endif // MENUWINDOW_H

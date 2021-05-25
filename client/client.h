@@ -10,6 +10,7 @@
 #include <string>
 #include<QString>
 #include"label.h"
+#include "user_in_use.h"
 
 using namespace boost::asio;
 using boost::system::error_code;
@@ -29,7 +30,10 @@ enum client_command {
     SIGN_IN,
     SIGN_UP,
     SUBSCRIBE,
-    SEARCH_ACCOUNT
+    SEARCH_ACCOUNT,
+    USER_INFORMATION,
+    LOG_OUT,
+    UPDATE_SUBSCRIBES
 };
 
 struct Client {
@@ -45,6 +49,9 @@ struct Client {
     [[nodiscard]] static server_response sing_up(const QString &nickname, const QString &password, QString &user_id, int &size);
     [[nodiscard]] static server_response subscribe(const QString &nickname, const QString &user);
     [[nodiscard]] static server_response search_account(const QString &nickname);
+    [[nodiscard]] static server_response user_information(const QString &subscribe_name, QString &lables_size, QString &subscribes_size);
+    [[nodiscard]] static server_response log_out(const QString &user_id);
+    [[nodiscard]] static server_response update_subscribes(const QString &user_id, std::vector<User_in_use> &users);
 
      ip::tcp::iostream stream;
      ip::tcp::endpoint ep{ip::address::from_string(ipAddress), port};

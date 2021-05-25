@@ -3,16 +3,32 @@
 #include"client.h"
 #include <QMessageBox>
 
-SearchAccounts::SearchAccounts(QWidget *parent, QString id, QString subscribe_) :
+SearchAccounts::SearchAccounts(QWidget *parent, QString id, QString subscribe_, bool is_serach_) :
     QDialog(parent),
     ui(new Ui::SearchAccounts),
      user_id(id),
-    subscribe_name(subscribe_)
+    subscribe_name(subscribe_),
+    is_search(is_serach_)
 {
     ui->setupUi(this);
        ui->nickname->setText(subscribe_name);
        QPixmap icon(":/img/img/user-3.png");
        ui->photo->setIcon(icon);
+       QString lables_size, subscribes_size;
+        int return_code = Client::user_information(subscribe_name, lables_size,  subscribes_size);
+        switch (return_code) {
+            case NO_CONNECTION:
+                QMessageBox::warning(this, "Failed to connect", "No connection to server");
+                break;
+            case SERVER_OK:
+               ui->label_size->setText(ui->label_size->text() + lables_size);
+               ui->subscribes_size->setText(ui->subscribes_size->text() + subscribes_size);
+                break;
+            }
+        if (!is_search) {
+            ui->subscribe->hide();
+        }
+
        setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
 }
 
