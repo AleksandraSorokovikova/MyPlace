@@ -65,9 +65,15 @@ void add_label(stream_ptr stream) {
     std::getline(*stream, name);
     std::getline(*stream, user_id);
     std::getline(*stream, type);
-    std::getline(*stream, description);
+    std::string temp;
+    std::getline(*stream, temp);
+    while (temp != "&") {
+        description += temp;
+        description += '\n';
+        std::getline(*stream, temp);
+    }
+    std::cout << description << '\n';
     std::getline(*stream, address);
-
     std::string nickname(activeUsers.get_nickname(user_id));
 
     Label label(name, nickname, type, description, address, labelList);
@@ -103,6 +109,7 @@ void update(stream_ptr stream) {
         *stream << subscribe_label.nickname << std::endl;
         *stream << subscribe_label.type << std::endl;
         *stream << subscribe_label.description << std::endl;
+        *stream << "&" << std::endl;
         *stream << subscribe_label.address << std::endl;
     }
 
