@@ -5,6 +5,14 @@ server_response Client::add_label(const QString &name, const QString &user_id, c
 
     Client client;
 
+    std::string description_str = description.toStdString();
+
+    for (auto &c : description_str) {
+        if (c == '\n') {
+            c = '&';
+        }
+    }
+
     try {
         client.stream.socket().connect(client.ep);
         client.stream << ADD_LABEL << std::endl;
@@ -12,8 +20,8 @@ server_response Client::add_label(const QString &name, const QString &user_id, c
         client.stream << name.toStdString() << std::endl;
         client.stream << user_id.toStdString() << std::endl;
         client.stream << type.toStdString() << std::endl;
+        client.stream << description_str << std::endl;
         client.stream << description.toStdString() << std::endl;
-        client.stream << "&" << std::endl;
         client.stream << address.toStdString() << std::endl;
 
         std::string msg_from_server;
@@ -52,15 +60,14 @@ server_response Client::update_label_list(Label_List &labelList, const QString &
             std::getline(client.stream, name);
             std::getline(client.stream, nickname);
             std::getline(client.stream, type);
-            //std::getline(client.stream, description);
-            std::string temp;
-                std::getline(client.stream, temp);
-                while (temp != "&") {
-                    description += temp;
-                    description += '\n';
-                    std::getline(client.stream, temp);
-                }
+            std::getline(client.stream, description);
             std::getline(client.stream, address);
+
+            for (auto &c : description) {
+                if (c == '&') {
+                    c = '\n';
+                }
+            }
 
             Label label(id, name, nickname, type, description, address);
             labelList.add(label);

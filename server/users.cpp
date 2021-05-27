@@ -1,6 +1,6 @@
 #include "users.h"
 
-[[nodiscard]] std::string User::create_id(const User_List &label_list) const{
+[[nodiscard]] std::string User_List::create_id() const{
     std::string id_(16, '0');
     const char symbols[37] = { "0123456789ABCDEFGHIGKLMNOPQRSTUVWXYZ"};
     srand(time(NULL));
@@ -10,7 +10,7 @@
         id_[i] = symbol;
     }
 
-    while(label_list.id_in_list(id_)) {
+    while(id_in_list(id_)) {
         int index = rand()%16;
         char symbol = symbols[rand() % 37];
         id_[index] = symbol;
@@ -26,10 +26,15 @@
     return nickname_list.find(nickname) != nickname_list.end();
 }
 
-void User_List::add(const User &user) {
-    data.insert({user.nickname, user});
-    nickname_list.insert(user.nickname);
-    id_list.insert(user.id);
+void User_List::add(std::string nickname_, std::string password_) {
+    std::string id_ = create_id();
+    data.emplace(
+            std::piecewise_construct,
+            std::forward_as_tuple(nickname_),
+            std::forward_as_tuple(nickname_, password_, id_)
+            );
+    nickname_list.insert(nickname_);
+    id_list.insert(id_);
 }
 [[nodiscard]] bool User_List::check_password(const std::string &nickname, const std::string &password) const {
     return data.find(nickname)->second.password == password;
@@ -48,22 +53,27 @@ void User_List::subscribe_user(const std::string &nickname, const std::string &o
 }
 
 void User::subscribe(const std::string &nickname_) {
+    std::unique_lock uniqueLock(mutex);
     subscribes.insert(nickname_);
 }
 
 void User::add_label(const std::string &id_) {
+    std::unique_lock uniqueLock(mutex);
     labels.push_back(id_);
 }
 
 size_t User::number_of_own_labels() const {
+    std::unique_lock uniqueLock(mutex);
     return labels.size();
 }
 
 size_t User::number_of_subscribes() const {
+    std::unique_lock uniqueLock(mutex);
     return subscribes.size();
 }
 
 bool User::is_subscribed(const std::string &other_nickname) const {
+    std::unique_lock uniqueLock(mutex);
     return subscribes.find(other_nickname) != subscribes.end();
 }
 

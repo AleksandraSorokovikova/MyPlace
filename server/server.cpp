@@ -15,7 +15,6 @@ Label_List labelList;
 User_List userList;
 Active_Users activeUsers;
 std::mutex door;
-const int max_length = 1024;
 using boost::system::error_code;
 
 enum server_response {
@@ -42,7 +41,7 @@ void user_information(stream_ptr stream) {
     std::string user_nickname;
     std::getline(*stream, user_nickname);
 
-    User user = userList.get_user_by_nickname(user_nickname);
+    User &user = userList.get_user_by_nickname(user_nickname);
 
     *stream << user.number_of_own_labels() << std::endl;
     *stream << user.number_of_subscribes() << std::endl;
@@ -65,14 +64,7 @@ void add_label(stream_ptr stream) {
     std::getline(*stream, name);
     std::getline(*stream, user_id);
     std::getline(*stream, type);
-    std::string temp;
-    std::getline(*stream, temp);
-    while (temp != "&") {
-        description += temp;
-        description += '\n';
-        std::getline(*stream, temp);
-    }
-    std::cout << description << '\n';
+    std::getline(*stream, description);
     std::getline(*stream, address);
     std::string nickname(activeUsers.get_nickname(user_id));
 
@@ -93,11 +85,11 @@ void update(stream_ptr stream) {
     std::string user_id;
     std::getline(*stream, user_id);
 
-    User user = userList.get_user_by_nickname(activeUsers.get_nickname(user_id));
+    User &user = userList.get_user_by_nickname(activeUsers.get_nickname(user_id));
     size_t number_of_labels = user.number_of_own_labels();
 
     for (const auto &subscribe : user.subscribes) {
-        User user_subscribe = userList.get_user_by_nickname(subscribe);
+        User &user_subscribe = userList.get_user_by_nickname(subscribe);
         number_of_labels += user_subscribe.number_of_own_labels();
     }
 
@@ -109,12 +101,11 @@ void update(stream_ptr stream) {
         *stream << subscribe_label.nickname << std::endl;
         *stream << subscribe_label.type << std::endl;
         *stream << subscribe_label.description << std::endl;
-        *stream << "&" << std::endl;
         *stream << subscribe_label.address << std::endl;
     }
 
     for (const auto &subscribe : user.subscribes) {
-        User user_subscribe = userList.get_user_by_nickname(subscribe);
+        User &user_subscribe = userList.get_user_by_nickname(subscribe);
         for (const auto &label_id : user_subscribe.labels) {
             Label subscribe_label = labelList.get_by_id(label_id);
 
@@ -136,14 +127,14 @@ void update_subscribes(stream_ptr stream) {
     std::string user_id;
     std::getline(*stream, user_id);
 
-    User user = userList.get_user_by_nickname(activeUsers.get_nickname(user_id));
+    User &user = userList.get_user_by_nickname(activeUsers.get_nickname(user_id));
     size_t number_of_subscribes = user.number_of_subscribes();
 
     *stream << std::to_string(number_of_subscribes) << std::endl;
 
 
     for (const auto &subscribe : user.subscribes) {
-        User user_subscribe = userList.get_user_by_nickname(subscribe);
+        User &user_subscribe = userList.get_user_by_nickname(subscribe);
 
         *stream << user_subscribe.nickname << std::endl;
     }
@@ -163,12 +154,10 @@ void sign_up(stream_ptr stream) {
         *stream << SERVER_NICKNAME_EXISTS << std::endl;
         boost::this_thread::sleep(boost::posix_time::millisec(200));
     } else {
-
-        User user(nickname, password, userList);
         std::string id;
 
         door.lock();
-        userList.add(user);
+        userList.add(nickname, password);
         id = activeUsers.activate(nickname);
         door.unlock();
 
@@ -177,6 +166,7 @@ void sign_up(stream_ptr stream) {
 
         boost::this_thread::sleep(boost::posix_time::millisec(200));
     }
+
 
 }
 
@@ -187,7 +177,6 @@ void sign_in(stream_ptr stream) {
     std::getline(*stream, nickname);
     std::getline(*stream, password);
 
-    std::vector<char> msg_to_client(max_length);
     if (!userList.nickname_in_list(nickname)) {
 
         *stream << SERVER_UNAVAILABLE_NICKNAME << std::endl;
@@ -225,9 +214,9 @@ void subscribe(stream_ptr stream) {
         boost::this_thread::sleep(boost::posix_time::millisec(200));
     } else {
         userList.subscribe_user(nickname, other_nickname);
+
         *stream << SERVER_OK << std::endl;
         boost::this_thread::sleep(boost::posix_time::millisec(200));
-
     }
 }
 
