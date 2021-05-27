@@ -352,6 +352,24 @@ text-align: center;</string>
      </size>
     </property>
    </widget>
+   <widget class="QWidget" name="gridLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>0</y>
+      <width>681</width>
+      <height>771</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="gridLayout"/>
+   </widget>
+   <zorder>image</zorder>
+   <zorder>listWidget</zorder>
+   <zorder>frame</zorder>
+   <zorder>gridLayoutWidget</zorder>
+   <zorder>logout</zorder>
+   <zorder>my_account_2</zorder>
+   <zorder>add_label</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

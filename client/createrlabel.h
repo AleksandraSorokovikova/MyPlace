@@ -16,17 +16,13 @@ class CreaterLabel : public QDialog
 public:
     explicit CreaterLabel(QString user_nickname, QWidget *parent = nullptr);
     ~CreaterLabel();
-    QString name;
-    //QString nickname;
-    QString type;
-    QString description;
-    QString address;
     QString user_id;
+    QString type = "default";
 
 private slots:
-    void on_pushButton_clicked();
+    void on_create_clicked();
 
-    void on_pushButton_2_clicked();
+    void on_cancel_clicked();
 
     void on_cafee_pressed();
 

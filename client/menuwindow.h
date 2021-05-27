@@ -4,6 +4,10 @@
 #include <QMainWindow>
 #include<QListWidget>
 #include<QMessageBox>
+#include <QQuickWidget>
+#include <QQmlContext>
+#include "markermodel.h"
+
 
 enum class typeListWidget {
     LABELS,
@@ -47,6 +51,8 @@ private:
     QString user_id;
     QString nickname;
     typeListWidget type = typeListWidget::LABELS;
+    QQuickWidget* map;
+    MarkerModel* marker;
 };
 
 #endif // MENUWINDOW_H

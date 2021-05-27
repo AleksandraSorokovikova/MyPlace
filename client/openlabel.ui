@@ -16,7 +16,7 @@
   <property name="styleSheet">
    <string notr="true">background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(142, 208, 186, 255), stop:1 rgba(255, 173, 173, 255))</string>
   </property>
-  <widget class="QLabel" name="label_2">
+  <widget class="QLabel" name="address_line">
    <property name="geometry">
     <rect>
      <x>110</x>
@@ -34,7 +34,7 @@ background:transparent;</string>
     <string>address:</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_3">
+  <widget class="QLabel" name="description_line">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -52,7 +52,7 @@ background:transparent;</string>
     <string>description:</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="exit">
    <property name="geometry">
     <rect>
      <x>300</x>
@@ -165,7 +165,7 @@ font: 18pt &quot;Avenir next&quot;;
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="dackground_description">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -212,13 +212,13 @@ border: 1px solid rgb(136, 138, 133, 200);</string>
     <string notr="true"/>
    </property>
   </widget>
-  <zorder>label_2</zorder>
-  <zorder>label_3</zorder>
-  <zorder>pushButton</zorder>
+  <zorder>address_line</zorder>
+  <zorder>description_line</zorder>
+  <zorder>exit</zorder>
   <zorder>nickname</zorder>
   <zorder>address</zorder>
   <zorder>name</zorder>
-  <zorder>label</zorder>
+  <zorder>dackground_description</zorder>
   <zorder>description</zorder>
   <zorder>type</zorder>
  </widget>

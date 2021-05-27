@@ -1,13 +1,14 @@
 #include "openlabel.h"
 #include "ui_openlabel.h"
+#include "icons.h"
 
 OpenLabel::OpenLabel(const Label &label, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::OpenLabel)
 {
+    setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
     ui->setupUi(this);
     Set_field(label);
-    setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
 }
 
 OpenLabel::~OpenLabel()
@@ -23,28 +24,30 @@ void OpenLabel::Set_field(const Label &label) {
     ui->description->setReadOnly(true);
     ui->description->setText(QString::fromStdString(label.description));
     QPixmap icon;
+    type_icons icons_;
     if(label.type == "cafee") {
-        icon = QPixmap(":/img/img/fork 2.png");
+        icon = icons_.cafee_icon;
     }
     if(label.type == "cinema") {
-        icon = QPixmap(":/img/img/popcorn.png");
+        icon = icons_.cinema_icon;
     }
     if(label.type == "club") {
-        icon = QPixmap(":/img/img/dj-booth.png");
+        icon = icons_.club_icon;
     }
     if(label.type == "hotels") {
-        icon = QPixmap(":/img/img/bed.png");
+        icon = icons_.hotels_icon;
     }
     if(label.type == "entr") {
-        icon = QPixmap(":/img/img/confetti.png");
+        icon = icons_.entr_icon;
     }
     if(label.type == "different") {
-        icon = QPixmap(":/img/img/more.png");
+        icon = icons_.different_icon;
     }
+    //icon = icons_.SET_ICON(label.type)
     ui->type->setIcon(icon);
 }
 
-void OpenLabel::on_pushButton_clicked()
+void OpenLabel::on_exit_clicked()
 {
      hide();
 }

@@ -16,5 +16,9 @@
         <file>img/log-out.png</file>
         <file>img/popcorn.png</file>
         <file>img/more.png</file>
+        <file>img/flags.png</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>main.qml</file>
     </qresource>
 </RCC>

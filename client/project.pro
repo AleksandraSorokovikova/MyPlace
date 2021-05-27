@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui quickwidgets  positioning
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -15,14 +15,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-INCLUDEPATH += /Users/alexandrasorokovikova/boost_1_72_0
+INCLUDEPATH += /Users/evgeniavu/Desktop/StudyHSE/boost_1_75_0
 
 SOURCES += \
     client.cpp \
     createrlabel.cpp \
+    icons.cpp \
     label.cpp \
     main.cpp \
     mainwindow.cpp \
+    map.cpp \
     menuwindow.cpp \
     openlabel.cpp \
     searchaccounts.cpp \
@@ -32,11 +34,13 @@ SOURCES += \
 HEADERS += \
     client.h \
     createrlabel.h \
+    icons.h \
     label.h \
     mainwindow.h \
+    map.h \
+    markermodel.h \
     menuwindow.h \
     openlabel.h \
-    pix.h \
     searchaccounts.h \
     user_in_list.h \
     user_in_use.h \

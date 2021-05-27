@@ -18,7 +18,7 @@
 background-image: url(:/img/img/res.jpg)</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="create">
     <property name="geometry">
      <rect>
       <x>150</x>
@@ -149,7 +149,7 @@ background: rgba(0,0,0,20);</string>
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton">
+    <widget class="QPushButton" name="signButton">
      <property name="geometry">
       <rect>
        <x>120</x>
@@ -190,7 +190,7 @@ font: 30pt &quot;Avenir next&quot;;
     </widget>
    </widget>
    <zorder>frame</zorder>
-   <zorder>pushButton_2</zorder>
+   <zorder>create</zorder>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
  </widget>

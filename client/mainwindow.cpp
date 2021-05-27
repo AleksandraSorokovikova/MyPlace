@@ -18,22 +18,22 @@ MainWindow::~MainWindow()
 }
 
 
-void MainWindow::on_pushButton_2_clicked()
+void MainWindow::on_create_clicked()
 {
     if(ui->sign_in->text() == "Sign in") {
         ui->sign_in->setText("Sign up");
-        ui->pushButton_2->setText("Already have account");
-        ui->pushButton->setText("Sign up");
+        ui->create->setText("Already have account");
+        ui->signButton->setText("Sign up");
     } else {
         ui->sign_in->setText("Sign in");
-        ui->pushButton_2->setText("Create new account");
-        ui->pushButton->setText("Sign in");
+        ui->create->setText("Create new account");
+        ui->signButton->setText("Sign in");
     }
     ui->nickname->clear();
     ui->password->clear();
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_signButton_clicked()
 {
     QString nickname = ui->nickname->text();
     QString password = ui->password->text();

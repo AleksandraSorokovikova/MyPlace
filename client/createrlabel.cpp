@@ -4,26 +4,22 @@
 #include<QString>
 #include<QMessageBox>
 #include<QCloseEvent>
+#include "icons.h"
 
 CreaterLabel::CreaterLabel(QString id, QWidget *parent) :
     QDialog(parent),
     user_id(id),
     ui(new Ui::CreaterLabel)
 {
-    ui->setupUi(this);
     setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
-    QPixmap cafee_icon(":/img/img/fork 2.png");
-    QPixmap cinema_icon(":/img/img/popcorn.png");
-    QPixmap club_icon(":/img/img/dj-booth.png");
-    QPixmap hotels_icon(":/img/img/bed.png");
-    QPixmap entr_icon(":/img/img/confetti.png");
-    QPixmap different_icon(":/img/img/more.png");
-    ui->cafee->setIcon(cafee_icon);
-    ui->hotels->setIcon(hotels_icon);
-    ui->night_club->setIcon(club_icon);
-    ui->cinema->setIcon(cinema_icon);
-    ui->different->setIcon(different_icon);
-    ui->entertainment->setIcon(entr_icon);
+    type_icons icons_;
+    ui->setupUi(this);
+    ui->cafee->setIcon(icons_.cafee_icon);
+    ui->hotels->setIcon(icons_.hotels_icon);
+    ui->night_club->setIcon(icons_.club_icon);
+    ui->cinema->setIcon(icons_.cinema_icon);
+    ui->different->setIcon(icons_.different_icon);
+    ui->entertainment->setIcon(icons_.entr_icon);
 }
 
 CreaterLabel::~CreaterLabel()
@@ -32,13 +28,12 @@ CreaterLabel::~CreaterLabel()
 }
 
 
-void CreaterLabel::on_pushButton_clicked()
+void CreaterLabel::on_create_clicked()
 {
-    if (ui->name->text() != "" &&  ui->description->toPlainText() != "" && ui->address->text() != "") {
-        name = ui->name->text();
-        //type = "default";
-        description = ui->description->toPlainText();
-        address = ui->address->text();
+    if (ui->name->text() != "" &&  ui->description->toPlainText() != "" && ui->address->text() != "" && type != "default") {
+        QString name = ui->name->text();
+        QString description = ui->description->toPlainText();
+        QString address = ui->address->text();
 
         if (Client::add_label(name, user_id, type, description, address) == NO_CONNECTION){
             QMessageBox::warning(this, "Failed to connect", "No connection to server");
@@ -49,13 +44,14 @@ void CreaterLabel::on_pushButton_clicked()
     }
 }
 
-void CreaterLabel::on_pushButton_2_clicked()
+void CreaterLabel::on_cancel_clicked()
 {
     hide();
 }
 
 void CreaterLabel::on_cafee_pressed()
 {
+
     type = "cafee";
 }
 

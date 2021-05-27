@@ -9,6 +9,7 @@
 #include<QPixmap>
 #include "mainwindow.h"
 #include "user_in_use.h"
+#include "icons.h"
 
 Label_List labelList;
 std::vector<User_in_use> users;
@@ -18,21 +19,21 @@ MenuWindow::MenuWindow(QWidget *parent, QString id, QString nickname_) :
     ui(new Ui::MenuWindow), user_id(id), nickname(nickname_)
 {
     ui->setupUi(this);
-        QPixmap pix(":/img/img/mapss.png");
-        int w = ui->image->width();
-        int h = ui->image->height();
-        ui->image->setPixmap(pix.scaled(w, h, Qt::KeepAspectRatio));
-        QPixmap search_icon(":/img/img/search.png");
-        ui->search_button->setIcon(search_icon);
-        QPixmap update_icon(":/img/img/refresh.png");
-        ui->update->setIcon(update_icon);
-        QPixmap logout_icon(":/img/img/log-out.png");
-        ui->logout->setIcon(logout_icon);
-        QPixmap edit_icon(":/img/img/edit.png");
-        ui->my_account_2->setIcon(edit_icon);
-        QPixmap add_icon(":/img/img/add.png");
-        ui->add_label->setIcon(add_icon);
-        update();
+    menu_icons icons;
+    int w = ui->image->width();
+    int h = ui->image->height();
+    ui->image->setPixmap(icons.pix.scaled(w, h, Qt::KeepAspectRatio));
+    ui->search_button->setIcon(icons.search_icon);
+    ui->update->setIcon(icons.update_icon);
+    ui->logout->setIcon(icons.logout_icon);
+    ui->my_account_2->setIcon(icons.edit_icon);
+    ui->add_label->setIcon(icons.add_icon);
+    map = new QQuickWidget(this);
+    marker = new MarkerModel();
+    //map->rootContext()->setContextProperty("markerModel", marker);
+    map->setSource(QUrl(QStringLiteral("qrc:/main.qml")));
+    ui->gridLayout->addWidget(map, 1, 0);
+    update();
 }
 
 MenuWindow::~MenuWindow()
@@ -151,6 +152,6 @@ void MenuWindow::on_subscribes_clicked() {
 
 void MenuWindow::on_labels_clicked()
 {
-    type = typeListWidget::LABELS;
-    update();
+    /*type = typeListWidget::LABELS;
+    update();*/
 }
