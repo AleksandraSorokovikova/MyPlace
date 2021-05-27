@@ -50,7 +50,9 @@ void MenuWindow::update() {
          ui->listWidget->clear();
          model->m_coordinates.clear();
             for(const auto &x : labelList.id_list) {
-                QListWidgetItem *item = new QListWidgetItem(QString::fromStdString(labelList.get_by_id(x).name));
+                Label label = labelList.get_by_id(x);
+                QListWidgetItem *item = new QListWidgetItem(QString::fromStdString(label.name));
+                model->insertMarker(QGeoCoordinate(std::stod(label.longitude), std::stod(label.latitude)));
                 QVariant item_(QString::fromStdString(x));
                 item->setData(12, item_);
                 ui->listWidget->addItem(item);
@@ -152,6 +154,6 @@ void MenuWindow::on_subscribes_clicked() {
 
 void MenuWindow::on_labels_clicked()
 {
-    /*type = typeListWidget::LABELS;
-    update();*/
+    type = typeListWidget::LABELS;
+    update();
 }

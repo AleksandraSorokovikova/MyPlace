@@ -25,7 +25,6 @@ Rectangle {
                     MapItemView{
                                model: markerModel
                                delegate: mapcomponent
-
                            }
 
                     MouseArea {
@@ -37,11 +36,24 @@ Rectangle {
                                 if (geocodeModel.count > 0) {
                                    markerModel.set_address(geocodeModel.get(0).address.street + ", " +
                                                             geocodeModel.get(0).address.city + ", " + geocodeModel.get(0).address.country);
-                                    markerModel.addMarker();
+                                    markerModel.addMarker(coordinate);
+                                    //markerModel.insertMarker(coordinate);
                                 }
+                            }
+
+                            Text {
+                                id: text1
+                                x: 157
+                                y: 472
+                                width: 162
+                                height: 16
+                                text: qsTr("Text")
+                                font.pixelSize: 12
                             }
                         }
             }
+
+
 
                 Component {
                         id: mapcomponent
@@ -58,7 +70,17 @@ Rectangle {
                             }
                             zoomLevel: map.zoomLevel
 
+                        }
 
+                        Button {
+                            id: button
+                            ColorAnimation {
+                                from: "white"
+                                to: "black"
+                                duration: 200
+                            }
+                            onClicked:  text = "I'm pressed"
+                            text: "I'm button"
                         }
                     }
 

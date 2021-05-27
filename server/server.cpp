@@ -59,22 +59,24 @@ void log_out(stream_ptr stream) {
 }
 
 void add_label(stream_ptr stream) {
-    std::string name, user_id, type, description, address;
+    std::string name, user_id, type, description, address, latitude, longitude;
 
     std::getline(*stream, name);
     std::getline(*stream, user_id);
     std::getline(*stream, type);
     std::getline(*stream, description);
     std::getline(*stream, address);
+    std::getline(*stream, latitude);
+    std::getline(*stream, longitude);
     std::string nickname(activeUsers.get_nickname(user_id));
 
-    Label label(name, nickname, type, description, address, labelList);
+
+    Label label(name, nickname, type, description, address, latitude, longitude, labelList);
 
     door.lock();
     labelList.add(label);
     userList.add_label_for_current_user(nickname, label.id);
     door.unlock();
-
 
     *stream << SERVER_OK << std::endl;
 
@@ -96,12 +98,17 @@ void update(stream_ptr stream) {
     *stream << std::to_string(number_of_labels) << std::endl;
     for (const auto &label_id : user.labels) {
         Label subscribe_label = labelList.get_by_id(label_id);
+
+
         *stream << subscribe_label.id << std::endl;
         *stream << subscribe_label.name << std::endl;
         *stream << subscribe_label.nickname << std::endl;
         *stream << subscribe_label.type << std::endl;
         *stream << subscribe_label.description << std::endl;
         *stream << subscribe_label.address << std::endl;
+
+        *stream << subscribe_label.latitude << std::endl;
+        *stream << subscribe_label.longitude << std::endl;
     }
 
     for (const auto &subscribe : user.subscribes) {
@@ -115,6 +122,9 @@ void update(stream_ptr stream) {
             *stream << subscribe_label.type << std::endl;
             *stream << subscribe_label.description << std::endl;
             *stream << subscribe_label.address << std::endl;
+
+            *stream << subscribe_label.latitude << std::endl;
+            *stream << subscribe_label.longitude << std::endl;
 
         }
     }
@@ -131,7 +141,6 @@ void update_subscribes(stream_ptr stream) {
     size_t number_of_subscribes = user.number_of_subscribes();
 
     *stream << std::to_string(number_of_subscribes) << std::endl;
-
 
     for (const auto &subscribe : user.subscribes) {
         User &user_subscribe = userList.get_user_by_nickname(subscribe);
@@ -166,10 +175,7 @@ void sign_up(stream_ptr stream) {
 
         boost::this_thread::sleep(boost::posix_time::millisec(200));
     }
-
-
 }
-
 
 void sign_in(stream_ptr stream) {
     std::string nickname, password;

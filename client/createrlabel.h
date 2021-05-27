@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include<QString>
+#include<QGeoCoordinate>
 
 namespace Ui {
 class CreaterLabel;
@@ -14,10 +15,12 @@ class CreaterLabel : public QDialog
     Q_OBJECT
 
 public:
-    explicit CreaterLabel(QString user_nickname, QString address = "default", QWidget *parent = nullptr);
+    explicit CreaterLabel(QString user_nickname, QGeoCoordinate coordinate = QGeoCoordinate(0, 0),
+                          QString address = "default", QWidget *parent = nullptr);
     ~CreaterLabel();
     QString user_id;
     QString type = "default";
+    QGeoCoordinate coordinates;
 
 private slots:
     void on_create_clicked();

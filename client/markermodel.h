@@ -21,25 +21,25 @@ public:
         address = address_;
     }
 
-    Q_INVOKABLE void addMarker(){
-        CreaterLabel creater(user_id, address);
+    Q_INVOKABLE void addMarker(const QGeoCoordinate &coordinate = QGeoCoordinate(0, 0)){
+        CreaterLabel creater(user_id, coordinate, address);
         creater.setModal(true);
         creater.exec();
         address = "default";
     }
 
-    void insertMarker(const QGeoCoordinate &coordinate) {
+    Q_INVOKABLE void insertMarker(const QGeoCoordinate &coordinate) {
         beginInsertRows(QModelIndex(), rowCount(), rowCount());
         m_coordinates.append(coordinate);
         endInsertRows();
     }
 
-    int rowCount(const QModelIndex &parent = QModelIndex()) const override{
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override {
         Q_UNUSED(parent)
         return m_coordinates.count();
     }
 
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override{
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override {
         if (index.row() < 0 || index.row() >= m_coordinates.count())
             return QVariant();
         if(role== MarkerModel::positionRole)

@@ -39,7 +39,7 @@ struct Client {
 
     Client() = default;
 
-    [[nodiscard]] static server_response add_label(const QString &name, const QString &user_id, const QString &type, const QString &description, const QString &address);
+    [[nodiscard]] static server_response add_label(const QString &name, const QString &user_id, const QString &type, const QString &description, const QString &address, double longitude, double latitude);
     [[nodiscard]] static server_response user_information(const QString &subscribe_name, QString &lables_size, QString &subscribes_size);
     [[nodiscard]] static server_response sign_up(const QString &nickname, const QString &password, QString &user_id, int &size);
     [[nodiscard]] static server_response sign_in(const QString &nickname, const QString &password, QString &user_id);
