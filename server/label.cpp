@@ -10,23 +10,12 @@
         id_[i] = symbol;
     }
 
-    while(label_list.id_in_list(id)) {
+    while(label_list.id_in_list(id_)) {
         int index = rand()%16;
         char symbol = symbols[rand() % 38];
         id_[index] = symbol;
     }
     return id_;
-}
-
-void Label::print_label() {
-    std::cout << '\n';
-    std::cout << "    id: " << id << '\n';
-    std::cout << "    name: " << name << '\n';
-    std::cout << "    nickname: " << nickname << '\n';
-    std::cout << "    type: " << type << '\n';
-    std::cout << "    description: " << description<< '\n';
-    std::cout << "    address: " << address << '\n';
-    std::cout << '\n';
 }
 
 
@@ -36,6 +25,7 @@ void Label::print_label() {
 
 void Label_List::add(const Label &label) {
     data.insert({label.id, label});
+    id_list.insert(label.id);
 }
 
 void Label_List::reset() {
@@ -43,13 +33,12 @@ void Label_List::reset() {
     id_list.clear();
 }
 
-void Label_List::print_labels() {
-    for (auto x : data) {
-        x.second.print_label();
-    }
-}
 
 size_t Label_List::size() {
     return data.size();
+}
+
+Label Label_List::get_by_id(const std::string &id){
+    return data.find(id)->second;
 }
 

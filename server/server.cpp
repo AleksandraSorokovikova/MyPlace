@@ -1,123 +1,295 @@
 #include <iostream>
 #include "label.h"
+#include "users.h"
 #include <boost/thread.hpp>
 #include <boost/thread/thread.hpp>
 #include <boost/bind.hpp>
 #include <boost/asio.hpp>
 #include <vector>
 #include <mutex>
+#include <map>
 
 using namespace boost::asio;
-typedef boost::shared_ptr<ip::tcp::socket> socket_ptr;
+typedef boost::shared_ptr<ip::tcp::iostream> stream_ptr;
 Label_List labelList;
+User_List userList;
+Active_Users activeUsers;
 std::mutex door;
-const int max_length = 1024;
 using boost::system::error_code;
 
-void convert(std::vector<char> &c, const std::string &s) {
-    for (int i = 0; i < s.length(); i++) {
-        c[i] = s[i];
+enum server_response {
+    SERVER_OK,
+    SERVER_NICKNAME_EXISTS,
+    SERVER_UNAVAILABLE_NICKNAME,
+    SERVER_UNAVAILABLE_PASSWORD,
+    SERVER_WRONG_NICKNAME
+};
+
+enum client_command {
+    ADD_LABEL,
+    UPDATE,
+    SIGN_IN,
+    SIGN_UP,
+    SUBSCRIBE,
+    SEARCH_ACCOUNT,
+    USER_INFORMATION,
+    LOG_OUT,
+    UPDATE_SUBSCRIBES
+};
+
+void user_information(stream_ptr stream) {
+    std::string user_nickname;
+    std::getline(*stream, user_nickname);
+
+    User &user = userList.get_user_by_nickname(user_nickname);
+
+    *stream << user.number_of_own_labels() << std::endl;
+    *stream << user.number_of_subscribes() << std::endl;
+
+}
+
+void log_out(stream_ptr stream) {
+    std::string user_id;
+    std::getline(*stream, user_id);
+
+    door.lock();
+    activeUsers.deactivate(user_id);
+    door.unlock();
+
+}
+
+void add_label(stream_ptr stream) {
+    std::string name, user_id, type, description, address;
+
+    std::getline(*stream, name);
+    std::getline(*stream, user_id);
+    std::getline(*stream, type);
+    std::getline(*stream, description);
+    std::getline(*stream, address);
+    std::string nickname(activeUsers.get_nickname(user_id));
+
+    Label label(name, nickname, type, description, address, labelList);
+
+    door.lock();
+    labelList.add(label);
+    userList.add_label_for_current_user(nickname, label.id);
+    door.unlock();
+
+
+    *stream << SERVER_OK << std::endl;
+
+    boost::this_thread::sleep(boost::posix_time::millisec(200));
+}
+
+void update(stream_ptr stream) {
+    std::string user_id;
+    std::getline(*stream, user_id);
+
+    User &user = userList.get_user_by_nickname(activeUsers.get_nickname(user_id));
+    size_t number_of_labels = user.number_of_own_labels();
+
+    for (const auto &subscribe : user.subscribes) {
+        User &user_subscribe = userList.get_user_by_nickname(subscribe);
+        number_of_labels += user_subscribe.number_of_own_labels();
+    }
+
+    *stream << std::to_string(number_of_labels) << std::endl;
+    for (const auto &label_id : user.labels) {
+        Label subscribe_label = labelList.get_by_id(label_id);
+        *stream << subscribe_label.id << std::endl;
+        *stream << subscribe_label.name << std::endl;
+        *stream << subscribe_label.nickname << std::endl;
+        *stream << subscribe_label.type << std::endl;
+        *stream << subscribe_label.description << std::endl;
+        *stream << subscribe_label.address << std::endl;
+    }
+
+    for (const auto &subscribe : user.subscribes) {
+        User &user_subscribe = userList.get_user_by_nickname(subscribe);
+        for (const auto &label_id : user_subscribe.labels) {
+            Label subscribe_label = labelList.get_by_id(label_id);
+
+            *stream << subscribe_label.id << std::endl;
+            *stream << subscribe_label.name << std::endl;
+            *stream << subscribe_label.nickname << std::endl;
+            *stream << subscribe_label.type << std::endl;
+            *stream << subscribe_label.description << std::endl;
+            *stream << subscribe_label.address << std::endl;
+
+        }
+    }
+
+    boost::this_thread::sleep(boost::posix_time::millisec(200));
+}
+
+void update_subscribes(stream_ptr stream) {
+
+    std::string user_id;
+    std::getline(*stream, user_id);
+
+    User &user = userList.get_user_by_nickname(activeUsers.get_nickname(user_id));
+    size_t number_of_subscribes = user.number_of_subscribes();
+
+    *stream << std::to_string(number_of_subscribes) << std::endl;
+
+
+    for (const auto &subscribe : user.subscribes) {
+        User &user_subscribe = userList.get_user_by_nickname(subscribe);
+
+        *stream << user_subscribe.nickname << std::endl;
+    }
+
+    boost::this_thread::sleep(boost::posix_time::millisec(200));
+}
+
+
+void sign_up(stream_ptr stream) {
+
+    std::string nickname, password;
+    std::getline(*stream, nickname);
+    std::getline(*stream, password);
+
+    if (userList.nickname_in_list(nickname)) {
+
+        *stream << SERVER_NICKNAME_EXISTS << std::endl;
+        boost::this_thread::sleep(boost::posix_time::millisec(200));
+    } else {
+        std::string id;
+
+        door.lock();
+        userList.add(nickname, password);
+        id = activeUsers.activate(nickname);
+        door.unlock();
+
+        *stream << SERVER_OK << std::endl;
+        *stream << id << std::endl;
+
+        boost::this_thread::sleep(boost::posix_time::millisec(200));
+    }
+
+
+}
+
+
+void sign_in(stream_ptr stream) {
+    std::string nickname, password;
+
+    std::getline(*stream, nickname);
+    std::getline(*stream, password);
+
+    if (!userList.nickname_in_list(nickname)) {
+
+        *stream << SERVER_UNAVAILABLE_NICKNAME << std::endl;
+        boost::this_thread::sleep(boost::posix_time::millisec(200));
+    } else {
+
+        if (!userList.check_password(nickname, password)) {
+
+            *stream << SERVER_UNAVAILABLE_PASSWORD << std::endl;
+            boost::this_thread::sleep(boost::posix_time::millisec(200));
+        }
+
+        std::string id;
+
+        door.lock();
+        id = activeUsers.activate(nickname);
+        door.unlock();
+
+        *stream << SERVER_OK << std::endl;
+        *stream << id << std::endl;
+
+        boost::this_thread::sleep(boost::posix_time::millisec(200));
     }
 }
 
-void session(socket_ptr sock) {
+void subscribe(stream_ptr stream) {
+    std::string user_id, other_nickname;
+    std::getline(*stream, other_nickname);
+    std::getline(*stream, user_id);
 
-        char command[1024];
-        boost::system::error_code error;
-        std::cout << "reading command" << '\n';
-        sock->read_some(buffer(command), error);
-        std::cout << "stopped reading" << '\n';
-        std::cout << "command: " << command << '\n';
-        if (!strcmp(command, "stop")) {
-            boost::this_thread::sleep(boost::posix_time::millisec(200));
-            //break;
-        } else if(!strcmp(command, "stop all")) {
-            //НЕБЕЗОПАСНО! ВЫЗЫВАТЬ ТОЛЬКО ЕСЛИ ВСЕ КЛИЕНТЫ ОТКЛЮЧЕНЫ
-            boost::this_thread::sleep(boost::posix_time::millisec(200));
-            exit(1);
+    std::string nickname(activeUsers.get_nickname(user_id));
 
-        } else if (!strcmp(command, "update")) {
+    if (!userList.nickname_in_list(nickname) || nickname == other_nickname || userList.get_user_by_nickname(nickname).is_subscribed(other_nickname)) {
+        *stream << SERVER_WRONG_NICKNAME << std::endl;
+        boost::this_thread::sleep(boost::posix_time::millisec(200));
+    } else {
+        userList.subscribe_user(nickname, other_nickname);
 
-            char size[max_length];
-            auto size_of_list = std::to_string(labelList.size());
-            for (int i = 0; i < size_of_list.length(); i++) {
-                size[i] = size_of_list[i];
-            }
-            sock->write_some(buffer(size));
+        *stream << SERVER_OK << std::endl;
+        boost::this_thread::sleep(boost::posix_time::millisec(200));
+    }
+}
 
-            for (auto x : labelList.data) {
-                std::vector<char> id(max_length);
-                convert(id, x.second.id);
-                std::vector<char> name(max_length);
-                convert(name, x.second.name);
-                std::vector<char> nickname(max_length);
-                convert(nickname, x.second.nickname);
-                std::vector<char> type(max_length);
-                convert(type, x.second.type);
-                std::vector<char> description(max_length);
-                convert(description, x.second.description);
-                std::vector<char> address(max_length);
-                convert(address, x.second.address);
+void search_account(stream_ptr stream) {
+    std::string nickname;
+    std::getline(*stream, nickname);
 
-                sock->write_some(buffer(id));
-                sock->write_some(buffer(name));
-                sock->write_some(buffer(nickname));
-                sock->write_some(buffer(type));
-                sock->write_some(buffer(description));
-                sock->write_some(buffer(address));
-
-
-            }
-
-            boost::this_thread::sleep(boost::posix_time::millisec(200));
-            //break;
-
-
-        } else if (!strcmp(command, "add-label")) {
-            char name[max_length], nickname[max_length], type[max_length], description[max_length], address[max_length];
-            boost::system::error_code error_;
-            
-            sock->read_some(buffer(name), error_);
-            sock->read_some(buffer(nickname), error_);
-            sock->read_some(buffer(type), error_);
-            sock->read_some(buffer(description), error_);
-            sock->read_some(buffer(address), error_);
-            
-            std::cout << "some data received\n";
-            std::cout << name << '\n';
-            std::cout << nickname << '\n';
-            std::cout << type << '\n';
-            std::cout << description << '\n';
-            std::cout << address << '\n';
-
-            Label label(name, nickname, type, description, address, labelList);
-
-
-            door.lock();
-            labelList.add(label);
-            door.unlock();
-            
-            std::vector<char> msg_to_client(max_length);
-            convert(msg_to_client, "ok");
-            sock->write_some(buffer(msg_to_client));
-            
-            boost::this_thread::sleep(boost::posix_time::millisec(200));
-
+    if (!userList.nickname_in_list(nickname)) {
+        *stream << SERVER_WRONG_NICKNAME << std::endl;
+        boost::this_thread::sleep(boost::posix_time::millisec(200));
+    } else {
+        *stream << SERVER_OK << std::endl;
+        boost::this_thread::sleep(boost::posix_time::millisec(200));
     }
 
-    std::cout << "Connection stopped" << '\n';
+}
+
+void session(stream_ptr stream) {
+
+        std::string command;
+
+        try {
+            getline(*stream, command);
+
+            int client_command = std::stoi(command);
+
+            switch (client_command) {
+                case ADD_LABEL:
+                    add_label(stream);
+                    break;
+                case UPDATE:
+                    update(stream);
+                    break;
+                case SIGN_IN:
+                    sign_in(stream);
+                    break;
+                case SIGN_UP:
+                    sign_up(stream);
+                    break;
+                case SUBSCRIBE:
+                    subscribe(stream);
+                    break;
+                case SEARCH_ACCOUNT:
+                    search_account(stream);
+                    break;
+                case USER_INFORMATION:
+                    user_information(stream);
+                    break;
+                case LOG_OUT:
+                    log_out(stream);
+                    break;
+                case UPDATE_SUBSCRIBES:
+                    update_subscribes(stream);
+                    break;
+                default:
+                    boost::this_thread::sleep(boost::posix_time::millisec(200));
+                    exit(1);
+            }
+        } catch(...) {
+            boost::this_thread::sleep(boost::posix_time::millisec(200));
+        }
 
 }
 
 void server(io_service& io_service_) {
-    ip::tcp::acceptor acceptor_(io_service_, ip::tcp::endpoint(ip::tcp::v4(), 8007));
+    ip::tcp::acceptor acceptor_(io_service_, ip::tcp::endpoint(ip::tcp::v4(), 8010));
 
-    int cnt = 1;
     while (true) {
-        //std::cout << (cnt++) << '\n';
-        socket_ptr sock(new ip::tcp::socket(io_service_));
-        acceptor_.accept(*sock);
-        boost::thread thread_(boost::bind(session, sock));
+
+        stream_ptr stream(new ip::tcp::iostream);
+        acceptor_.accept(*stream->rdbuf());
+
+        boost::thread thread_(boost::bind(session, stream));
 
     }
 }

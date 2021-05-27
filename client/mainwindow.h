@@ -2,7 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "secondwindow.h"
 #include "menuwindow.h"
 
 QT_BEGIN_NAMESPACE
@@ -17,9 +16,9 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_2_clicked();
+    void on_create_clicked();
 
-    void on_pushButton_clicked();
+    void on_signButton_clicked();
 
 private:
     Ui::MainWindow *ui;

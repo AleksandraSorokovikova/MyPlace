@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>470</width>
-    <height>601</height>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,12 +18,12 @@
 background-image: url(:/img/img/res.jpg)</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="create">
     <property name="geometry">
      <rect>
-      <x>160</x>
+      <x>150</x>
       <y>460</y>
-      <width>171</width>
+      <width>201</width>
       <height>31</height>
      </rect>
     </property>
@@ -58,7 +58,7 @@ border-radius:20px;</string>
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QLineEdit" name="lineEdit">
+    <widget class="QLineEdit" name="nickname">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -99,7 +99,7 @@ background: rgba(0,0,0,20);</string>
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_2">
+    <widget class="QLineEdit" name="password">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -149,7 +149,7 @@ background: rgba(0,0,0,20);</string>
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton">
+    <widget class="QPushButton" name="signButton">
      <property name="geometry">
       <rect>
        <x>120</x>
@@ -170,7 +170,7 @@ text-align: center;</string>
       <string>Sign in</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_2">
+    <widget class="QLabel" name="sign_in">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -190,8 +190,9 @@ font: 30pt &quot;Avenir next&quot;;
     </widget>
    </widget>
    <zorder>frame</zorder>
-   <zorder>pushButton_2</zorder>
+   <zorder>create</zorder>
   </widget>
+  <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <resources/>
  <connections/>
