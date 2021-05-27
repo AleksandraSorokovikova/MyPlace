@@ -17,7 +17,7 @@ public:
     ~OpenLabel();
 
 private slots:
-    void on_pushButton_clicked();
+    void on_exit_clicked();
 
 private:
     Ui::OpenLabel *ui;

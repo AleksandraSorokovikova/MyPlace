@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui quickwidgets  positioning
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -20,28 +20,33 @@ INCLUDEPATH += /Users/alexandrasorokovikova/boost_1_72_0
 SOURCES += \
     client.cpp \
     createrlabel.cpp \
+    icons.cpp \
     label.cpp \
     main.cpp \
     mainwindow.cpp \
+    map.cpp \
     menuwindow.cpp \
     openlabel.cpp \
-    secondwindow.cpp
+    searchaccounts.cpp
 
 HEADERS += \
     client.h \
     createrlabel.h \
+    icons.h \
     label.h \
     mainwindow.h \
+    map.h \
+    markermodel.h \
     menuwindow.h \
     openlabel.h \
-    secondwindow.h
+    searchaccounts.h
 
 FORMS += \
     createrlabel.ui \
     mainwindow.ui \
     menuwindow.ui \
     openlabel.ui \
-    secondwindow.ui
+    searchaccounts.ui
 
 TRANSLATIONS += \
     Project_ru_RU.ts

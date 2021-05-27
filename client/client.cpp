@@ -1,111 +1,239 @@
 #include"client.h"
+#include <iostream>
 
-void Client::convert(std::vector<char> &c, const std::string &s) {
-    for (size_t i = 0; i < s.length(); i++) {
-        c[i] = s[i];
-    }
-}
-
-void Client::convert(std::vector<char> &c, const QString &qs) {
-    std::string s = qs.toStdString().c_str();
-    for (size_t i = 0; i < s.length(); i++) {
-        c[i] = s[i];
-    }
-}
-
-bool Client::add_label(const QString &name, const QString &nickname, const QString &type, const QString &description, const QString &address) {
+server_response Client::add_label(const QString &name, const QString &user_id, const QString &type, const QString &description, const QString &address) {
 
     Client client;
 
-    std::string command("add-label");
-    std::vector<char> command_v(bufferSize);
-    convert(command_v, command);
-
     try {
-        client.sock.connect(client.ep);
+        client.stream.socket().connect(client.ep);
+        client.stream << ADD_LABEL << std::endl;
+
+        client.stream << name.toStdString() << std::endl;
+        client.stream << user_id.toStdString() << std::endl;
+        client.stream << type.toStdString() << std::endl;
+        client.stream << description.toStdString() << std::endl;
+        client.stream << address.toStdString() << std::endl;
+
+        std::string msg_from_server;
+        std::getline(client.stream, msg_from_server);
+
+        if (std::stoi(msg_from_server) == SERVER_OK) {
+            client.stream.socket().shutdown(ip::tcp::socket::shutdown_send);
+            return SERVER_OK;
+        }
+        return NO_CONNECTION;
     } catch (...) {
-        return false;
+        return NO_CONNECTION;
     }
-
-    client.sock.write_some(buffer(command_v));
-
-    std::vector<char> name_v(bufferSize);
-    std::vector<char> nickname_v(bufferSize);
-    std::vector<char> type_v(bufferSize);
-    std::vector<char> description_v(bufferSize);
-    std::vector<char> address_v(bufferSize);
-
-    convert(name_v, name);
-    convert(nickname_v, nickname);
-    convert(type_v, type);
-    convert(description_v, description);
-    convert(address_v, address);
-
-    client.sock.write_some(buffer(name_v));
-    client.sock.write_some(buffer(nickname_v));
-    client.sock.write_some(buffer(type_v));
-    client.sock.write_some(buffer(description_v));
-    client.sock.write_some(buffer(address_v));
-
-    char msg_from_server[bufferSize];
-    boost::system::error_code error;
-    client.sock.read_some(buffer(msg_from_server), error);
-
-    if (!strcmp(msg_from_server, "ok")) {
-        client.sock.close();
-        return true;
-    }
-
-    return false;
-
 }
 
-
-bool Client::update_label_list(Label_List &labelList) {
+server_response Client::update_label_list(Label_List &labelList, const QString &user_id) {
 
     Client client;
 
-    std::string command("update");
-    std::vector<char> command_v(bufferSize);
-    convert(command_v, command);
-
-
     try {
-        client.sock.connect(client.ep);
-    } catch(...) {
-        return false;
+        client.stream.socket().connect(client.ep);
+        client.stream << UPDATE << std::endl;
+        client.stream << user_id.toStdString() << std::endl;
+
+        std::string size_;
+        std::getline(client.stream, size_);
+        int size = stoi(size_);
+
+        labelList.reset();
+
+        for (int i = 0; i < size; i++) {
+
+            std::string id, name, nickname, type, description, address;
+
+            std::getline(client.stream, id);
+            std::getline(client.stream, name);
+            std::getline(client.stream, nickname);
+            std::getline(client.stream, type);
+            std::getline(client.stream, description);
+            std::getline(client.stream, address);
+
+            Label label(id, name, nickname, type, description, address);
+            labelList.add(label);
+        }
+
+        client.stream.socket().shutdown(ip::tcp::socket::shutdown_send);
+
+        return SERVER_OK;
+    } catch (...) {
+        return NO_CONNECTION;
     }
-
-    client.sock.write_some(buffer(command_v));
-
-
-    char size[1024];
-    boost::system::error_code error;
-
-    client.sock.read_some(boost::asio::buffer(size), error);
-    int size_int = *(int*)size - 48;
-    labelList.reset();
-
-
-    for (int i = 0; i < size_int; i++) {
-
-        char id[bufferSize], name[bufferSize], nickname[bufferSize], type[bufferSize], description[bufferSize], address[bufferSize];
-
-        client.sock.read_some(buffer(id), error);
-        client.sock.read_some(buffer(name), error);
-        client.sock.read_some(buffer(nickname), error);
-        client.sock.read_some(buffer(type), error);
-        client.sock.read_some(buffer(description), error);
-        client.sock.read_some(buffer(address), error);
-
-        Label label(id, name, nickname, type, description, address);
-        labelList.add(label);
-
-    }
-
-    client.sock.close();
-
-    return true;
 
 }
 
+server_response Client::sign_in(const QString &nickname, const QString &password, QString &user_id) {
+
+    Client client;
+
+    try {
+        client.stream.socket().connect(client.ep);
+        client.stream << SIGN_IN << std::endl;
+
+        client.stream << nickname.toStdString() << std::endl;
+        client.stream << password.toStdString() << std::endl;
+
+        std::string msg_from_server;
+        std::getline(client.stream, msg_from_server);
+
+        if (std::stoi(msg_from_server) == SERVER_OK) {
+
+            std::string user_id_;
+            std::getline(client.stream, user_id_);
+            user_id = QString::fromStdString(user_id_);
+            client.stream.socket().shutdown(ip::tcp::socket::shutdown_send);
+            return SERVER_OK;
+        } else if (std::stoi(msg_from_server) == SERVER_UNAVAILABLE_NICKNAME) {
+            return SERVER_UNAVAILABLE_NICKNAME;
+        }
+        return SERVER_UNAVAILABLE_PASSWORD;
+    } catch (...) {
+        return NO_CONNECTION;
+    }
+}
+
+server_response Client::sign_up(const QString &nickname, const QString &password, QString &user_id, int &size) {
+
+    Client client;
+
+    try {
+        client.stream.socket().connect(client.ep);
+        client.stream << SIGN_UP << std::endl;
+
+        client.stream << nickname.toStdString() << std::endl;
+        client.stream << password.toStdString() << std::endl;
+
+
+        std::string msg_from_server;
+        std::getline(client.stream, msg_from_server);
+        if (std::stoi(msg_from_server) == SERVER_OK) {
+
+            std::string user_id_;
+            std::getline(client.stream, user_id_);
+            user_id = QString::fromStdString(user_id_);
+            client.stream.socket().shutdown(ip::tcp::socket::shutdown_send);
+
+            return SERVER_OK;
+        }
+
+        return SERVER_NICKNAME_EXISTS;
+    } catch (...) {
+        return NO_CONNECTION;
+    }
+}
+
+server_response Client::subscribe(const QString &nickname, const QString &user_id) {
+
+    Client client;
+
+    try {
+        client.stream.socket().connect(client.ep);
+        client.stream << SUBSCRIBE << std::endl;
+        client.stream << nickname.toStdString() << std::endl;
+        client.stream << user_id.toStdString() << std::endl;
+
+        std::string msg_from_server;
+        std::getline(client.stream, msg_from_server);
+        if (std::stoi(msg_from_server) == SERVER_OK) {
+            client.stream.socket().shutdown(ip::tcp::socket::shutdown_send);
+            return SERVER_OK;
+        }
+
+        return SERVER_WRONG_NICKNAME;
+    } catch (...) {
+        return NO_CONNECTION;
+    }
+}
+
+server_response Client::search_account(const QString &nickname) {
+    Client client;
+
+    try {
+        client.stream.socket().connect(client.ep);
+        client.stream << SEARCH_ACCOUNT << std::endl;
+        client.stream << nickname.toStdString() << std::endl;
+
+        std::string msg_from_server;
+        std::getline(client.stream, msg_from_server);
+        if (std::stoi(msg_from_server) == SERVER_OK) {
+            client.stream.socket().shutdown(ip::tcp::socket::shutdown_send);
+            return SERVER_OK;
+        }
+
+        return SERVER_WRONG_NICKNAME;
+    } catch (...) {
+        return NO_CONNECTION;
+    }
+}
+
+server_response Client::user_information(const QString &subscribe_name, QString &lables_size, QString &subscribes_size) {
+    Client client;
+
+    try {
+        client.stream.socket().connect(client.ep);
+        client.stream << USER_INFORMATION << std::endl;
+        client.stream << subscribe_name.toStdString() << std::endl;
+
+        std::string lables_size_str, subscribes_size_str;
+        std::getline(client.stream, lables_size_str);
+        std::getline(client.stream, subscribes_size_str);
+
+        lables_size = QString::fromStdString(lables_size_str);
+        subscribes_size = QString::fromStdString(subscribes_size_str);
+
+        std::string msg_from_server;
+        std::getline(client.stream, msg_from_server);
+
+        return SERVER_OK;
+
+    } catch (...) {
+        return NO_CONNECTION;
+    }
+}
+
+server_response Client::log_out(const QString &user_id) {
+    Client client;
+
+    try {
+        client.stream.socket().connect(client.ep);
+        client.stream << LOG_OUT << std::endl;
+        client.stream << user_id.toStdString() << std::endl;
+        return SERVER_OK;
+    } catch (...) {
+        return NO_CONNECTION;
+    }
+}
+
+server_response Client::update_subscribes(const QString &user_id, std::vector<std::string> &users) {
+
+    Client client;
+
+    try {
+        client.stream.socket().connect(client.ep);
+        client.stream << UPDATE_SUBSCRIBES << std::endl;
+        client.stream << user_id.toStdString() << std::endl;
+
+        std::string size_;
+        std::getline(client.stream, size_);
+        int size = stoi(size_);
+
+        users.clear();
+        for (int i = 0; i < size; i++) {
+
+            std::string nickname;
+            std::getline(client.stream, nickname);
+            users.emplace_back(nickname);
+        }
+
+        client.stream.socket().shutdown(ip::tcp::socket::shutdown_send);
+
+        return SERVER_OK;
+    } catch (...) {
+        return NO_CONNECTION;
+    }
+}
