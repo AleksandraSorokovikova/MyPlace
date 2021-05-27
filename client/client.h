@@ -10,7 +10,6 @@
 #include <string>
 #include<QString>
 #include"label.h"
-#include "user_in_use.h"
 
 using namespace boost::asio;
 using boost::system::error_code;
@@ -40,19 +39,20 @@ struct Client {
 
     Client() = default;
 
-    static const size_t bufferSize = 1024;
-    constexpr static const char ipAddress[16] = "127.0.0.1";
-    static const unsigned int port = 8007;
     [[nodiscard]] static server_response add_label(const QString &name, const QString &user_id, const QString &type, const QString &description, const QString &address);
+    [[nodiscard]] static server_response user_information(const QString &subscribe_name, QString &lables_size, QString &subscribes_size);
+    [[nodiscard]] static server_response sign_up(const QString &nickname, const QString &password, QString &user_id, int &size);
+    [[nodiscard]] static server_response sign_in(const QString &nickname, const QString &password, QString &user_id);
+    [[nodiscard]] static server_response update_subscribes(const QString &user_id, std::vector<std::string> &users);
     [[nodiscard]] static server_response update_label_list(Label_List &labelList, const QString &user_id);
-    [[nodiscard]] static server_response sing_in(const QString &nickname, const QString &password, QString &user_id);
-    [[nodiscard]] static server_response sing_up(const QString &nickname, const QString &password, QString &user_id, int &size);
     [[nodiscard]] static server_response subscribe(const QString &nickname, const QString &user);
     [[nodiscard]] static server_response search_account(const QString &nickname);
-    [[nodiscard]] static server_response user_information(const QString &subscribe_name, QString &lables_size, QString &subscribes_size);
     [[nodiscard]] static server_response log_out(const QString &user_id);
-    [[nodiscard]] static server_response update_subscribes(const QString &user_id, std::vector<User_in_use> &users);
 
+private:
+    static const size_t bufferSize = 1024;
+    constexpr static const char ipAddress[16] = "127.0.0.1";
+    static const unsigned int port = 8010;
      ip::tcp::iostream stream;
      ip::tcp::endpoint ep{ip::address::from_string(ipAddress), port};
 };

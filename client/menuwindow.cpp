@@ -8,11 +8,10 @@
 #include<unistd.h>
 #include<QPixmap>
 #include "mainwindow.h"
-#include "user_in_use.h"
 #include "icons.h"
 
 Label_List labelList;
-std::vector<User_in_use> users;
+std::vector<std::string> users;
 
 MenuWindow::MenuWindow(QWidget *parent, QString id, QString nickname_) :
     QMainWindow(parent),
@@ -60,7 +59,7 @@ void MenuWindow::update() {
         } else {
             ui->listWidget->clear();
             for (const auto &user : users) {
-                QListWidgetItem *item = new QListWidgetItem(QString::fromStdString(user.nickname));
+                QListWidgetItem *item = new QListWidgetItem(QString::fromStdString(user));
                  ui->listWidget->addItem(item);
             }
         }

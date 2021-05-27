@@ -31,7 +31,7 @@ void User_List::add(const User &user) {
     nickname_list.insert(user.nickname);
     id_list.insert(user.id);
 }
-[[nodiscard]] bool User_List::right_password(const std::string &nickname, const std::string &password) const {
+[[nodiscard]] bool User_List::check_password(const std::string &nickname, const std::string &password) const {
     return data.find(nickname)->second.password == password;
 }
 
@@ -39,32 +39,35 @@ void User_List::add_label_for_current_user(const std::string &nickname, const st
     data.find(nickname)->second.add_label(label_id);
 }
 
-User User_List::get_user_by_nickname(const std::string &nickname) const {
+User & User_List::get_user_by_nickname(const std::string &nickname) {
     return data.find(nickname)->second;
 }
 
-void User::subscribe(const std::string &nickname_, size_t size) {
+void User_List::subscribe_user(const std::string &nickname, const std::string &other_nickname) {
+    data.find(nickname)->second.subscribe(other_nickname);
+}
+
+void User::subscribe(const std::string &nickname_) {
     subscribes.insert(nickname_);
-    number_of_labels += size;
 }
 
 void User::add_label(const std::string &id_) {
     labels.push_back(id_);
 }
 
-size_t User::own_labels() const {
+size_t User::number_of_own_labels() const {
     return labels.size();
+}
+
+size_t User::number_of_subscribes() const {
+    return subscribes.size();
 }
 
 bool User::is_subscribed(const std::string &other_nickname) const {
     return subscribes.find(other_nickname) != subscribes.end();
 }
 
-int Active_Users::number_of_active_users() const {
-    return active_users.size();
-}
-
-bool Active_Users::id_in_list(const std::string &id) const {
+bool Active_Users::id_exists(const std::string &id) const {
     return id_list.find(id) != id_list.end();
 }
 
@@ -78,7 +81,7 @@ std::string Active_Users::create_id() {
         id_[i] = symbol;
     }
 
-    while(id_in_list(id_)) {
+    while(id_exists(id_)) {
         int index = rand()%16;
         char symbol = symbols[rand() % 37];
         id_[index] = symbol;
