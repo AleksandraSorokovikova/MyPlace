@@ -40,7 +40,7 @@ void MainWindow::on_signButton_clicked()
     QString user_id{};
     if (nickname != "" &&  password != "") {
         if (ui->sign_in->text() == "Sign in") {
-            int return_code = Client::sign_in(nickname, password, user_id);
+            int return_code = Client::sing_in(nickname, password, user_id);
             switch (return_code) {
             case NO_CONNECTION:
                 QMessageBox::warning(this, "Failed to connect", "No connection to server");
@@ -64,7 +64,7 @@ void MainWindow::on_signButton_clicked()
             else {
                 QString user_id{};
                 int size;
-                int return_code = Client::sign_up(nickname, password, user_id, size);
+                int return_code = Client::sing_up(nickname, password, user_id, size);
                 switch (return_code) {
                     case NO_CONNECTION:
                         QMessageBox::warning(this, "Failed to connect", "No connection to server");
