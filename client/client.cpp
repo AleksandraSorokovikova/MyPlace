@@ -1,7 +1,8 @@
 #include"client.h"
 #include <iostream>
 
-server_response Client::add_label(const QString &name, const QString &user_id, const QString &type, const QString &description, const QString &address) {
+server_response Client::add_label(const QString &name, const QString &user_id, const QString &type,
+                                  const QString &description, const QString &address, double longitude, double latitude) {
 
     Client client;
 
@@ -21,8 +22,10 @@ server_response Client::add_label(const QString &name, const QString &user_id, c
         client.stream << user_id.toStdString() << std::endl;
         client.stream << type.toStdString() << std::endl;
         client.stream << description_str << std::endl;
-        client.stream << description.toStdString() << std::endl;
         client.stream << address.toStdString() << std::endl;
+
+        client.stream << std::to_string(latitude) << std::endl;
+        client.stream << std::to_string(longitude) << std::endl;
 
         std::string msg_from_server;
         std::getline(client.stream, msg_from_server);
@@ -54,7 +57,7 @@ server_response Client::update_label_list(Label_List &labelList, const QString &
 
         for (int i = 0; i < size; i++) {
 
-            std::string id, name, nickname, type, description, address;
+            std::string id, name, nickname, type, description, address, latitude, longitude;
 
             std::getline(client.stream, id);
             std::getline(client.stream, name);
@@ -62,6 +65,8 @@ server_response Client::update_label_list(Label_List &labelList, const QString &
             std::getline(client.stream, type);
             std::getline(client.stream, description);
             std::getline(client.stream, address);
+            std::getline(client.stream, latitude);
+            std::getline(client.stream, longitude);
 
             for (auto &c : description) {
                 if (c == '&') {
@@ -69,7 +74,7 @@ server_response Client::update_label_list(Label_List &labelList, const QString &
                 }
             }
 
-            Label label(id, name, nickname, type, description, address);
+            Label label(id, name, nickname, type, description, address, latitude, longitude);
             labelList.add(label);
         }
 

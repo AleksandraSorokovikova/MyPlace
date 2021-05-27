@@ -14,8 +14,7 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">font: 15pt &quot;Gayathri&quot;;
-background-image: url(:/img/img/res.jpg)</string>
+   <string notr="true">background-image: url(:/img/img/res.jpg)</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QPushButton" name="create">
@@ -68,7 +67,7 @@ border-radius:20px;</string>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">border: 2px solid rgb(136, 138, 133, 150);
+      <string notr="true">border: 2px solid rgba(136, 138, 133, 150);
 color: rgb(85, 87, 83);
 font: 16pt &quot;Avenir next&quot;;
 border-radius: 20px;
@@ -118,7 +117,7 @@ background: rgba(0,0,0,20);</string>
       <string/>
      </property>
      <property name="styleSheet">
-      <string notr="true">border: 2px solid rgb(136, 138, 133, 150);
+      <string notr="true">border: 2px solid rgba(136, 138, 133, 150);
 color: rgb(85, 87, 83);
 font: 16pt &quot;Avenir next&quot;;
 border-radius: 20px;

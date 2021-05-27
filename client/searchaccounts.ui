@@ -92,7 +92,7 @@ border-color:rgb(183, 180, 200);
    <property name="styleSheet">
     <string notr="true">background: rgba(243, 239, 230,230);
 border-radius:45px;
-border: 1px solid rgb(136, 138, 133, 200);</string>
+border: 1px solid rgba(136, 138, 133, 200);</string>
    </property>
    <property name="text">
     <string/>
@@ -117,7 +117,7 @@ border: 1px solid rgb(136, 138, 133, 200);</string>
     <string notr="true">background: transparent;
 color: rgb(85, 87, 83);
 font: 13pt &quot;Avenir next&quot;;
-border-bottom:1px solid rgb(85, 87, 83, 150);</string>
+border-bottom:1px solid rgba(85, 87, 83, 150);</string>
    </property>
    <property name="text">
     <string>count labels: </string>
@@ -136,7 +136,7 @@ border-bottom:1px solid rgb(85, 87, 83, 150);</string>
     <string notr="true">background: transparent;
 color: rgb(85, 87, 83);
 font: 13pt &quot;Avenir next&quot;;
-border-bottom:1px solid rgb(85, 87, 83, 150);</string>
+border-bottom:1px solid rgba(85, 87, 83, 150);</string>
    </property>
    <property name="text">
     <string>subscribes:</string>

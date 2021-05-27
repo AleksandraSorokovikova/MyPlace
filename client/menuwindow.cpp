@@ -8,6 +8,7 @@
 #include<unistd.h>
 #include<QPixmap>
 #include "mainwindow.h"
+#include <QGeoCoordinate>
 #include "icons.h"
 
 Label_List labelList;
@@ -27,9 +28,10 @@ MenuWindow::MenuWindow(QWidget *parent, QString id, QString nickname_) :
     ui->logout->setIcon(icons.logout_icon);
     ui->my_account_2->setIcon(icons.edit_icon);
     ui->add_label->setIcon(icons.add_icon);
+    model = new MarkerModel();
+    model->set_user(user_id);
     map = new QQuickWidget(this);
-    marker = new MarkerModel();
-    //map->rootContext()->setContextProperty("markerModel", marker);
+    map->rootContext()->setContextProperty("markerModel", model);
     map->setSource(QUrl(QStringLiteral("qrc:/main.qml")));
     ui->gridLayout->addWidget(map, 1, 0);
     update();
@@ -46,8 +48,11 @@ void MenuWindow::update() {
             QMessageBox::warning(this, "Failed to connect", "No connection to server");
         } else {
          ui->listWidget->clear();
+         model->m_coordinates.clear();
             for(const auto &x : labelList.id_list) {
-                QListWidgetItem *item = new QListWidgetItem(QString::fromStdString(labelList.get_by_id(x).name));
+                Label label = labelList.get_by_id(x);
+                QListWidgetItem *item = new QListWidgetItem(QString::fromStdString(label.name));
+                model->insertMarker(QGeoCoordinate(std::stod(label.longitude), std::stod(label.latitude)));
                 QVariant item_(QString::fromStdString(x));
                 item->setData(12, item_);
                 ui->listWidget->addItem(item);
@@ -68,9 +73,7 @@ void MenuWindow::update() {
 
 void MenuWindow::on_add_label_clicked()
 {
-    CreaterLabel creater(user_id);
-    creater.setModal(true);
-    creater.exec();
+    model->addMarker();
     update();
 }
 
@@ -151,6 +154,6 @@ void MenuWindow::on_subscribes_clicked() {
 
 void MenuWindow::on_labels_clicked()
 {
-    /*type = typeListWidget::LABELS;
-    update();*/
+    type = typeListWidget::LABELS;
+    update();
 }

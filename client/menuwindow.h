@@ -52,7 +52,7 @@ private:
     QString nickname;
     typeListWidget type = typeListWidget::LABELS;
     QQuickWidget* map;
-    MarkerModel* marker;
+    MarkerModel* model;
 };
 
 #endif // MENUWINDOW_H

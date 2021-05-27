@@ -6,11 +6,11 @@
 #include<QCloseEvent>
 #include "icons.h"
 
-CreaterLabel::CreaterLabel(QString id, QWidget *parent) :
+CreaterLabel::CreaterLabel(QString id, QGeoCoordinate coordinate, QString address, QWidget *parent) :
     QDialog(parent),
     user_id(id),
-    ui(new Ui::CreaterLabel)
-{
+    coordinates(coordinate),
+    ui(new Ui::CreaterLabel) {
     setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
     type_icons icons_;
     ui->setupUi(this);
@@ -20,6 +20,9 @@ CreaterLabel::CreaterLabel(QString id, QWidget *parent) :
     ui->cinema->setIcon(icons_.cinema_icon);
     ui->different->setIcon(icons_.different_icon);
     ui->entertainment->setIcon(icons_.entr_icon);
+    if (address != "default") {
+        ui->address->setText(address);
+    }
 }
 
 CreaterLabel::~CreaterLabel()
@@ -34,8 +37,7 @@ void CreaterLabel::on_create_clicked()
         QString name = ui->name->text();
         QString description = ui->description->toPlainText();
         QString address = ui->address->text();
-
-        if (Client::add_label(name, user_id, type, description, address) == NO_CONNECTION){
+        if (Client::add_label(name, user_id, type, description, address, coordinates.latitude(), coordinates.longitude()) == NO_CONNECTION){
             QMessageBox::warning(this, "Failed to connect", "No connection to server");
         }
          hide();

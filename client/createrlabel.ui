@@ -115,9 +115,6 @@ background: rgba(243, 239, 230,230);
 border-color:transparent;
 </string>
    </property>
-   <property name="maxLength">
-    <number>32</number>
-   </property>
   </widget>
   <widget class="QLabel" name="type">
    <property name="geometry">
@@ -218,8 +215,8 @@ color: #3c3a3a;
 font: 16pt &quot;Avenir next&quot;;
 border-radius: 30px;
 padding: 0 8px;
-background: rgba(243, 239, 230);
-border-color:rgba(243, 239, 230);</string>
+background: rgb(243, 239, 230);
+border-color:rgb(243, 239, 230);</string>
    </property>
   </widget>
   <widget class="QPushButton" name="cafee">
@@ -232,7 +229,7 @@ border-color:rgba(243, 239, 230);</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border: 1px solid rgb(136, 138, 133, 200);
+    <string notr="true">border: 1px solid rgba(136, 138, 133, 200);
 background: rgba(243, 239, 230,230);
 border-radius:30px;
 on Clicked: {
@@ -259,7 +256,7 @@ background: rgba(136, 138, 133, 200);
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border: 1px solid rgb(136, 138, 133, 200);
+    <string notr="true">border: 1px solid rgba(136, 138, 133, 200);
 background: rgba(243, 239, 230,230);
 border-radius:30px;
 </string>
@@ -284,7 +281,7 @@ border-radius:30px;
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border: 1px solid rgb(136, 138, 133, 200);
+    <string notr="true">border: 1px solid rgba(136, 138, 133, 200);
 background: rgba(243, 239, 230,230);
 border-radius:30px;</string>
    </property>
@@ -308,7 +305,7 @@ border-radius:30px;</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border: 1px solid rgb(136, 138, 133, 200);
+    <string notr="true">border: 1px solid rgba(136, 138, 133, 200);
 background: rgba(243, 239, 230,230);
 border-radius:30px;</string>
    </property>
@@ -332,7 +329,7 @@ border-radius:30px;</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border: 1px solid rgb(136, 138, 133, 200);
+    <string notr="true">border: 1px solid rgba(136, 138, 133, 200);
 background: rgba(243, 239, 230,230);
 border-radius:30px;</string>
    </property>
@@ -356,7 +353,7 @@ border-radius:30px;</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border: 1px solid rgb(136, 138, 133, 200);
+    <string notr="true">border: 1px solid rgba(136, 138, 133, 200);
 background: rgba(243, 239, 230,230);
 border-radius:30px;</string>
    </property>
