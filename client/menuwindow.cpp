@@ -8,10 +8,12 @@
 #include<unistd.h>
 #include<QPixmap>
 #include "mainwindow.h"
+#include "user_in_use.h"
+#include <QGeoCoordinate>
 #include "icons.h"
 
 Label_List labelList;
-std::vector<std::string> users;
+std::vector<User_in_use> users;
 
 MenuWindow::MenuWindow(QWidget *parent, QString id, QString nickname_) :
     QMainWindow(parent),
@@ -27,9 +29,10 @@ MenuWindow::MenuWindow(QWidget *parent, QString id, QString nickname_) :
     ui->logout->setIcon(icons.logout_icon);
     ui->my_account_2->setIcon(icons.edit_icon);
     ui->add_label->setIcon(icons.add_icon);
+    model = new MarkerModel();
+    model->set_user(user_id);
     map = new QQuickWidget(this);
-    marker = new MarkerModel();
-    //map->rootContext()->setContextProperty("markerModel", marker);
+    map->rootContext()->setContextProperty("markerModel", model);
     map->setSource(QUrl(QStringLiteral("qrc:/main.qml")));
     ui->gridLayout->addWidget(map, 1, 0);
     update();
@@ -46,6 +49,7 @@ void MenuWindow::update() {
             QMessageBox::warning(this, "Failed to connect", "No connection to server");
         } else {
          ui->listWidget->clear();
+         model->m_coordinates.clear();
             for(const auto &x : labelList.id_list) {
                 QListWidgetItem *item = new QListWidgetItem(QString::fromStdString(labelList.get_by_id(x).name));
                 QVariant item_(QString::fromStdString(x));
@@ -59,7 +63,7 @@ void MenuWindow::update() {
         } else {
             ui->listWidget->clear();
             for (const auto &user : users) {
-                QListWidgetItem *item = new QListWidgetItem(QString::fromStdString(user));
+                QListWidgetItem *item = new QListWidgetItem(QString::fromStdString(user.nickname));
                  ui->listWidget->addItem(item);
             }
         }
@@ -68,9 +72,7 @@ void MenuWindow::update() {
 
 void MenuWindow::on_add_label_clicked()
 {
-    CreaterLabel creater(user_id);
-    creater.setModal(true);
-    creater.exec();
+    model->addMarker();
     update();
 }
 

@@ -61,6 +61,9 @@ QMenuBar::item {
       <height>731</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
     <property name="text">
      <string/>
     </property>
@@ -91,11 +94,11 @@ QMenuBar::item {
     </property>
     <property name="styleSheet">
      <string notr="true">*{
-	background:rgba(243,239,230);
+	background:rgb(243,239,230);
 }
 
 QListWidget::item:selected {
-     border: 1px solid rgb(243,239,230,100);
+     border: 1px solid rgba(243,239,230,100);
 	background:rgb(227, 223, 216);
  }
 
@@ -162,7 +165,7 @@ text-align: center;</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background:rgba(243,239,230);</string>
+     <string notr="true">background:rgb(243,239,230);</string>
     </property>
     <property name="frameShape">
      <enum>QFrame::StyledPanel</enum>
@@ -196,7 +199,7 @@ text-align: center;</string>
       <enum>Qt::NoContextMenu</enum>
      </property>
      <property name="styleSheet">
-      <string notr="true">border: 1px solid rgb(136, 138, 133, 150);
+      <string notr="true">border: 1px solid rgba(136, 138, 133, 150);
 color: rgb(85, 87, 83);
 font: 16pt &quot;Avenir next&quot;;
 border-radius: 10px;
@@ -380,24 +383,6 @@ text-align: center;</string>
      <height>22</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuggjj">
-    <property name="title">
-     <string>Update</string>
-    </property>
-   </widget>
-   <widget class="QMenu" name="menuLog_Out">
-    <property name="title">
-     <string>Edit Profile</string>
-    </property>
-   </widget>
-   <widget class="QMenu" name="menuUpdate">
-    <property name="title">
-     <string>Log out</string>
-    </property>
-   </widget>
-   <addaction name="menuggjj"/>
-   <addaction name="menuLog_Out"/>
-   <addaction name="menuUpdate"/>
   </widget>
  </widget>
  <resources>

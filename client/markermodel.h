@@ -3,6 +3,7 @@
 
 #include <QAbstractListModel>
 #include <QGeoCoordinate>
+#include "createrlabel.h"
 
 class MarkerModel : public QAbstractListModel
 {
@@ -12,7 +13,22 @@ public:
     using QAbstractListModel::QAbstractListModel;
     enum MarkerRoles{positionRole = Qt::UserRole + 1};
 
-    Q_INVOKABLE void addMarker(const QGeoCoordinate &coordinate){
+    void set_user(const QString& user) {
+        user_id = user;
+    }
+
+     Q_INVOKABLE void set_address(const QString& address_) {
+        address = address_;
+    }
+
+    Q_INVOKABLE void addMarker(){
+        CreaterLabel creater(user_id, address);
+        creater.setModal(true);
+        creater.exec();
+        address = "default";
+    }
+
+    void insertMarker(const QGeoCoordinate &coordinate) {
         beginInsertRows(QModelIndex(), rowCount(), rowCount());
         m_coordinates.append(coordinate);
         endInsertRows();
@@ -31,14 +47,17 @@ public:
         return QVariant();
     }
 
-    QHash<int, QByteArray> roleNames() const{
+    QHash<int, QByteArray> roleNames() const override {
         QHash<int, QByteArray> roles;
         roles[positionRole] = "position";
         return roles;
     }
 
-private:
     QList<QGeoCoordinate> m_coordinates;
+
+private:
+    QString user_id = "default";
+    QString address = "default";
 };
 
 #endif // MARKERMODEL_H

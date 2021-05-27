@@ -6,7 +6,7 @@
 #include<QCloseEvent>
 #include "icons.h"
 
-CreaterLabel::CreaterLabel(QString id, QWidget *parent) :
+CreaterLabel::CreaterLabel(QString id, QString address, QWidget *parent) :
     QDialog(parent),
     user_id(id),
     ui(new Ui::CreaterLabel)
@@ -20,6 +20,9 @@ CreaterLabel::CreaterLabel(QString id, QWidget *parent) :
     ui->cinema->setIcon(icons_.cinema_icon);
     ui->different->setIcon(icons_.different_icon);
     ui->entertainment->setIcon(icons_.entr_icon);
+    if (address != "default") {
+        ui->address->setText(address);
+    }
 }
 
 CreaterLabel::~CreaterLabel()
