@@ -52,15 +52,8 @@ public:
     }*/
 
     Q_INVOKABLE void showMarker(double longitude, double latitude) {
-
-        //std::stod(label.longitude), std::stod(label.latitude))
-        Label label = labels_on_coordinate1[std::make_pair(coordinate.longitude(), coordinate.latitude())];
-        QTextStream cout(stdout);
-        cout << longitude << ' ' << latitude << '\n';
-        //std::string a = "a";
-        //cout << std::to_string(a) << '\n';
-
-        OpenLabel open(labels_on_coordinate1[std::make_pair(coordinate.longitude(), coordinate.latitude())]);
+        auto label = labels_on_coordinate1[std::make_pair(longitude, latitude)];
+        OpenLabel open(label);
         open.setModal(true);
         open.exec();
     }
@@ -94,7 +87,6 @@ public:
     QList<QGeoCoordinate> m_coordinates;
     QString address = "default";
     QGeoCoordinate coordinate;
-    std::map<QString, Label> labels_on_coordinate;
     std::map<std::pair<double, double>, Label> labels_on_coordinate1;
 
 signals:

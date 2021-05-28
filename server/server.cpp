@@ -56,6 +56,7 @@ void log_out(stream_ptr stream) {
     activeUsers.deactivate(user_id);
     door.unlock();
 
+
 }
 
 void add_label(stream_ptr stream) {
@@ -175,6 +176,7 @@ void sign_up(stream_ptr stream) {
 
         boost::this_thread::sleep(boost::posix_time::millisec(200));
     }
+    
 }
 
 void sign_in(stream_ptr stream) {

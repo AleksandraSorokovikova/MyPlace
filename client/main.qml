@@ -38,6 +38,10 @@ Rectangle {
                                 var coordinate = map.toCoordinate(Qt.point(mouse.x,mouse.y))
                                 geocodeModel.query = coordinate;
                                 geocodeModel.update();
+                                while (geocodeModel.status != GeocodeModel.Ready) {
+                                    continue;
+                                }
+
                                 if (geocodeModel.count > 0) {
                                     markerModel.set_address(geocodeModel.get(0).address.street + ", " +
                                                             geocodeModel.get(0).address.city + ", " + geocodeModel.get(0).address.country);
@@ -57,27 +61,13 @@ Rectangle {
                                 anchorPoint.y: image.height
                                 coordinate: position
 
-                                /*sourceItem: Image {
-                                    id: image
-                                    source: "qrc:/img/img/flags.png"
-                                    width: 20; height: 20
-                                }
-                                zoomLevel: map.zoomLevel
-                                MouseArea{
-                                    anchors.fill: parent
-                                    onClicked: {
-                                        button.text = "Yeahhh!"
-                                    }
-                                }*/
                                 MouseArea{
                                       anchors.fill: parent
                                       onClicked: {
                                              var coordinate = marker.coordinate
                                              markerModel.showMarker(coordinate.longitude, coordinate.latitude)
-                                             //button.text = "Is text"
-                                                console.log(coordinate.longitude)
-                                                console.log(coordinate.latitude)}
                                       }
+                                }
 
                                sourceItem: Rectangle {
                                     id: image
@@ -103,7 +93,7 @@ Rectangle {
                     plugin: mapPlugin
                     autoUpdate: false
                 }
-                Connections {
+                /* Connections {
                         target: markerModel
                         onPropertyChanged: {
                             geocodeModel.query = markerModel.get_address();
@@ -113,12 +103,6 @@ Rectangle {
                                 geocodeModel.reset();
                             }
                         }
-                }
-                /*
-                Button {
-                    id: button
-                    text: "I'm Button"
-                }*/
+                } */
 
-}
-
+    }

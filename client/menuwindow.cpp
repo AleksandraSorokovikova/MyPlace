@@ -10,6 +10,7 @@
 #include "mainwindow.h"
 #include <QGeoCoordinate>
 #include "icons.h"
+#include <QCloseEvent>
 
 Label_List labelList;
 std::vector<std::string> users;
@@ -49,23 +50,12 @@ void MenuWindow::update() {
         } else {
          ui->listWidget->clear();
          model->m_coordinates.clear();
-         model->labels_on_coordinate.clear();
          model->labels_on_coordinate1.clear();
             for(const auto &x : labelList.id_list) {
                 Label label = labelList.get_by_id(x);
                 QListWidgetItem *item = new QListWidgetItem(QString::fromStdString(label.name));
-                if (std::stod(label.longitude) == 0) {
-                    model->address = QString::fromStdString(label.address);
-                    model->changeGeocode();
-                    model->insertMarker(model->coordinate);
-                    model->address = "default";
-                } else {
-                    model->insertMarker(QGeoCoordinate(std::stod(label.longitude), std::stod(label.latitude)));
-                }
-                model->labels_on_coordinate1[std::make_pair(std::stod(label.longitude),std::stod(label.latitude))] = label;
-                //QMessageBox::warning(this, "Failed to connect", QString::fromStdString(label.longitude));
-                //QMessageBox::warning(this, "Failed to connect", QString::fromStdString(label.latitude));
-                model->labels_on_coordinate[QString::fromStdString(label.address)] = label;
+                model->insertMarker(QGeoCoordinate(std::stod(label.longitude), std::stod(label.latitude)));
+                model->labels_on_coordinate1[std::make_pair(std::stod(label.latitude), std::stod(label.longitude))] = label;
                 QVariant item_(QString::fromStdString(x));
                 item->setData(12, item_);
                 ui->listWidget->addItem(item);
@@ -86,7 +76,8 @@ void MenuWindow::update() {
 
 void MenuWindow::on_add_label_clicked()
 {
-    model->addMarker();
+    /*
+    model->addMarker(); */
     update();
 }
 
@@ -147,10 +138,8 @@ void MenuWindow::on_my_account_2_clicked()
 
 void MenuWindow::on_logout_clicked()
 {
-    QMessageBox::StandardButton reply;
-      reply = QMessageBox::question(this, "Log out", "Sign out of account?",
-                                    QMessageBox::Yes|QMessageBox::No);
-      if (reply == QMessageBox::Yes) {
+      if (QMessageBox::Yes == QMessageBox::question(this, "Close Confirmation", "Exit?", QMessageBox::Yes | QMessageBox::No))
+      {
 
           [[maybe_unused]] int return_code = Client::log_out(user_id);
 
@@ -169,4 +158,15 @@ void MenuWindow::on_labels_clicked()
 {
     type = typeListWidget::LABELS;
     update();
+}
+
+void MenuWindow::closeEvent(QCloseEvent *event)  // show prompt when user wants to close app
+{
+    event->ignore();
+    if (QMessageBox::Yes == QMessageBox::question(this, "Close Confirmation", "Exit?", QMessageBox::Yes | QMessageBox::No))
+    {
+        [[maybe_unused]] int return_code = Client::log_out(user_id);
+        event->accept();
+    }
+
 }

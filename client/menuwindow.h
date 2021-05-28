@@ -7,6 +7,7 @@
 #include <QQuickWidget>
 #include <QQmlContext>
 #include "markermodel.h"
+#include<QCloseEvent>
 
 
 enum class typeListWidget {
@@ -53,6 +54,7 @@ private:
     typeListWidget type = typeListWidget::LABELS;
     QQuickWidget* map;
     MarkerModel* model;
+    void closeEvent(QCloseEvent *bar);
 };
 
 #endif // MENUWINDOW_H
