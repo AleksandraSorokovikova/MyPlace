@@ -1,0 +1,20 @@
+LABEL_LIST_START
+label:
+8BA4IGDWKOCIPUGH
+hhhe
+Державинский переулок, Санкт-Петербург, Россия
+jenechek
+cafee
+eeee
+30.309739
+59.917222
+LABEL_LIST_END
+USER_LIST_START
+User:
+jenechek
+GZ81CKHGP6TLI9HH
+1234
+Subscribes:
+Labels:
+8BA4IGDWKOCIPUGHEndLabels
+USER_LIST_END

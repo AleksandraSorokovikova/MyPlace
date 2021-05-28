@@ -1,11 +1,24 @@
 <RCC>
     <qresource prefix="/img">
-        <file>img/Карта-2.png</file>
-        <file>img/update.png</file>
-        <file>img/cafee.png</file>
         <file>img/res.jpg</file>
         <file>img/map.png</file>
         <file>img/mapss.png</file>
-        <file>img/fork.png</file>
+        <file>img/search.png</file>
+        <file>img/refresh.png</file>
+        <file>img/bed.png</file>
+        <file>img/dj-booth.png</file>
+        <file>img/fork 2.png</file>
+        <file>img/confetti.png</file>
+        <file>img/user-2.png</file>
+        <file>img/user-3.png</file>
+        <file>img/edit.png</file>
+        <file>img/add.png</file>
+        <file>img/log-out.png</file>
+        <file>img/popcorn.png</file>
+        <file>img/more.png</file>
+        <file>img/flags.png</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>main.qml</file>
     </qresource>
 </RCC>
