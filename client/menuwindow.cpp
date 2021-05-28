@@ -49,10 +49,19 @@ void MenuWindow::update() {
         } else {
          ui->listWidget->clear();
          model->m_coordinates.clear();
+         model->labels_on_coordinate.clear();
             for(const auto &x : labelList.id_list) {
                 Label label = labelList.get_by_id(x);
                 QListWidgetItem *item = new QListWidgetItem(QString::fromStdString(label.name));
-                model->insertMarker(QGeoCoordinate(std::stod(label.longitude), std::stod(label.latitude)));
+                if (std::stod(label.longitude) == 0) {
+                    model->address = QString::fromStdString(label.address);
+                    model->changeGeocode();
+                    model->insertMarker(model->coordinate);
+                    model->address = "default";
+                } else {
+                    model->insertMarker(QGeoCoordinate(std::stod(label.longitude), std::stod(label.latitude)));
+                }
+                model->labels_on_coordinate[QString::fromStdString(label.address)] = label;
                 QVariant item_(QString::fromStdString(x));
                 item->setData(12, item_);
                 ui->listWidget->addItem(item);

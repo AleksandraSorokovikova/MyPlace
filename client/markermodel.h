@@ -4,6 +4,9 @@
 #include <QAbstractListModel>
 #include <QGeoCoordinate>
 #include "createrlabel.h"
+#include "openlabel.h"
+#include <map>
+#include "label.h"
 
 class MarkerModel : public QAbstractListModel
 {
@@ -17,21 +20,37 @@ public:
         user_id = user;
     }
 
-     Q_INVOKABLE void set_address(const QString& address_) {
+    Q_INVOKABLE void set_address(const QString& address_) {
         address = address_;
     }
 
-    Q_INVOKABLE void addMarker(const QGeoCoordinate &coordinate = QGeoCoordinate(0, 0)){
+    Q_INVOKABLE void set_coordinate(const QGeoCoordinate &coordinate_) {
+        coordinate = coordinate_;
+    }
+
+    Q_INVOKABLE QString get_address() {
+       return address;
+   }
+
+
+    Q_INVOKABLE void addMarker(const QGeoCoordinate &coordinate = QGeoCoordinate(0, 0)) {
         CreaterLabel creater(user_id, coordinate, address);
         creater.setModal(true);
         creater.exec();
         address = "default";
     }
 
+    Q_INVOKABLE void showMarker(const QString& address_) {
+        OpenLabel open(labels_on_coordinate[address_]);
+        open.setModal(true);
+        open.exec();
+    }
+
     Q_INVOKABLE void insertMarker(const QGeoCoordinate &coordinate) {
         beginInsertRows(QModelIndex(), rowCount(), rowCount());
         m_coordinates.append(coordinate);
         endInsertRows();
+        address = "default";
     }
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override {
@@ -54,10 +73,20 @@ public:
     }
 
     QList<QGeoCoordinate> m_coordinates;
+    QString address = "default";
+    QGeoCoordinate coordinate;
+    std::map<QString, Label> labels_on_coordinate;
 
+signals:
+    void propertyChanged(const QString& address_);
+
+public slots:
+    void changeGeocode() {
+        emit propertyChanged(address);
+    }
 private:
     QString user_id = "default";
-    QString address = "default";
+
 };
 
 #endif // MARKERMODEL_H

@@ -26,6 +26,8 @@ struct Label {
             type(std::move(type_)), description(std::move(description_)), address(std::move(address_)),
             latitude(std::move(latitude_)), longitude(std::move(longitude_)){}
 
+    Label() = default;
+
     [[nodiscard]] std::string create_id(const Label_List &label_list) const;
 
     friend Label_List;

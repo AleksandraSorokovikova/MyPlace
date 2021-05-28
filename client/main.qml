@@ -19,6 +19,10 @@ Rectangle {
         Map {
             id: map
             anchors.fill: parent
+            anchors.rightMargin: 0
+            anchors.bottomMargin: 0
+            anchors.leftMargin: 0
+            anchors.topMargin: 0
             plugin: mapPlugin
             center: QtPositioning.coordinate(59.92, 30.22) // Saint-Peterburg
             zoomLevel: 10
@@ -29,60 +33,67 @@ Rectangle {
 
                     MouseArea {
                             anchors.fill: parent
+                            propagateComposedEvents: true
                             onDoubleClicked:  {
                                 var coordinate = map.toCoordinate(Qt.point(mouse.x,mouse.y))
                                 geocodeModel.query = coordinate;
                                 geocodeModel.update();
                                 if (geocodeModel.count > 0) {
-                                   markerModel.set_address(geocodeModel.get(0).address.street + ", " +
+                                    markerModel.set_address(geocodeModel.get(0).address.street + ", " +
                                                             geocodeModel.get(0).address.city + ", " + geocodeModel.get(0).address.country);
                                     markerModel.addMarker(coordinate);
-                                    //markerModel.insertMarker(coordinate);
+                                    geocodeModel.reset();
                                 }
                             }
 
-                            Text {
-                                id: text1
-                                x: 157
-                                y: 472
-                                width: 162
-                                height: 16
-                                text: qsTr("Text")
-                                font.pixelSize: 12
-                            }
-                        }
-            }
-
-
-
-                Component {
-                        id: mapcomponent
-                        MapQuickItem {
-                            id: marker
-                            anchorPoint.x: image.width/4
-                            anchorPoint.y: image.height
-                            coordinate: position
-
-                            sourceItem: Image {
-                                id: image
-                                source: "qrc:/img/img/flags.png"
-                                width: 20; height: 20
-                            }
-                            zoomLevel: map.zoomLevel
 
                         }
 
-                        Button {
-                            id: button
-                            ColorAnimation {
-                                from: "white"
-                                to: "black"
-                                duration: 200
+                    Component {
+                            id: mapcomponent
+                            MapQuickItem {
+                                id: marker
+                                anchorPoint.x: image.width/4
+                                anchorPoint.y: image.height
+                                coordinate: position
+
+                                /*sourceItem: Image {
+                                    id: image
+                                    source: "qrc:/img/img/flags.png"
+                                    width: 20; height: 20
+                                }
+                                zoomLevel: map.zoomLevel
+                                MouseArea{
+                                    anchors.fill: parent
+                                    onClicked: {
+                                        button.text = "Yeahhh!"
+                                    }
+                                }*/
+                                MouseArea{
+                                      anchors.fill: parent
+                                      onClicked: {
+                                             var coordinate = marker.coordinate
+                                             markerModel.showMarker(coordinate)
+                                             button.text = "Is text" }
+                                      }
+
+                               sourceItem: Rectangle {
+                                    id: image
+
+                                     width: 20; height: 20; color: "transparent"
+                                     Image {
+                                            id: img
+                                            source: "qrc:/img/img/flags.png"
+                                            width: 20; height: 20
+                                      }
+                               }
+
+                               }
+
+
                             }
-                            onClicked:  text = "I'm pressed"
-                            text: "I'm button"
+
                         }
-                    }
 
                 GeocodeModel {
                     id: geocodeModel
@@ -90,7 +101,22 @@ Rectangle {
                     plugin: mapPlugin
                     autoUpdate: false
                 }
+                Connections {
+                        target: markerModel
+                        onPropertyChanged: {
+                            geocodeModel.query = markerModel.get_address();
+                            geocodeModel.update();
+                            if (geocodeModel.count > 0) {
+                                markerModel.set_coordinate(geocodeModel.get(0).coordinate);
+                                geocodeModel.reset();
+                            }
+                        }
+                }
+
+                Button {
+                    id: button
+                    text: "I'm Button"
+                }
+
 }
-
-
 
