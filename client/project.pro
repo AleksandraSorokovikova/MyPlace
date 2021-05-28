@@ -15,38 +15,39 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-INCLUDEPATH += /Users/evgeniavu/Desktop/StudyHSE/boost_1_75_0
+INCLUDEPATH += /include
+INCLUDEPATH += /Users/alexandrasorokovikova/boost_1_72_0
 
 SOURCES += \
-    client.cpp \
-    createrlabel.cpp \
-    icons.cpp \
-    label.cpp \
-    main.cpp \
-    mainwindow.cpp \
-    map.cpp \
-    menuwindow.cpp \
-    openlabel.cpp \
-    searchaccounts.cpp \
+    src/client.cpp \
+    src/createrlabel.cpp \
+    src/icons.cpp \
+    src/label.cpp \
+    src/main.cpp \
+    src/mainwindow.cpp \
+    src/map.cpp \
+    src/menuwindow.cpp \
+    src/openlabel.cpp \
+    src/searchaccounts.cpp \
 
 HEADERS += \
-    client.h \
-    createrlabel.h \
-    icons.h \
-    label.h \
-    mainwindow.h \
-    map.h \
-    markermodel.h \
-    menuwindow.h \
-    openlabel.h \
-    searchaccounts.h \
+    include/client.h \
+    include/createrlabel.h \
+    include/icons.h \
+    include/ label.h \
+    include/mainwindow.h \
+    include/map.h \
+    include/markermodel.h \
+    include/menuwindow.h \
+    include/openlabel.h \
+    include/searchaccounts.h \
 
 FORMS += \
-    createrlabel.ui \
-    mainwindow.ui \
-    menuwindow.ui \
-    openlabel.ui \
-    searchaccounts.ui
+    ui/createrlabel.ui \
+    ui/mainwindow.ui \
+    ui/menuwindow.ui \
+    ui/openlabel.ui \
+    ui/searchaccounts.ui
 
 TRANSLATIONS += \
     Project_ru_RU.ts

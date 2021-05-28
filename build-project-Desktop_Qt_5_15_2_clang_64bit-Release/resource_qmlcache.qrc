@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<RCC>
+    <qresource prefix="/img">
+        <file alias="img/res.jpg">../client/img/res.jpg</file>
+        <file alias="img/map.png">../client/img/map.png</file>
+        <file alias="img/mapss.png">../client/img/mapss.png</file>
+        <file alias="img/search.png">../client/img/search.png</file>
+        <file alias="img/refresh.png">../client/img/refresh.png</file>
+        <file alias="img/bed.png">../client/img/bed.png</file>
+        <file alias="img/dj-booth.png">../client/img/dj-booth.png</file>
+        <file alias="img/fork 2.png">../client/img/fork 2.png</file>
+        <file alias="img/confetti.png">../client/img/confetti.png</file>
+        <file alias="img/user-2.png">../client/img/user-2.png</file>
+        <file alias="img/user-3.png">../client/img/user-3.png</file>
+        <file alias="img/edit.png">../client/img/edit.png</file>
+        <file alias="img/add.png">../client/img/add.png</file>
+        <file alias="img/log-out.png">../client/img/log-out.png</file>
+        <file alias="img/popcorn.png">../client/img/popcorn.png</file>
+        <file alias="img/more.png">../client/img/more.png</file>
+        <file alias="img/flags.png">../client/img/flags.png</file>
+    </qresource>
+    <qresource prefix="/">
+        <file alias="main.qml">../client/main.qml</file>
+    </qresource>
+</RCC>

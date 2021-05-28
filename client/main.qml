@@ -34,13 +34,10 @@ Rectangle {
                     MouseArea {
                             anchors.fill: parent
                             propagateComposedEvents: true
-                            onDoubleClicked:  {
+                            onClicked:  {
                                 var coordinate = map.toCoordinate(Qt.point(mouse.x,mouse.y))
                                 geocodeModel.query = coordinate;
                                 geocodeModel.update();
-                                while (geocodeModel.status != GeocodeModel.Ready) {
-                                    continue;
-                                }
 
                                 if (geocodeModel.count > 0) {
                                     markerModel.set_address(geocodeModel.get(0).address.street + ", " +
@@ -63,7 +60,7 @@ Rectangle {
 
                                 MouseArea{
                                       anchors.fill: parent
-                                      onClicked: {
+                                      onDoubleClicked: {
                                              var coordinate = marker.coordinate
                                              markerModel.showMarker(coordinate.longitude, coordinate.latitude)
                                       }
