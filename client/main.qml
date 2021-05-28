@@ -73,8 +73,10 @@ Rectangle {
                                       anchors.fill: parent
                                       onClicked: {
                                              var coordinate = marker.coordinate
-                                             markerModel.showMarker(coordinate)
-                                             button.text = "Is text" }
+                                             markerModel.showMarker(coordinate.longitude, coordinate.latitude)
+                                             //button.text = "Is text"
+                                                console.log(coordinate.longitude)
+                                                console.log(coordinate.latitude)}
                                       }
 
                                sourceItem: Rectangle {
@@ -112,11 +114,11 @@ Rectangle {
                             }
                         }
                 }
-
+                /*
                 Button {
                     id: button
                     text: "I'm Button"
-                }
+                }*/
 
 }
 

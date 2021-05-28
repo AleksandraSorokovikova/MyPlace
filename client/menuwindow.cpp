@@ -50,6 +50,7 @@ void MenuWindow::update() {
          ui->listWidget->clear();
          model->m_coordinates.clear();
          model->labels_on_coordinate.clear();
+         model->labels_on_coordinate1.clear();
             for(const auto &x : labelList.id_list) {
                 Label label = labelList.get_by_id(x);
                 QListWidgetItem *item = new QListWidgetItem(QString::fromStdString(label.name));
@@ -61,6 +62,9 @@ void MenuWindow::update() {
                 } else {
                     model->insertMarker(QGeoCoordinate(std::stod(label.longitude), std::stod(label.latitude)));
                 }
+                model->labels_on_coordinate1[std::make_pair(std::stod(label.longitude),std::stod(label.latitude))] = label;
+                //QMessageBox::warning(this, "Failed to connect", QString::fromStdString(label.longitude));
+                //QMessageBox::warning(this, "Failed to connect", QString::fromStdString(label.latitude));
                 model->labels_on_coordinate[QString::fromStdString(label.address)] = label;
                 QVariant item_(QString::fromStdString(x));
                 item->setData(12, item_);

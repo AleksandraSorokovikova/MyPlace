@@ -3,10 +3,12 @@
 
 #include <QAbstractListModel>
 #include <QGeoCoordinate>
+#include<QMessageBox>
 #include "createrlabel.h"
 #include "openlabel.h"
 #include <map>
 #include "label.h"
+#include <QTextStream>
 
 class MarkerModel : public QAbstractListModel
 {
@@ -40,8 +42,25 @@ public:
         address = "default";
     }
 
+
+    /*
     Q_INVOKABLE void showMarker(const QString& address_) {
+
         OpenLabel open(labels_on_coordinate[address_]);
+        open.setModal(true);
+        open.exec();
+    }*/
+
+    Q_INVOKABLE void showMarker(double longitude, double latitude) {
+
+        //std::stod(label.longitude), std::stod(label.latitude))
+        Label label = labels_on_coordinate1[std::make_pair(coordinate.longitude(), coordinate.latitude())];
+        QTextStream cout(stdout);
+        cout << longitude << ' ' << latitude << '\n';
+        //std::string a = "a";
+        //cout << std::to_string(a) << '\n';
+
+        OpenLabel open(labels_on_coordinate1[std::make_pair(coordinate.longitude(), coordinate.latitude())]);
         open.setModal(true);
         open.exec();
     }
@@ -76,6 +95,7 @@ public:
     QString address = "default";
     QGeoCoordinate coordinate;
     std::map<QString, Label> labels_on_coordinate;
+    std::map<std::pair<double, double>, Label> labels_on_coordinate1;
 
 signals:
     void propertyChanged(const QString& address_);
